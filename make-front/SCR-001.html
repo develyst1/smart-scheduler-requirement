@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>SCR-001 — Login | UI Mockup</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page-id="SCR-001">
+<header class="mockup-top">
+  <a class="back" href="../requirement.html#SCR-001">← Back to Requirement Hub</a>
+  <div class="title">🖥 SCR-001 · Staff Login</div>
+  <div class="chain">
+    <a class="chip wf" href="../requirement.html#WF-010">WF-010</a><span class="arrow-sm">→</span>
+    <a class="chip uc" href="../requirement.html#UC-026">UC-026</a><span class="arrow-sm">→</span>
+    <span class="chip scr active">SCR-001</span><span class="arrow-sm">→</span>
+    <a class="chip api" href="../requirement.html#API-001">API-001</a><span class="arrow-sm">→</span>
+    <a class="chip tc" href="../requirement.html#TC-009">TC-009</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="screen-title">เข้าสู่ระบบ (ทีมงาน)</h1>
+  <p class="screen-sub">frontoffice web · NextAuth (credentials) → JWT ฝั่ง backend · ทุก /api ต้องมี Bearer token</p>
+
+  <div class="device-frame">
+    <div class="device-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">https://som.develyst.online/login</span></div>
+    <div class="device-canvas" style="display:flex;justify-content:center;padding:40px;">
+      <div style="width:340px;background:#fff;border:1px solid #e2e6ec;border-radius:14px;padding:28px 26px;box-shadow:0 8px 28px rgba(15,23,42,.08);">
+        <div style="text-align:center;margin-bottom:22px;">
+          <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#2563eb,#1e40af);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;">📅</div>
+          <div style="font-weight:800;font-size:1.15em;">Smart Scheduler</div>
+          <div style="color:#64748b;font-size:.85em;">เข้าสู่ระบบสำหรับทีมงาน</div>
+        </div>
+        <div class="mk-grid" style="grid-template-columns:1fr;">
+          <div class="mk-field"><label>ชื่อผู้ใช้</label><div class="fake-input filled">admin</div></div>
+          <div class="mk-field"><label>รหัสผ่าน</label><div class="fake-input filled">••••••••</div></div>
+          <button class="mk-btn primary" style="width:100%;justify-content:center;margin-top:6px;">เข้าสู่ระบบ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box info"><b>กฎที่หน้านี้บังคับ:</b> login สำเร็จ → เก็บ JWT ใน session แล้ว axios แนบ <code>Authorization: Bearer</code> ให้ทุก request · ถ้า token หมดอายุ/ไม่มี → API ตอบ <b>401</b> → ระบบเด้งกลับหน้านี้อัตโนมัติ (พร้อม <code>?next=</code> เพื่อกลับหน้าเดิม)</div>
+  <div class="note-box"><b>Phase 1:</b> ใช้ credential เดียวจาก env (ยังไม่มี users table หลายบทบาท) · dev เปิด <code>SKIP_AUTH=true</code> เพื่อข้าม auth ได้</div>
+
+  <section class="comments-panel">
+    <h2>💬 Feedback / Comments <span id="commentCount" class="count-badge"></span></h2>
+    <p class="hint">คอมเมนต์บันทึกในเบราว์เซอร์นี้ (localStorage) เฉพาะไฟล์นี้ — กด "Copy All" เพื่อคัดลอกไปวางในแชทกับ AI หรือ "Export .md" เพื่อดาวน์โหลดไว้ให้ AI อ่านตอนแก้ UI</p>
+    <textarea id="commentInput" placeholder="เช่น: อยากให้ย้ายปุ่มนี้... (Ctrl+Enter เพื่อส่ง)"></textarea>
+    <div class="c-toolbar">
+      <button id="addCommentBtn" class="btn primary">+ Add Comment</button>
+      <button id="copyBtn" class="btn">📋 Copy All</button>
+      <button id="exportBtn" class="btn">⬇ Export .md</button>
+    </div>
+    <div id="commentList"></div>
+  </section>
+</main>
+<script src="assets/comments.js"></script>
+</body>
+</html>

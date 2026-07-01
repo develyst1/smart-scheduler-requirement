@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>SCR-010 — Backoffice Wallet / Payroll | UI Mockup</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .dark{background:#111827;padding:22px 24px;}
+  .dark .panel{background:#1f2937;border:1px solid #374151;border-radius:10px;padding:14px 16px;color:#e5e7eb;}
+  .dark table.mk-table{background:#1f2937;}
+  .dark table.mk-table th{background:#111827;color:#9ca3af;border-color:#374151;}
+  .dark table.mk-table td{border-color:#374151;color:#e5e7eb;}
+  .dark table.mk-table tr:hover td{background:#273549;}
+  .dark .kpi-card{background:#1f2937;border-color:#374151;color:#e5e7eb;}
+  .dark .kpi-card .value{color:#f9fafb;}
+</style>
+</head>
+<body data-page-id="SCR-010">
+<header class="mockup-top">
+  <a class="back" href="../requirement.html#SCR-010">← Back to Requirement Hub</a>
+  <div class="title">🖥 SCR-010 · Backoffice Wallet / Approval / Payroll</div>
+  <div class="chain">
+    <a class="chip wf" href="../requirement.html#WF-009">WF-009</a><span class="arrow-sm">→</span>
+    <a class="chip uc" href="../requirement.html#UC-023">UC-023</a><span class="arrow-sm">→</span>
+    <span class="chip scr active">SCR-010</span><span class="arrow-sm">→</span>
+    <a class="chip api" href="../requirement.html#API-021">API-021</a>
+    <a class="chip api" href="../requirement.html#API-022">API-022</a>
+    <a class="chip api" href="../requirement.html#API-023">API-023</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="screen-title">Backoffice — Wallet / อนุมัติซื้อคอร์ส / Payroll <span class="badge-pill amber">UI ยังไม่เริ่ม</span></h1>
+  <p class="screen-sub">wallet นักเรียน + ledger · อนุมัติคำขอซื้อคอร์ส (LINE→admin) · เรทครู + payroll (commission/ค่ารถ)</p>
+
+  <div class="device-frame">
+    <div class="device-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">backoffice.develyst.online/wallet</span></div>
+    <div class="device-canvas dark">
+      <div class="mk-tabs"><span class="mk-tab active" style="color:#60a5fa;border-color:#60a5fa;">Wallet & อนุมัติ</span><span class="mk-tab" style="color:#9ca3af;">Payroll ครู</span></div>
+
+      <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:16px;">
+        <div class="panel">
+          <div style="font-weight:800;margin-bottom:10px;color:#f9fafb;">💳 คิวคำขอซื้อคอร์ส (จาก LINE)</div>
+          <table class="mk-table"><thead><tr><th>ผู้ปกครอง</th><th>รายการ</th><th>ยอด</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>คุณแม่น้องพีพี</td><td>คอร์ส 10 ครั้ง</td><td>฿6,500</td><td><button class="mk-btn success" style="padding:4px 10px;">อนุมัติ</button></td></tr>
+              <tr><td>คุณพ่อน้องเบล</td><td>Voucher 10 ชม.</td><td>฿4,000</td><td><button class="mk-btn success" style="padding:4px 10px;">อนุมัติ</button></td></tr>
+            </tbody></table>
+          <div class="note-box info" style="margin-top:10px;font-size:.78em;color:#1e293b;">อนุมัติ → เติม wallet (credit) + push LINE ผู้ปกครอง → staff จองให้บน frontoffice</div>
+        </div>
+
+        <div class="panel">
+          <div style="font-weight:800;margin-bottom:10px;color:#f9fafb;">📒 Ledger — น้องพีพี</div>
+          <table class="mk-table"><thead><tr><th>รายการ</th><th style="text-align:right;">±ชม./เงิน</th></tr></thead>
+            <tbody>
+              <tr><td>เติมคอร์ส 10 ครั้ง</td><td style="text-align:right;color:#34d399;">+10</td></tr>
+              <tr><td>เรียน 5 ก.ค. (ATTENDED)</td><td style="text-align:right;color:#f87171;">−1</td></tr>
+              <tr><td>คงเหลือ</td><td style="text-align:right;font-weight:800;">9 ครั้ง</td></tr>
+            </tbody></table>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:16px;">
+        <div style="font-weight:800;margin-bottom:10px;color:#f9fafb;">👩‍🏫 Payroll ครู Freelance — ก.ค. 2026</div>
+        <table class="mk-table"><thead><tr><th>ครู</th><th>ชม.สอนจริง</th><th>เรท</th><th>ค่าสอน</th><th>ค่ารถ/commission</th><th>รวม</th></tr></thead>
+          <tbody>
+            <tr><td>เอิร์ธ</td><td>44</td><td>฿600</td><td>฿26,400</td><td>฿1,500</td><td><b>฿27,900</b></td></tr>
+            <tr><td>ฟ้า</td><td>18</td><td>฿500</td><td>฿9,000</td><td>฿600</td><td><b>฿9,600</b></td></tr>
+          </tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box info"><b>Integration ที่ยังต้องต่อ (UC-025):</b> ตอนคาบเป็น <b>ATTENDED</b> ฝั่ง scheduling ต้องเรียก backoffice API ตัดชั่วโมง wallet + push LINE ผู้ปกครอง · เรทครูที่นี่ = แหล่งจริงที่หน้า <a href="../requirement.html#SCR-006" style="color:#2563eb;font-weight:700;">SCR-006</a> ต้องดึงไปคำนวณเพดาน (แทน mock)</div>
+
+  <section class="comments-panel">
+    <h2>💬 Feedback / Comments <span id="commentCount" class="count-badge"></span></h2>
+    <p class="hint">คอมเมนต์บันทึกในเบราว์เซอร์นี้ (localStorage) เฉพาะไฟล์นี้ — กด "Copy All" เพื่อคัดลอกไปวางในแชทกับ AI หรือ "Export .md" เพื่อดาวน์โหลดไว้ให้ AI อ่านตอนแก้ UI</p>
+    <textarea id="commentInput" placeholder="เช่น: อยากให้ย้ายปุ่มนี้... (Ctrl+Enter เพื่อส่ง)"></textarea>
+    <div class="c-toolbar">
+      <button id="addCommentBtn" class="btn primary">+ Add Comment</button>
+      <button id="copyBtn" class="btn">📋 Copy All</button>
+      <button id="exportBtn" class="btn">⬇ Export .md</button>
+    </div>
+    <div id="commentList"></div>
+  </section>
+</main>
+<script src="assets/comments.js"></script>
+</body>
+</html>

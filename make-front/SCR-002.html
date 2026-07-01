@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>SCR-002 — Visual Calendar | UI Mockup</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .cal{width:100%;border-collapse:collapse;font-size:.78em;background:#fff;}
+  .cal th,.cal td{border:1px solid #e6eaf0;padding:0;text-align:center;height:40px;}
+  .cal th{background:#f1f3f5;color:#475569;font-weight:700;padding:6px 4px;}
+  .cal th.time,.cal td.time{background:#f8fafc;color:#64748b;font-weight:700;width:56px;font-size:.9em;}
+  .slot{width:100%;height:100%;font-size:.92em;font-weight:700;color:#fff;padding:4px 5px;border-radius:4px;cursor:pointer;line-height:1.25;}
+  .slot.pending{background:#f59e0b;} .slot.confirmed{background:#2563eb;} .slot.attended{background:#059669;}
+  .slot.resched{background:#e11d48;} .slot.trial{background:#7c3aed;}
+  .empty{color:#cbd5e1;font-size:1.1em;}
+</style>
+</head>
+<body data-page-id="SCR-002">
+<header class="mockup-top">
+  <a class="back" href="../requirement.html#SCR-002">← Back to Requirement Hub</a>
+  <div class="title">🖥 SCR-002 · Visual Calendar</div>
+  <div class="chain">
+    <a class="chip wf" href="../requirement.html#WF-001">WF-001</a><span class="arrow-sm">→</span>
+    <a class="chip uc" href="../requirement.html#UC-001">UC-001</a><span class="arrow-sm">→</span>
+    <span class="chip scr active">SCR-002</span><span class="arrow-sm">→</span>
+    <a class="chip api" href="../requirement.html#API-002">API-002</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="screen-title">ปฏิทินตารางเรียน — มุมมองรวมครูทุกคน</h1>
+  <p class="screen-sub">1 หน้าเห็นทุกครู · เวลา 09:00–18:00 (9 สล็อต) · คลิกช่องว่างเพื่อจอง · คลิกคาบเพื่อดู/จัดการ</p>
+
+  <div class="device-frame">
+    <div class="device-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">https://som.develyst.online/scheduler/calendar</span></div>
+    <div class="device-canvas">
+      <div class="mk-toolbar">
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="mk-btn ghost">◀</button><span style="font-weight:800;">อาทิตย์ 5 ก.ค. 2026</span><button class="mk-btn ghost">▶</button>
+          <span class="mk-tab active" style="margin-left:8px;">วัน</span><span class="mk-tab">สัปดาห์</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div class="fake-input" style="min-width:200px;">🔎 กรองครู: <b>ทั้งหมด (21)</b> ▾</div>
+        </div>
+      </div>
+
+      <table class="cal">
+        <thead><tr><th class="time">เวลา</th><th>แอน<br><small>FT</small></th><th>บีม<br><small>FT</small></th><th>แคท<br><small>PT</small></th><th>ดิว<br><small>PT</small></th><th>เอิร์ธ<br><small>FL</small></th></tr></thead>
+        <tbody>
+          <tr><td class="time">09:00</td>
+            <td><div class="slot confirmed">น้องพีพี · คณิต</div></td><td><span class="empty">+</span></td>
+            <td><div class="slot attended">น้องมิ้น · เคมี</div></td><td><span class="empty">+</span></td><td><span class="empty">+</span></td></tr>
+          <tr><td class="time">10:00</td>
+            <td><div class="slot resched">น้องพีพี · รอย้าย</div></td><td><div class="slot trial">น้องเบล · ทดลอง</div></td>
+            <td><span class="empty">+</span></td><td><div class="slot confirmed">น้องแพร · คณิต</div></td><td><span class="empty">+</span></td></tr>
+          <tr><td class="time">11:00</td>
+            <td><span class="empty">+</span></td><td><span class="empty">+</span></td><td><span class="empty">+</span></td><td><span class="empty">+</span></td><td><div class="slot pending">น้องกัน · IELTS</div></td></tr>
+          <tr><td class="time">13:00</td>
+            <td><div class="slot attended">น้องโอ๊ค · ฟิสิกส์</div></td><td><span class="empty">+</span></td><td><div class="slot confirmed">น้องมายด์ · ชีวะ</div></td><td><span class="empty">+</span></td><td><span class="empty">+</span></td></tr>
+          <tr><td class="time">14:00</td>
+            <td><span class="empty">+</span></td><td><span class="empty">+</span></td><td><div class="slot pending">น้องเจมส์ · เคมี</div></td><td><span class="empty">+</span></td><td><span class="empty">+</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="flow-row" style="margin-top:16px;font-size:.9em;">
+        <span class="badge-pill amber">รอยืนยัน</span><span class="badge-pill blue">ยืนยันแล้ว</span>
+        <span class="badge-pill green">มาเรียน</span><span class="badge-pill red">รอย้าย (จองทับ)</span>
+        <span class="badge-pill gray" style="background:#ede9fe;color:#5b21b6;">ทดลองเรียน</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box info"><b>กฎที่หน้านี้บังคับ:</b> คอลัมน์ครูเรียงตาม <b>ลำดับความสำคัญ</b> ที่ตั้งไว้ (FT/PT ก่อน FL) · ครูที่ปิดรับงานหรือไม่ตรง <b>work-days</b> จะไม่แสดง · สล็อตที่ทับกันตอนจองจะเข้าสถานะ <b>รอย้าย</b> (สีแดง) จนผู้ปกครองตอบรับ</div>
+
+  <section class="comments-panel">
+    <h2>💬 Feedback / Comments <span id="commentCount" class="count-badge"></span></h2>
+    <p class="hint">คอมเมนต์บันทึกในเบราว์เซอร์นี้ (localStorage) เฉพาะไฟล์นี้ — กด "Copy All" เพื่อคัดลอกไปวางในแชทกับ AI หรือ "Export .md" เพื่อดาวน์โหลดไว้ให้ AI อ่านตอนแก้ UI</p>
+    <textarea id="commentInput" placeholder="เช่น: อยากให้ย้ายปุ่มนี้... (Ctrl+Enter เพื่อส่ง)"></textarea>
+    <div class="c-toolbar">
+      <button id="addCommentBtn" class="btn primary">+ Add Comment</button>
+      <button id="copyBtn" class="btn">📋 Copy All</button>
+      <button id="exportBtn" class="btn">⬇ Export .md</button>
+    </div>
+    <div id="commentList"></div>
+  </section>
+</main>
+<script src="assets/comments.js"></script>
+</body>
+</html>

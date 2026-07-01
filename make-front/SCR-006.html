@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>SCR-006 — Teachers Management | UI Mockup</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page-id="SCR-006">
+<header class="mockup-top">
+  <a class="back" href="../requirement.html#SCR-006">← Back to Requirement Hub</a>
+  <div class="title">🖥 SCR-006 · Teachers Management</div>
+  <div class="chain">
+    <a class="chip wf" href="../requirement.html#WF-005">WF-005</a><span class="arrow-sm">→</span>
+    <a class="chip uc" href="../requirement.html#UC-016">UC-016</a><span class="arrow-sm">→</span>
+    <span class="chip scr active">SCR-006</span><span class="arrow-sm">→</span>
+    <a class="chip api" href="../requirement.html#API-012">API-012</a>
+    <a class="chip api" href="../requirement.html#API-013">API-013</a><span class="arrow-sm">→</span>
+    <a class="chip tc" href="../requirement.html#TC-015">TC-015</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="screen-title">จัดการครูผู้สอน</h1>
+  <p class="screen-sub">จัดลำดับความสำคัญ (drag) · เปิด/ปิดรับงาน · ตั้งวันทำงาน · Freelance คุมงบตามเพดานรายได้</p>
+
+  <div class="device-frame">
+    <div class="device-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">/scheduler/teachers</span></div>
+    <div class="device-canvas">
+
+      <div style="border:1px solid #e2e6ec;border-radius:10px;padding:14px 16px;margin-bottom:18px;background:#fff;">
+        <div style="font-weight:800;margin-bottom:4px;">ลำดับความสำคัญการจัดครู</div>
+        <div style="color:#64748b;font-size:.82em;margin-bottom:10px;">ลากเพื่อจัดลำดับ — ครูจะเรียงตามนี้ในตารางจอง</div>
+        <div class="flow-row">
+          <span class="flow-box">≡ 1 · Full-time</span><span class="flow-arrow">→</span>
+          <span class="flow-box">≡ 2 · Part-time</span><span class="flow-arrow">→</span>
+          <span class="flow-box hl">≡ 3 · Freelance</span>
+        </div>
+      </div>
+
+      <div class="mk-toolbar"><span style="font-weight:800;">ครู Freelance (8 คน)</span><button class="mk-btn ghost">เปิด/ปิดทั้งกลุ่ม</button></div>
+
+      <div style="border:1px solid #fecaca;background:#fff8f8;border-radius:10px;padding:14px 16px;margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div><b>ครูเอิร์ธ กิตติ</b> (เอิร์ธ) · IELTS, อังกฤษ · ฿600/ชม.
+            <div style="margin-top:4px;"><span class="badge-pill blue">วันทำงาน: จ อ พฤ ส อา</span></div>
+          </div>
+          <span class="badge-pill red">เกินเพดาน · ปิดอัตโนมัติ</span>
+        </div>
+        <div style="margin-top:10px;font-size:.82em;color:#475569;">รายได้เดือนนี้ <b>฿26,400</b> / เพดาน ฿25,000 · 44 ชม.</div>
+        <div style="height:8px;background:#e2e8f0;border-radius:6px;margin-top:6px;overflow:hidden;"><div style="width:100%;height:100%;background:#e11d48;"></div></div>
+        <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:10px;font-size:.82em;">เปิดรับงานต่อแม้เกินเพดาน <span class="badge-pill amber">override: OFF</span></div>
+      </div>
+
+      <div style="border:1px solid #e2e6ec;border-radius:10px;padding:14px 16px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div><b>ครูฟ้า ชนิดา</b> (ฟ้า) · ภาษาไทย · ฿500/ชม.
+            <div style="margin-top:4px;"><span class="badge-pill gray">วันทำงาน: ส อา</span></div>
+          </div>
+          <span class="badge-pill green">รับงาน</span>
+        </div>
+        <div style="margin-top:10px;font-size:.82em;color:#475569;">รายได้เดือนนี้ <b>฿9,000</b> / เพดาน ฿25,000 · 18 ชม.</div>
+        <div style="height:8px;background:#e2e8f0;border-radius:6px;margin-top:6px;overflow:hidden;"><div style="width:36%;height:100%;background:#059669;"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box info"><b>กฎที่หน้านี้บังคับ:</b> ลำดับกลุ่มครู persist ใน DB → มีผลต่อการเรียงคอลัมน์ในปฏิทิน · <b>work-days</b> รายคน → ครูที่ไม่ทำงานวันนั้นจะไม่แสดง · Freelance: <b>เรท × ชม. ≥ เพดาน → auto-disable</b> (เรท/เพดานดึงจาก backoffice) — มี override รับงานต่อได้</div>
+
+  <section class="comments-panel">
+    <h2>💬 Feedback / Comments <span id="commentCount" class="count-badge"></span></h2>
+    <p class="hint">คอมเมนต์บันทึกในเบราว์เซอร์นี้ (localStorage) เฉพาะไฟล์นี้ — กด "Copy All" เพื่อคัดลอกไปวางในแชทกับ AI หรือ "Export .md" เพื่อดาวน์โหลดไว้ให้ AI อ่านตอนแก้ UI</p>
+    <textarea id="commentInput" placeholder="เช่น: อยากให้ย้ายปุ่มนี้... (Ctrl+Enter เพื่อส่ง)"></textarea>
+    <div class="c-toolbar">
+      <button id="addCommentBtn" class="btn primary">+ Add Comment</button>
+      <button id="copyBtn" class="btn">📋 Copy All</button>
+      <button id="exportBtn" class="btn">⬇ Export .md</button>
+    </div>
+    <div id="commentList"></div>
+  </section>
+</main>
+<script src="assets/comments.js"></script>
+</body>
+</html>

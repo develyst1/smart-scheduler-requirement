@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Tutoring Scheduler — Requirement Hub</title>
+<style>
+:root{
+  --wf:#d97706; --uc:#2563eb; --scr:#059669; --api:#7c3aed; --tc:#e11d48; --doc:#64748b;
+  --ink:#1e293b; --bg:#eef1f5; --line:#e2e6ec;
+  --done:#059669; --partial:#d97706; --planned:#64748b;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Segoe UI","Tahoma",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+a{color:inherit;}
+.app{display:grid;grid-template-columns:290px 1fr;min-height:100vh;}
+
+/* Sidebar */
+aside.sidebar{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;background:#0f172a;color:#e2e8f0;padding:20px 18px;}
+aside .brand{font-weight:800;font-size:1.05em;color:#fff;line-height:1.3;}
+aside .brand small{display:block;font-weight:600;color:#94a3b8;font-size:.72em;margin-top:4px;}
+aside h4{margin:22px 0 8px;font-size:.72em;letter-spacing:.08em;text-transform:uppercase;color:#64748b;}
+.flow{display:flex;flex-direction:column;gap:5px;}
+.flow .step{display:flex;align-items:center;gap:8px;font-size:.8em;font-weight:700;}
+.flow .step .sw{width:12px;height:12px;border-radius:4px;flex:none;}
+.flow .step small{color:#94a3b8;font-weight:500;}
+.legend{display:flex;flex-direction:column;gap:6px;font-size:.78em;}
+.legend .row{display:flex;align-items:center;gap:8px;}
+.legend .sw{width:14px;height:14px;border-radius:4px;flex:none;}
+.howto{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:10px 12px;font-size:.76em;color:#cbd5e1;}
+.howto b{color:#fff;}
+nav.side-nav{display:flex;flex-direction:column;gap:2px;margin-top:6px;}
+nav.side-nav a{padding:7px 10px;border-radius:7px;font-size:.85em;font-weight:600;color:#cbd5e1;text-decoration:none;}
+nav.side-nav a:hover{background:#1e293b;color:#fff;}
+
+/* Main */
+main{padding:26px 30px 90px;max-width:1220px;}
+section{margin-bottom:40px;}
+h2.sec{font-size:1.35em;font-weight:800;margin:0 0 4px;display:flex;align-items:center;gap:10px;}
+h2.sec .k{font-size:.6em;font-weight:800;color:#fff;padding:3px 9px;border-radius:6px;}
+.sec-sub{color:var(--doc);font-size:.9em;margin:0 0 16px;}
+
+article{background:#fff;border:1px solid var(--line);border-left:5px solid #ccc;border-radius:10px;padding:14px 18px;margin-bottom:12px;scroll-margin-top:16px;box-shadow:0 1px 2px rgba(15,23,42,.04);}
+article:target{animation:flash 1.8s ease;}
+@keyframes flash{0%{box-shadow:0 0 0 6px rgba(255,196,0,.85);}100%{box-shadow:0 0 0 3px rgba(37,99,235,.35);}}
+article h3{margin:0 0 8px;font-size:1.02em;display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+article p{margin:6px 0;font-size:.9em;}
+article ul{margin:6px 0;padding-left:20px;font-size:.88em;}
+article li{margin:3px 0;}
+.wf-card{border-left-color:var(--wf);} .uc-card{border-left-color:var(--uc);}
+.scr-card{border-left-color:var(--scr);} .api-card{border-left-color:var(--api);}
+.tc-card{border-left-color:var(--tc);} .doc-card{border-left-color:var(--doc);}
+
+.id-badge{font-size:.72em;font-weight:800;color:#fff;padding:3px 9px;border-radius:6px;letter-spacing:.02em;}
+.id-badge.wf{background:var(--wf);} .id-badge.uc{background:var(--uc);} .id-badge.scr{background:var(--scr);}
+.id-badge.api{background:var(--api);} .id-badge.tc{background:var(--tc);} .id-badge.doc{background:var(--doc);}
+
+.status{font-size:.68em;font-weight:800;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.03em;}
+.status.done{background:#d1f5e0;color:#0a6b3d;} .status.partial{background:#fff3cd;color:#856404;} .status.planned{background:#e2e8f0;color:#475569;}
+
+.chain{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin:9px 0 2px;padding:8px 10px;background:#f8fafc;border-radius:8px;}
+.chip{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:.72em;font-weight:800;color:#fff;text-decoration:none;white-space:nowrap;}
+.chip.wf{background:var(--wf);} .chip.uc{background:var(--uc);} .chip.scr{background:var(--scr);}
+.chip.api{background:var(--api);} .chip.tc{background:var(--tc);} .chip.doc{background:var(--doc);}
+.chip.active{outline:2px solid #0f172a;outline-offset:1px;}
+.chip.none{background:#cbd5e1;color:#475569;}
+.chip.hl{transform:translateY(-2px) scale(1.08);box-shadow:0 4px 12px rgba(15,23,42,.35);}
+.id-badge.hl{transform:scale(1.1);box-shadow:0 0 0 3px rgba(255,196,0,.6);}
+.arrow{color:#94a3b8;font-weight:900;font-size:.8em;}
+.meta{font-size:.8em;color:var(--doc);margin-top:6px;}
+.tag{display:inline-block;font-size:.72em;font-weight:700;background:#eef2ff;color:#3730a3;border-radius:5px;padding:2px 7px;margin:2px 4px 2px 0;}
+
+/* UI toggle */
+.ui-toggle-row{display:flex;gap:8px;margin:10px 0 2px;flex-wrap:wrap;}
+.ui-btn{padding:7px 13px;border-radius:7px;border:1px solid var(--scr);background:#059669;color:#fff;font-weight:700;font-size:.8em;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;}
+.ui-btn.open{background:#047857;}
+a.ui-btn{background:#fff;color:var(--scr);}
+.ui-frame-wrap{margin-top:10px;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+.ui-frame-wrap iframe{width:100%;height:660px;border:0;display:block;background:#fff;}
+
+/* Matrix */
+table.matrix{width:100%;border-collapse:collapse;font-size:.82em;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+table.matrix th{background:#0f172a;color:#fff;text-align:left;padding:9px 11px;font-size:.82em;}
+table.matrix td{padding:8px 11px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;}
+table.matrix td:last-child{border-right:0;}
+.matrix .cellchips{display:flex;flex-direction:column;gap:5px;align-items:flex-start;}
+
+@media(max-width:860px){.app{grid-template-columns:1fr;}aside.sidebar{position:static;height:auto;}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="brand">Smart Tutoring Scheduler<small>Requirement Hub · Option C (Ultimate) · โรงเรียนกวดวิชา</small></div>
+
+  <h4>ลำดับชั้น (Traceability)</h4>
+  <div class="flow">
+    <div class="step"><span class="sw" style="background:var(--wf)"></span>WF <small>Workflow</small></div>
+    <div class="step"><span class="arrow">↓</span></div>
+    <div class="step"><span class="sw" style="background:var(--uc)"></span>UC <small>Use Case (ศูนย์กลาง)</small></div>
+    <div class="step"><span class="arrow">↓</span></div>
+    <div class="step"><span class="sw" style="background:var(--scr)"></span>SCR <small>Screen / UI</small></div>
+    <div class="step"><span class="arrow">↓</span></div>
+    <div class="step"><span class="sw" style="background:var(--api)"></span>API <small>Endpoint</small></div>
+    <div class="step"><span class="arrow">↓</span></div>
+    <div class="step"><span class="sw" style="background:var(--tc)"></span>TC <small>Test Case</small></div>
+  </div>
+
+  <h4>Legend สี</h4>
+  <div class="legend">
+    <div class="row"><span class="sw" style="background:var(--wf)"></span>Workflow</div>
+    <div class="row"><span class="sw" style="background:var(--uc)"></span>Use Case</div>
+    <div class="row"><span class="sw" style="background:var(--scr)"></span>Screen</div>
+    <div class="row"><span class="sw" style="background:var(--api)"></span>API</div>
+    <div class="row"><span class="sw" style="background:var(--tc)"></span>Test Case</div>
+    <div class="row"><span class="sw" style="background:var(--doc)"></span>Source doc</div>
+  </div>
+
+  <h4>วิธีอ่านลิงก์</h4>
+  <div class="howto"><b>ชี้เมาส์</b>ที่ ID/chip ใดๆ → จุดอื่นที่อ้าง ID เดียวกันจะเด้งไฮไลต์พร้อมกันทั้งหน้า · <b>คลิก</b> chip เพื่อกระโดดไปการ์ดนั้น (จะกะพริบ) · การ์ด Screen มีปุ่ม <b>View UI Mockup</b> ให้เปิดหน้าจอจริง</div>
+
+  <h4>ไปที่หัวข้อ</h4>
+  <nav class="side-nav">
+    <a href="#overview">① ภาพรวม + เอกสารต้นทาง</a>
+    <a href="#workflows">② Workflows (WF)</a>
+    <a href="#usecases">③ Use Cases (UC)</a>
+    <a href="#screens">④ Screens (SCR) + Mockup</a>
+    <a href="#apis">⑤ APIs</a>
+    <a href="#testcases">⑥ Test Cases (TC)</a>
+    <a href="#matrix">⑦ Traceability Matrix</a>
+  </nav>
+</aside>
+
+<main>
+
+<!-- ============ OVERVIEW ============ -->
+<section id="overview">
+  <h2 class="sec"><span class="k" style="background:var(--doc)">DOC</span> ① ภาพรวมโปรเจค & เอกสารต้นทาง</h2>
+  <p class="sec-sub">แทนโรงเรียนกวดวิชาที่เดิมใช้ <b>Excel</b> + ซอฟต์แวร์ <b>"Alis To Soft"</b> (ไม่มี API) → สร้างระบบ self-hosted ครบวงจร ภาษาไทยเป็นหลัก · 2 หน้าบ้าน (frontoffice ตารางเรียน / backoffice การเงิน) · 4 deployables · shared PostgreSQL</p>
+
+  <article class="doc-card" id="DOC-001">
+    <h3><span class="id-badge doc">DOC-001</span> requirement-timeline.md <span class="status done">Living spec</span></h3>
+    <p>สเปคล่าสุด จัดเป็น timeline ใหม่→เก่า (entry บนสุดชนะเมื่อขัดกัน). รวม baseline 2026-06-26, ฟีเจอร์ 2026-06-28 (conflict/CRM/LINE OA), ยืนยัน Option C 2026-06-29, ออกแบบ backoffice 2026-06-29.</p>
+    <p class="meta">ที่มาของ WF ทั้งหมดในหน้านี้</p>
+  </article>
+  <article class="doc-card" id="DOC-002">
+    <h3><span class="id-badge doc">DOC-002</span> propasal.md</h3>
+    <p>ข้อเสนอเชิงพาณิชย์ 3 ทางเลือก — A Lite (39,000) / B Standard (55,000) / <b>C Ultimate (73,000)</b>. ลูกค้าเลือก C.</p>
+  </article>
+  <article class="doc-card" id="DOC-003">
+    <h3><span class="id-badge doc">DOC-003</span> start_phase.md</h3>
+    <p>สรุปมัดจำงวดที่ 1 (40% = 29,200 บาท) — ยืนยันเลือก <b>Option C</b> เริ่มออกแบบระบบ + DB + server.</p>
+  </article>
+  <article class="doc-card" id="DOC-004">
+    <h3><span class="id-badge doc">DOC-004</span> source-pdf/ (ต้นฉบับ PDF)</h3>
+    <p>ไฟล์ export ดั้งเดิม: requirement.pdf, option.pdf, phase1.pdf, propasal.pdf, start_phase.pdf — เก็บไว้อ้างอิง (เนื้อหาถูกสรุปเข้า DOC-001/002/003 แล้ว)</p>
+  </article>
+
+  <article style="border-left-color:var(--ink);background:#f8fafc;">
+    <h3>👥 Actors (ผู้เกี่ยวข้อง)</h3>
+    <p><span class="tag">Staff / Admin</span> ทีมงานโรงเรียน — ใช้ frontoffice web จัดตาราง · <span class="tag">Teacher</span> ครู — รับแจ้งเตือนผ่าน LINE, เช็คอิน · <span class="tag">Parent / Customer</span> ผู้ปกครอง — เช็คอิน/แจ้งลาผ่าน LINE OA + QR · <span class="tag">Owner</span> เจ้าของ — ใช้ backoffice การเงิน/สต๊อก/payroll</p>
+    <p class="meta">4 repos: <b>smart-scheduler-front</b> (frontoffice web) · <b>-back</b> (scheduling API) · <b>-backoffice-front</b> (backoffice web) · <b>-backoffice-back</b> (finance/ops API)</p>
+  </article>
+</section>
+
+<!-- ============ WORKFLOWS ============ -->
+<section id="workflows">
+  <h2 class="sec"><span class="k" style="background:var(--wf)">WF</span> ② Workflows</h2>
+  <p class="sec-sub">กระบวนการ end-to-end 10 สาย · badge สถานะเทียบโค้ดจริง (Implemented / Partial / Planned)</p>
+
+  <article class="wf-card" id="WF-001">
+    <h3><span class="id-badge wf">WF-001</span> จอง & ยืนยันคาบเรียน <span class="status done">Implemented</span></h3>
+    <p>Staff เปิดปฏิทิน → เลือกสล็อตครู/เวลา → จอง (4 ประเภท) → กดยืนยัน → ระบบ push LINE หาครูทันที · รองรับย้าย/เพิ่มคาบด้วยมือ (special case)</p>
+    <div class="chain"><a class="chip uc" href="#UC-001">UC-001</a><a class="chip uc" href="#UC-002">UC-002</a><a class="chip uc" href="#UC-003">UC-003</a></div>
+  </article>
+
+  <article class="wf-card" id="WF-002">
+    <h3><span class="id-badge wf">WF-002</span> จองทับ & ย้ายคาบ (Conflict Resolution) <span class="status done">Implemented</span></h3>
+    <p>จองในสล็อตที่มีคนอยู่ → เลือกวิธีย้ายของเดิม (วันอื่น/สัปดาห์อื่น/ครูอื่น) → ของเดิมเป็น "รอผู้ปกครองตอบรับ" + push LINE → ผู้ปกครองตกลง/ปฏิเสธ → ยืนยันหรือยกเลิกการย้าย</p>
+    <div class="chain"><a class="chip uc" href="#UC-004">UC-004</a><a class="chip uc" href="#UC-005">UC-005</a><a class="chip uc" href="#UC-006">UC-006</a></div>
+  </article>
+
+  <article class="wf-card" id="WF-003">
+    <h3><span class="id-badge wf">WF-003</span> สมัครคอร์ส & Voucher <span class="status done">Implemented</span></h3>
+    <p>สมัครคอร์ส 4/6/10 ครั้ง → ระบบ lock สล็อตรายสัปดาห์อัตโนมัติ + คำนวณวันหมดอายุ · ออก Voucher 5/10/15 ชม. (ไม่ฟิกครู/ตาราง, อายุ 3/6/9 เดือนนับจากจองครั้งแรก)</p>
+    <div class="chain"><a class="chip uc" href="#UC-007">UC-007</a><a class="chip uc" href="#UC-008">UC-008</a></div>
+  </article>
+
+  <article class="wf-card" id="WF-004">
+    <h3><span class="id-badge wf">WF-004</span> เช็คอิน & กฎการลา <span class="status partial">Partial</span></h3>
+    <p>เช็คอินผ่าน QR/LINE → ATTENDED + ได้แต้ม CRM · แจ้งลา → auto-extend คาบต่อท้าย (ภายในโควตา 4→1,6→2,10→3) · เกินโควตา → Policy Lock ต้องแอดมินปลด · <b>ตัดโควตาอัตโนมัติสิ้นวัน (18:00) ยังไม่ทำ (ข้ามไว้)</b></p>
+    <div class="chain"><a class="chip uc" href="#UC-009">UC-009</a><a class="chip uc" href="#UC-010">UC-010</a><a class="chip uc" href="#UC-011">UC-011</a><a class="chip uc" href="#UC-012">UC-012</a></div>
+  </article>
+
+  <article class="wf-card" id="WF-005">
+    <h3><span class="id-badge wf">WF-005</span> จัดการครู <span class="status done">Implemented</span></h3>
+    <p>จัดลำดับความสำคัญกลุ่มครู (drag) → มีผลต่อการเรียงในปฏิทิน · เปิด/ปิดรับงานรายคน/รายกลุ่ม · ตั้งวันทำงานครู (work-days) · Freelance ถึงเพดานรายได้ → auto-disable</p>
+    <div class="chain"><a class="chip uc" href="#UC-013">UC-013</a><a class="chip uc" href="#UC-014">UC-014</a><a class="chip uc" href="#UC-015">UC-015</a><a class="chip uc" href="#UC-016">UC-016</a></div>
+  </article>
+
+  <article class="wf-card" id="WF-006">
+    <h3><span class="id-badge wf">WF-006</span> LINE OA ยืนยันตัวตน & แจ้งเตือน <span class="status partial">Partial</span></h3>
+    <p>ทักเข้า LINE OA → บอทถามบทบาท (ลูกค้า/ครู/แอดมิน) + รหัสยืนยัน → ผูก userId ↔ role · การแจ้งลาจากลูกค้าเด้งเข้า LINE แอดมิน · <b>โค้ดพร้อม รอตั้ง Webhook URL สาธารณะใน LINE Console</b></p>
+    <div class="chain"><a class="chip uc" href="#UC-017">UC-017</a><a class="chip uc" href="#UC-018">UC-018</a></div>
+  </article>
+
+  <article class="wf-card" id="WF-007">
+    <h3><span class="id-badge wf">WF-007</span> CRM แต้ม & ระดับลูกค้า <span class="status partial">Partial</span></h3>
+    <p>ทำตามกฎ (เช็คอินตรงเวลา/แจ้งลาตามระบบ) → สะสมแต้ม → จัด Level "ลูกค้าที่น่ารัก" · แต้ม+เกณฑ์ level ทำแล้ว · <b>การให้สิทธิประโยชน์/จัดลำดับก่อนตอนจองตาม level = อนาคต</b></p>
+    <div class="chain"><a class="chip uc" href="#UC-019">UC-019</a><a class="chip uc" href="#UC-020">UC-020</a></div>
+  </article>
+
+  <article class="wf-card" id="WF-008">
+    <h3><span class="id-badge wf">WF-008</span> รายงานรายวัน <span class="status done">Implemented</span></h3>
+    <p>สรุปยอดรายวัน: นักเรียนทั้งหมด / มาเรียนจริง / ลา / รอยืนยัน / อัตราการมาเรียน / แยกตามครูและประเภทการจอง</p>
+    <div class="chain"><a class="chip uc" href="#UC-021">UC-021</a></div>
+  </article>
+
+  <article class="wf-card" id="WF-009">
+    <h3><span class="id-badge wf">WF-009</span> Backoffice: Wallet / สต๊อก / Payroll <span class="status partial">Partial</span></h3>
+    <p>Option C: Mini ERP/POS (รับเข้า/ตัดสต๊อก) · student wallet/ledger + อนุมัติซื้อคอร์ส (LINE→admin) · เรทครู + payroll (commission/ค่ารถ) · scheduling ตัดชั่วโมง wallet เมื่อ ATTENDED · <b>API ฝั่ง ops มีแล้ว, backoffice-front ยังไม่เริ่ม, integration ตัดชั่วโมงยังไม่ต่อ</b></p>
+    <div class="chain"><a class="chip uc" href="#UC-022">UC-022</a><a class="chip uc" href="#UC-023">UC-023</a><a class="chip uc" href="#UC-024">UC-024</a><a class="chip uc" href="#UC-025">UC-025</a></div>
+  </article>
+
+  <article class="wf-card" id="WF-010">
+    <h3><span class="id-badge wf">WF-010</span> Auth & การเข้าถึง <span class="status done">Implemented</span></h3>
+    <p>Staff login (NextAuth credentials ฝั่ง FE ↔ JWT ฝั่ง BE) → ทุก <code>/api/*</code> ต้องมี Bearer token · 401 → เด้งกลับหน้า login</p>
+    <div class="chain"><a class="chip uc" href="#UC-026">UC-026</a></div>
+  </article>
+</section>
+
+<!-- ============ USE CASES ============ -->
+<section id="usecases">
+  <h2 class="sec"><span class="k" style="background:var(--uc)">UC</span> ③ Use Cases</h2>
+  <p class="sec-sub">การ์ดศูนย์กลาง — แต่ละใบแสดง chain เต็ม <b>WF → UC → SCR → API → TC</b></p>
+
+  <article class="uc-card" id="UC-001">
+    <h3><span class="id-badge uc">UC-001</span> จองคาบเรียน (4 ประเภท) <span class="status done">Implemented</span></h3>
+    <p>Staff คลิกสล็อตว่างในปฏิทิน → เลือกประเภท: ทดลองเรียน / จองรายครั้ง / คอร์สรายสัปดาห์ / Voucher → เลือกนักเรียน+วิชา → บันทึกเป็น PENDING</p>
+    <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><span class="arrow">→</span><span class="chip uc active">UC-001</span><span class="arrow">→</span><a class="chip scr" href="#SCR-003">SCR-003</a><span class="arrow">→</span><a class="chip api" href="#API-003">API-003</a><a class="chip api" href="#API-010">API-010</a><span class="arrow">→</span><a class="chip tc" href="#TC-012">TC-012</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-002">
+    <h3><span class="id-badge uc">UC-002</span> ยืนยันตาราง + push LINE ครู <span class="status done">Implemented</span></h3>
+    <p>กดยืนยันคาบ PENDING → CONFIRMED (idempotent, กันส่งซ้ำ) → enqueue LINE outbox หาครู → worker ส่ง Messaging API · toast บอกผล (queued/skipped ถ้าครูยังไม่ผูก LINE)</p>
+    <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><span class="arrow">→</span><span class="chip uc active">UC-002</span><span class="arrow">→</span><a class="chip scr" href="#SCR-004">SCR-004</a><span class="arrow">→</span><a class="chip api" href="#API-004">API-004</a><span class="arrow">→</span><a class="chip tc" href="#TC-010">TC-010</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-003">
+    <h3><span class="id-badge uc">UC-003</span> ย้าย/เพิ่มคาบด้วยมือ (Manual Move/Add) <span class="status done">Implemented</span></h3>
+    <p>กรณีพิเศษ (เรียนเพิ่มช่วงปิดเทอม ฯลฯ) — staff ย้ายครู/วัน/เวลา หรือเพิ่มคาบเองได้ · ชนสล็อต → 409</p>
+    <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><span class="arrow">→</span><span class="chip uc active">UC-003</span><span class="arrow">→</span><a class="chip scr" href="#SCR-004">SCR-004</a><span class="arrow">→</span><a class="chip api" href="#API-005">API-005</a><span class="arrow">→</span><span class="chip none">manual QA</span></div>
+  </article>
+
+  <article class="uc-card" id="UC-004">
+    <h3><span class="id-badge uc">UC-004</span> ตรวจจับการจองทับ <span class="status done">Implemented</span></h3>
+    <p>ตอนจอง ระบบเช็คสล็อตครู/วัน/เวลา — ถ้ามีคาบอยู่แล้วเปิด flow ย้าย (แสดงข้อมูลคาบเดิม)</p>
+    <div class="chain"><a class="chip wf" href="#WF-002">WF-002</a><span class="arrow">→</span><span class="chip uc active">UC-004</span><span class="arrow">→</span><a class="chip scr" href="#SCR-003">SCR-003</a><span class="arrow">→</span><a class="chip api" href="#API-002">API-002</a><span class="arrow">→</span><a class="chip tc" href="#TC-003">TC-003</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-005">
+    <h3><span class="id-badge uc">UC-005</span> เลือกวิธีย้ายของเดิม + แจ้งผู้ปกครอง <span class="status done">Implemented</span></h3>
+    <p>Dropdown: ย้ายวันอื่น / ย้ายสัปดาห์อื่น / ย้ายครูอื่น → สร้างคาบใหม่ (pendingSlot) + ตั้งของเดิมเป็น <code>PENDING_RESCHEDULE</code> + enqueue LINE ผู้ปกครอง — ทั้งหมดใน transaction เดียว</p>
+    <div class="chain"><a class="chip wf" href="#WF-002">WF-002</a><span class="arrow">→</span><span class="chip uc active">UC-005</span><span class="arrow">→</span><a class="chip scr" href="#SCR-003">SCR-003</a><span class="arrow">→</span><a class="chip api" href="#API-006">API-006</a><span class="arrow">→</span><a class="chip tc" href="#TC-002">TC-002</a><a class="chip tc" href="#TC-003">TC-003</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-006">
+    <h3><span class="id-badge uc">UC-006</span> ผู้ปกครองยืนยัน/ยกเลิกการย้าย <span class="status done">Implemented</span></h3>
+    <p>ตกลง → ย้ายคาบเดิมไปสล็อตใหม่ + ปล่อยสล็อตเดิมให้คาบใหม่ · ปฏิเสธ → ลบคาบใหม่ + คืนคาบเดิม</p>
+    <div class="chain"><a class="chip wf" href="#WF-002">WF-002</a><span class="arrow">→</span><span class="chip uc active">UC-006</span><span class="arrow">→</span><a class="chip scr" href="#SCR-004">SCR-004</a><span class="arrow">→</span><a class="chip api" href="#API-007">API-007</a><span class="arrow">→</span><a class="chip tc" href="#TC-003">TC-003</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-007">
+    <h3><span class="id-badge uc">UC-007</span> สมัครคอร์สรายสัปดาห์ (Auto-recurring) <span class="status done">Implemented</span></h3>
+    <p>เลือกขนาด 4/6/10 + วันเริ่ม + เวลา → gen คาบรายสัปดาห์อัตโนมัติ (lock slot) + expiry = start + maxWeek (4→5, 6→8, 10→13 สัปดาห์) · ชนสัปดาห์ไหน → ยกเลิกทั้งคำขอ (409)</p>
+    <div class="chain"><a class="chip wf" href="#WF-003">WF-003</a><span class="arrow">→</span><span class="chip uc active">UC-007</span><span class="arrow">→</span><a class="chip scr" href="#SCR-005">SCR-005</a><span class="arrow">→</span><a class="chip api" href="#API-008">API-008</a><span class="arrow">→</span><a class="chip tc" href="#TC-004">TC-004</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-008">
+    <h3><span class="id-badge uc">UC-008</span> ออก Voucher + กฎอายุ/ชั่วโมง <span class="status done">Implemented</span></h3>
+    <p>ออก Voucher 5/10/15 ชม. → จองครั้งแรกตั้ง expiry = วันจอง + 3/6/9 เดือน · จองต้องมีชั่วโมงเหลือ+ไม่หมดอายุ · attend ตัด usedHours</p>
+    <div class="chain"><a class="chip wf" href="#WF-003">WF-003</a><span class="arrow">→</span><span class="chip uc active">UC-008</span><span class="arrow">→</span><a class="chip scr" href="#SCR-005">SCR-005</a><span class="arrow">→</span><a class="chip api" href="#API-009">API-009</a><span class="arrow">→</span><a class="chip tc" href="#TC-005">TC-005</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-009">
+    <h3><span class="id-badge uc">UC-009</span> เช็คอินผ่าน QR / LINE <span class="status done">Implemented</span></h3>
+    <p>คาบที่ยืนยันแล้วมี check-in token → ผู้ปกครอง/นักเรียนสแกน QR หรือกดใน LINE → POST /checkin (public, token) → ATTENDED + ให้แต้ม CRM</p>
+    <div class="chain"><a class="chip wf" href="#WF-004">WF-004</a><span class="arrow">→</span><span class="chip uc active">UC-009</span><span class="arrow">→</span><a class="chip scr" href="#SCR-008">SCR-008</a><span class="arrow">→</span><a class="chip api" href="#API-015">API-015</a><span class="arrow">→</span><a class="chip tc" href="#TC-006">TC-006</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-010">
+    <h3><span class="id-badge uc">UC-010</span> แจ้งลา + ขยายคาบอัตโนมัติ <span class="status done">Implemented</span></h3>
+    <p>แจ้งลา (staff หรือ LINE) → SICK_LEAVE · ถ้าอยู่ในโควตา → สร้างคาบชดเชยต่อท้ายอัตโนมัติ (EXTENDED) + นับ leaveUsed</p>
+    <div class="chain"><a class="chip wf" href="#WF-004">WF-004</a><span class="arrow">→</span><span class="chip uc active">UC-010</span><span class="arrow">→</span><a class="chip scr" href="#SCR-004">SCR-004</a><span class="arrow">→</span><a class="chip api" href="#API-004">API-004</a><span class="arrow">→</span><a class="chip tc" href="#TC-001">TC-001</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-011">
+    <h3><span class="id-badge uc">UC-011</span> Policy Lock เมื่อลาเกินโควตา <span class="status done">Implemented</span></h3>
+    <p>ลาเกินโควตา → ล็อกการเลื่อน/ขยาย ต้องแอดมินปลดล็อก (adminUnlocked) ถึงจะดำเนินการต่อได้</p>
+    <div class="chain"><a class="chip wf" href="#WF-004">WF-004</a><span class="arrow">→</span><span class="chip uc active">UC-011</span><span class="arrow">→</span><a class="chip scr" href="#SCR-005">SCR-005</a><span class="arrow">→</span><a class="chip api" href="#API-017">API-017</a><span class="arrow">→</span><a class="chip tc" href="#TC-001">TC-001</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-012">
+    <h3><span class="id-badge uc">UC-012</span> ตัดโควตาคอร์สอัตโนมัติสิ้นวัน <span class="status planned">Planned</span></h3>
+    <p>สิ้นเวลาทำการ (18:00) — คาบที่ไม่มีเช็คอิน & ไม่แจ้งลา → ตัดโควตา/เปลี่ยนสถานะอัตโนมัติ · <b>ยังไม่ทำ (ตกลงข้ามไว้ก่อน)</b> — ออกแบบให้ใช้ in-process cron เหมือน LINE worker</p>
+    <div class="chain"><a class="chip wf" href="#WF-004">WF-004</a><span class="arrow">→</span><span class="chip uc active">UC-012</span><span class="arrow">→</span><span class="chip none">no SCR (job)</span><span class="arrow">→</span><span class="chip none">API-TBD</span><span class="arrow">→</span><span class="chip none">no TC yet</span></div>
+  </article>
+
+  <article class="uc-card" id="UC-013">
+    <h3><span class="id-badge uc">UC-013</span> จัดลำดับความสำคัญครู <span class="status done">Implemented</span></h3>
+    <p>ลากจัดลำดับกลุ่มครู (FT/PT/FL) → persist ใน DB → มีผลต่อการเรียงคอลัมน์ในปฏิทิน + การกระจายงาน</p>
+    <div class="chain"><a class="chip wf" href="#WF-005">WF-005</a><span class="arrow">→</span><span class="chip uc active">UC-013</span><span class="arrow">→</span><a class="chip scr" href="#SCR-006">SCR-006</a><span class="arrow">→</span><a class="chip api" href="#API-012">API-012</a><span class="arrow">→</span><a class="chip tc" href="#TC-013">TC-013</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-014">
+    <h3><span class="id-badge uc">UC-014</span> เปิด/ปิดรับงานครู <span class="status done">Implemented</span></h3>
+    <p>ปิดครูรายคนหรือทั้งกลุ่ม → ไม่แสดงในตารางจองของเดือนนั้น (หยุดรับงานชั่วคราว)</p>
+    <div class="chain"><a class="chip wf" href="#WF-005">WF-005</a><span class="arrow">→</span><span class="chip uc active">UC-014</span><span class="arrow">→</span><a class="chip scr" href="#SCR-006">SCR-006</a><span class="arrow">→</span><a class="chip api" href="#API-011">API-011</a><span class="arrow">→</span><span class="chip none">manual QA</span></div>
+  </article>
+
+  <article class="uc-card" id="UC-015">
+    <h3><span class="id-badge uc">UC-015</span> ตั้งวันทำงานครู (work-days) <span class="status done">Implemented</span></h3>
+    <p>กำหนดวันที่ครูมาสอนรายคน → ปฏิทินซ่อนครูในวันที่ไม่ทำงาน (ไม่ hardcode ตามประเภท)</p>
+    <div class="chain"><a class="chip wf" href="#WF-005">WF-005</a><span class="arrow">→</span><span class="chip uc active">UC-015</span><span class="arrow">→</span><a class="chip scr" href="#SCR-006">SCR-006</a><span class="arrow">→</span><a class="chip api" href="#API-013">API-013</a><span class="arrow">→</span><span class="chip none">manual QA</span></div>
+  </article>
+
+  <article class="uc-card" id="UC-016">
+    <h3><span class="id-badge uc">UC-016</span> คุมงบ Freelance (Auto-Disable) <span class="status partial">Partial</span></h3>
+    <p>ตั้งเพดานรายได้/เดือนครู Freelance → เรท× ชม.รับงาน ≥ เพดาน → auto-disable ซ่อนจากตาราง (มี override) · <b>เรท/เพดานจริงต้องดึงจาก backoffice (ตอนนี้ mock)</b></p>
+    <div class="chain"><a class="chip wf" href="#WF-005">WF-005</a><span class="arrow">→</span><span class="chip uc active">UC-016</span><span class="arrow">→</span><a class="chip scr" href="#SCR-006">SCR-006</a><span class="arrow">→</span><a class="chip api" href="#API-023">API-023</a><span class="arrow">→</span><a class="chip tc" href="#TC-015">TC-015</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-017">
+    <h3><span class="id-badge uc">UC-017</span> ยืนยันตัวตน/บทบาทผ่าน LINE OA <span class="status partial">Partial</span></h3>
+    <p>ทักเข้า OA → บอทถามบทบาท (1 ลูกค้า / 2 ครู / 3 แอดมิน) + รหัสยืนยัน → ผูก userId ↔ role (verify X-Line-Signature) · <b>รอตั้ง Webhook URL สาธารณะ</b></p>
+    <div class="chain"><a class="chip wf" href="#WF-006">WF-006</a><span class="arrow">→</span><span class="chip uc active">UC-017</span><span class="arrow">→</span><a class="chip scr" href="#SCR-008">SCR-008</a><span class="arrow">→</span><a class="chip api" href="#API-016">API-016</a><span class="arrow">→</span><a class="chip tc" href="#TC-008">TC-008</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-018">
+    <h3><span class="id-badge uc">UC-018</span> แจ้งลาจากลูกค้า → push แอดมิน <span class="status done">Implemented</span></h3>
+    <p>ลูกค้าที่ระบุตัวตนแล้วแจ้งลา → enqueue LINE หา admin userIds (เก็บใน app_settings) → เด้งเข้า LINE แอดมิน</p>
+    <div class="chain"><a class="chip wf" href="#WF-006">WF-006</a><span class="arrow">→</span><span class="chip uc active">UC-018</span><span class="arrow">→</span><a class="chip scr" href="#SCR-008">SCR-008</a><span class="arrow">→</span><a class="chip api" href="#API-016">API-016</a><span class="arrow">→</span><a class="chip tc" href="#TC-010">TC-010</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-019">
+    <h3><span class="id-badge uc">UC-019</span> สะสมแต้ม CRM <span class="status done">Implemented</span></h3>
+    <p>เช็คอินตรงเวลา / แจ้งลาตามระบบ → ให้แต้มตามกติกา (lib/crm) · เก็บ crm_points บน student · แสดงใน StudentRef DTO</p>
+    <div class="chain"><a class="chip wf" href="#WF-007">WF-007</a><span class="arrow">→</span><span class="chip uc active">UC-019</span><span class="arrow">→</span><a class="chip scr" href="#SCR-005">SCR-005</a><span class="arrow">→</span><a class="chip api" href="#API-015">API-015</a><span class="arrow">→</span><a class="chip tc" href="#TC-007">TC-007</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-020">
+    <h3><span class="id-badge uc">UC-020</span> จัดระดับลูกค้า + สิทธิประโยชน์ <span class="status partial">Partial</span></h3>
+    <p>คำนวณ level จากแต้ม (crm_level) · <b>การใช้ level ให้สิทธิประโยชน์/โปรโมชั่น/จัดลำดับก่อนตอนจอง = ยังไม่ทำ</b></p>
+    <div class="chain"><a class="chip wf" href="#WF-007">WF-007</a><span class="arrow">→</span><span class="chip uc active">UC-020</span><span class="arrow">→</span><a class="chip scr" href="#SCR-005">SCR-005</a><span class="arrow">→</span><a class="chip api" href="#API-010">API-010</a><span class="arrow">→</span><a class="chip tc" href="#TC-007">TC-007</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-021">
+    <h3><span class="id-badge uc">UC-021</span> รายงานสรุปรายวัน <span class="status done">Implemented</span></h3>
+    <p>เลือกวัน → สรุป: ทั้งหมด/มาเรียน/ลา/รอยืนยัน/อัตรามาเรียน + แยกตามครูและประเภท · กรองตามครูได้</p>
+    <div class="chain"><a class="chip wf" href="#WF-008">WF-008</a><span class="arrow">→</span><span class="chip uc active">UC-021</span><span class="arrow">→</span><a class="chip scr" href="#SCR-007">SCR-007</a><span class="arrow">→</span><a class="chip api" href="#API-014">API-014</a><span class="arrow">→</span><a class="chip tc" href="#TC-012">TC-012</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-022">
+    <h3><span class="id-badge uc">UC-022</span> คลังสินค้า / POS <span class="status partial">Partial</span></h3>
+    <p>คีย์รับของเข้า (stock IN) + ตัดสต๊อกเมื่อขาย (POS) · <b>API ฝั่ง ops มีแล้ว (catalog/commerce), backoffice-front ยังไม่เริ่ม</b></p>
+    <div class="chain"><a class="chip wf" href="#WF-009">WF-009</a><span class="arrow">→</span><span class="chip uc active">UC-022</span><span class="arrow">→</span><a class="chip scr" href="#SCR-009">SCR-009</a><span class="arrow">→</span><a class="chip api" href="#API-018">API-018</a><a class="chip api" href="#API-019">API-019</a><span class="arrow">→</span><a class="chip tc" href="#TC-011">TC-011</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-023">
+    <h3><span class="id-badge uc">UC-023</span> Wallet + อนุมัติซื้อคอร์ส <span class="status partial">Partial</span></h3>
+    <p>ตกลงซื้อทาง LINE → admin approve ใน backoffice → เติม wallet (credit) → staff จองให้ · ledger ทุก debit/credit · <b>API มี, UI ยังไม่เริ่ม</b></p>
+    <div class="chain"><a class="chip wf" href="#WF-009">WF-009</a><span class="arrow">→</span><span class="chip uc active">UC-023</span><span class="arrow">→</span><a class="chip scr" href="#SCR-010">SCR-010</a><span class="arrow">→</span><a class="chip api" href="#API-021">API-021</a><a class="chip api" href="#API-022">API-022</a><span class="arrow">→</span><a class="chip tc" href="#TC-011">TC-011</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-024">
+    <h3><span class="id-badge uc">UC-024</span> เรทครู & Payroll <span class="status partial">Partial</span></h3>
+    <p>ตั้ง price_rules (เรท/ชม.) → สรุปรายได้ครูจากชั่วโมงจริง + commission/ค่ารถ → payroll run · <b>pricing API มี, settlement/payroll + UI ยังไม่ทำ</b></p>
+    <div class="chain"><a class="chip wf" href="#WF-009">WF-009</a><span class="arrow">→</span><span class="chip uc active">UC-024</span><span class="arrow">→</span><a class="chip scr" href="#SCR-010">SCR-010</a><span class="arrow">→</span><a class="chip api" href="#API-023">API-023</a><span class="arrow">→</span><span class="chip none">no TC yet</span></div>
+  </article>
+
+  <article class="uc-card" id="UC-025">
+    <h3><span class="id-badge uc">UC-025</span> ตัดชั่วโมง wallet เมื่อ ATTENDED (Integration) <span class="status planned">Planned</span></h3>
+    <p>scheduling-back เรียก backoffice API ตัดชั่วโมง/เงินเมื่อคาบเป็น ATTENDED + push LINE ผู้ปกครอง · <b>ยังไม่ต่อสาย (จุดเชื่อม 2 backend)</b></p>
+    <div class="chain"><a class="chip wf" href="#WF-009">WF-009</a><span class="arrow">→</span><span class="chip uc active">UC-025</span><span class="arrow">→</span><span class="chip none">no SCR (server↔server)</span><span class="arrow">→</span><a class="chip api" href="#API-021">API-021</a><span class="arrow">→</span><span class="chip none">no TC yet</span></div>
+  </article>
+
+  <article class="uc-card" id="UC-026">
+    <h3><span class="id-badge uc">UC-026</span> เข้าสู่ระบบ staff <span class="status done">Implemented</span></h3>
+    <p>กรอก user/pass → NextAuth (FE) เรียก POST /api/auth/login (BE) → รับ JWT เก็บใน session → axios แนบ Bearer ทุก request · 401 → กลับหน้า login</p>
+    <div class="chain"><a class="chip wf" href="#WF-010">WF-010</a><span class="arrow">→</span><span class="chip uc active">UC-026</span><span class="arrow">→</span><a class="chip scr" href="#SCR-001">SCR-001</a><span class="arrow">→</span><a class="chip api" href="#API-001">API-001</a><span class="arrow">→</span><a class="chip tc" href="#TC-009">TC-009</a></div>
+  </article>
+</section>
+
+<!-- ============ SCREENS ============ -->
+<section id="screens">
+  <h2 class="sec"><span class="k" style="background:var(--scr)">SCR</span> ④ Screens + UI Mockup</h2>
+  <p class="sec-sub">แต่ละหน้าจอมี mockup จริงใน <code>make-front/</code> — กด <b>View UI Mockup</b> เพื่อดูฝังในหน้า หรือ Open Full Page</p>
+
+  <article class="scr-card" id="SCR-001">
+    <h3><span class="id-badge scr">SCR-001</span> หน้าเข้าสู่ระบบ (Login) <span class="status done">Implemented</span></h3>
+    <p>ฟอร์ม user/pass สำหรับทีมงาน · redirect กลับหน้าเดิมหลัง login (<code>?next=</code>)</p>
+    <div class="chain"><a class="chip wf" href="#WF-010">WF-010</a><a class="chip uc" href="#UC-026">UC-026</a><span class="chip scr active">SCR-001</span><a class="chip api" href="#API-001">API-001</a></div>
+    <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-001">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-001.html" target="_blank">↗ Open Full Page</a></div>
+    <div class="ui-frame-wrap" id="frame-SCR-001" hidden><iframe data-src="make-front/SCR-001.html" loading="lazy"></iframe></div>
+  </article>
+
+  <article class="scr-card" id="SCR-002">
+    <h3><span class="id-badge scr">SCR-002</span> ปฏิทินตารางเรียน (Visual Calendar) <span class="status done">Implemented</span></h3>
+    <p>ตารางครูทุกคนหน้าเดียว 09:00–18:00 · กรองตามครู · สลับ day/week · คลิกสล็อตว่างเพื่อจอง / คลิกคาบเพื่อดู</p>
+    <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><a class="chip uc" href="#UC-001">UC-001</a><span class="chip scr active">SCR-002</span><a class="chip api" href="#API-002">API-002</a></div>
+    <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-002">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-002.html" target="_blank">↗ Open Full Page</a></div>
+    <div class="ui-frame-wrap" id="frame-SCR-002" hidden><iframe data-src="make-front/SCR-002.html" loading="lazy"></iframe></div>
+  </article>
+
+  <article class="scr-card" id="SCR-003">
+    <h3><span class="id-badge scr">SCR-003</span> โมดอลจอง + จัดการจองทับ <span class="status done">Implemented</span></h3>
+    <p>ฟอร์มจอง (นักเรียน/วิชา/ประเภท 4 แบบ) · ถ้าชน → Dropdown เลือกวิธีย้ายของเดิม 3 ทาง + แจ้งผู้ปกครอง</p>
+    <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><a class="chip wf" href="#WF-002">WF-002</a><a class="chip uc" href="#UC-001">UC-001</a><a class="chip uc" href="#UC-005">UC-005</a><span class="chip scr active">SCR-003</span><a class="chip api" href="#API-003">API-003</a><a class="chip api" href="#API-006">API-006</a></div>
+    <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-003">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-003.html" target="_blank">↗ Open Full Page</a></div>
+    <div class="ui-frame-wrap" id="frame-SCR-003" hidden><iframe data-src="make-front/SCR-003.html" loading="lazy"></iframe></div>
+  </article>
+
+  <article class="scr-card" id="SCR-004">
+    <h3><span class="id-badge scr">SCR-004</span> โมดอลดูคาบ / การกระทำ / ยืนยันการย้าย <span class="status done">Implemented</span></h3>
+    <p>ดูรายละเอียดคาบ → ยืนยัน (push LINE) / มาเรียน / บันทึกลา · ถ้า PENDING_RESCHEDULE → ปุ่ม "ผู้ปกครองตกลง — ยืนยันย้าย" / "ยกเลิกการย้าย"</p>
+    <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><a class="chip wf" href="#WF-002">WF-002</a><a class="chip uc" href="#UC-002">UC-002</a><a class="chip uc" href="#UC-006">UC-006</a><a class="chip uc" href="#UC-010">UC-010</a><span class="chip scr active">SCR-004</span><a class="chip api" href="#API-004">API-004</a><a class="chip api" href="#API-007">API-007</a></div>
+    <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-004">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-004.html" target="_blank">↗ Open Full Page</a></div>
+    <div class="ui-frame-wrap" id="frame-SCR-004" hidden><iframe data-src="make-front/SCR-004.html" loading="lazy"></iframe></div>
+  </article>
+
+  <article class="scr-card" id="SCR-005">
+    <h3><span class="id-badge scr">SCR-005</span> การจอง + สมัครคอร์ส/Voucher <span class="status done">Implemented</span></h3>
+    <p>ตารางการจองทั้งหมด + พาเนลคอร์ส/โควตาการลา · ฟอร์มสมัครคอร์ส (preview คาบรายสัปดาห์) + ฟอร์มออก Voucher</p>
+    <div class="chain"><a class="chip wf" href="#WF-003">WF-003</a><a class="chip uc" href="#UC-007">UC-007</a><a class="chip uc" href="#UC-008">UC-008</a><span class="chip scr active">SCR-005</span><a class="chip api" href="#API-008">API-008</a><a class="chip api" href="#API-009">API-009</a></div>
+    <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-005">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-005.html" target="_blank">↗ Open Full Page</a></div>
+    <div class="ui-frame-wrap" id="frame-SCR-005" hidden><iframe data-src="make-front/SCR-005.html" loading="lazy"></iframe></div>
+  </article>
+
+  <article class="scr-card" id="SCR-006">
+    <h3><span class="id-badge scr">SCR-006</span> จัดการครู (Teachers) <span class="status done">Implemented</span></h3>
+    <p>จัดลำดับกลุ่มครูแบบ drag · เปิด/ปิดรับงาน · ตั้งวันทำงาน · การ์ด Freelance แสดงรายได้ vs เพดาน + auto-disable + override</p>
+    <div class="chain"><a class="chip wf" href="#WF-005">WF-005</a><a class="chip uc" href="#UC-013">UC-013</a><a class="chip uc" href="#UC-016">UC-016</a><span class="chip scr active">SCR-006</span><a class="chip api" href="#API-011">API-011</a><a class="chip api" href="#API-012">API-012</a><a class="chip api" href="#API-013">API-013</a></div>
+    <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-006">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-006.html" target="_blank">↗ Open Full Page</a></div>
+    <div class="ui-frame-wrap" id="frame-SCR-006" hidden><iframe data-src="make-front/SCR-006.html" loading="lazy"></iframe></div>
+  </article>
+
+  <article class="scr-card" id="SCR-007">
+    <h3><span class="id-badge scr">SCR-007</span> รายงานรายวัน (Daily Report) <span class="status done">Implemented</span></h3>
+    <p>การ์ด KPI + สรุปตามครู/ประเภท · เลือกวัน + กรองครู</p>
+    <div class="chain"><a class="chip wf" href="#WF-008">WF-008</a><a class="chip uc" href="#UC-021">UC-021</a><span class="chip scr active">SCR-007</span><a class="chip api" href="#API-014">API-014</a></div>
+    <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-007">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-007.html" target="_blank">↗ Open Full Page</a></div>
+    <div class="ui-frame-wrap" id="frame-SCR-007" hidden><iframe data-src="make-front/SCR-007.html" loading="lazy"></iframe></div>
+  </article>
+
+  <article class="scr-card" id="SCR-008">
+    <h3><span class="id-badge scr">SCR-008</span> LINE OA + QR เช็คอิน (ผู้ปกครอง) <span class="status partial">Partial</span></h3>
+    <p>flow LINE OA: ยืนยันบทบาท+รหัส · เมนูเช็คอิน/แจ้งลา/ขอ QR · หน้าจอ QR เช็คอินต่อคาบ · <b>รอตั้ง Webhook URL สาธารณะ</b></p>
+    <div class="chain"><a class="chip wf" href="#WF-004">WF-004</a><a class="chip wf" href="#WF-006">WF-006</a><a class="chip uc" href="#UC-009">UC-009</a><a class="chip uc" href="#UC-017">UC-017</a><span class="chip scr active">SCR-008</span><a class="chip api" href="#API-015">API-015</a><a class="chip api" href="#API-016">API-016</a></div>
+    <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-008">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-008.html" target="_blank">↗ Open Full Page</a></div>
+    <div class="ui-frame-wrap" id="frame-SCR-008" hidden><iframe data-src="make-front/SCR-008.html" loading="lazy"></iframe></div>
+  </article>
+
+  <article class="scr-card" id="SCR-009">
+    <h3><span class="id-badge scr">SCR-009</span> Backoffice — คลังสินค้า / POS <span class="status planned">UI Planned</span></h3>
+    <p>ธีมเทา-ดำ · รายการ SKU + สต๊อก · รับของเข้า (IN) · POS ขาย+ตัดสต๊อก · ประวัติ movement · <b>API พร้อม, UI ยังไม่เริ่ม</b></p>
+    <div class="chain"><a class="chip wf" href="#WF-009">WF-009</a><a class="chip uc" href="#UC-022">UC-022</a><span class="chip scr active">SCR-009</span><a class="chip api" href="#API-018">API-018</a><a class="chip api" href="#API-019">API-019</a></div>
+    <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-009">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-009.html" target="_blank">↗ Open Full Page</a></div>
+    <div class="ui-frame-wrap" id="frame-SCR-009" hidden><iframe data-src="make-front/SCR-009.html" loading="lazy"></iframe></div>
+  </article>
+
+  <article class="scr-card" id="SCR-010">
+    <h3><span class="id-badge scr">SCR-010</span> Backoffice — Wallet / อนุมัติ / Payroll <span class="status planned">UI Planned</span></h3>
+    <p>Wallet นักเรียน + ledger · คิวอนุมัติซื้อคอร์ส (approve/reject) · เรทครู + payroll run · <b>API บางส่วนพร้อม, UI ยังไม่เริ่ม</b></p>
+    <div class="chain"><a class="chip wf" href="#WF-009">WF-009</a><a class="chip uc" href="#UC-023">UC-023</a><a class="chip uc" href="#UC-024">UC-024</a><span class="chip scr active">SCR-010</span><a class="chip api" href="#API-021">API-021</a><a class="chip api" href="#API-022">API-022</a><a class="chip api" href="#API-023">API-023</a></div>
+    <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-010">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-010.html" target="_blank">↗ Open Full Page</a></div>
+    <div class="ui-frame-wrap" id="frame-SCR-010" hidden><iframe data-src="make-front/SCR-010.html" loading="lazy"></iframe></div>
+  </article>
+</section>
+
+<!-- ============ APIs ============ -->
+<section id="apis">
+  <h2 class="sec"><span class="k" style="background:var(--api)">API</span> ⑤ APIs</h2>
+  <p class="sec-sub">Scheduling API = <code>smart-scheduler-back</code> (<code>/api/*</code> behind JWT) · Backoffice = <code>-backoffice-back</code> (<code>/api/v1/*</code>)</p>
+
+  <article class="api-card" id="API-001"><h3><span class="id-badge api">API-001</span> POST /api/auth/login <span class="status done">Implemented</span></h3><p>Login staff → JWT (public, ก่อน guard). <span class="chip uc" style="margin-left:4px"><a href="#UC-026" style="color:#fff;text-decoration:none">UC-026</a></span></p></article>
+  <article class="api-card" id="API-002"><h3><span class="id-badge api">API-002</span> GET /api/calendar <span class="status done">Implemented</span></h3><p>ปฏิทินรวม 09:00–18:00 เรียงตาม priority + work-days. <a class="chip uc" href="#UC-001">UC-001</a> <a class="chip uc" href="#UC-004">UC-004</a></p></article>
+  <article class="api-card" id="API-003"><h3><span class="id-badge api">API-003</span> POST /api/bookings <span class="status done">Implemented</span></h3><p>สร้างคาบ (4 ประเภท) + enforce voucher. <a class="chip uc" href="#UC-001">UC-001</a></p></article>
+  <article class="api-card" id="API-004"><h3><span class="id-badge api">API-004</span> PATCH /api/bookings/:id/status <span class="status done">Implemented</span></h3><p>confirm / attend / sick-leave / cancel — พร้อม side-effects (LINE, auto-extend, CRM, voucher/course usage). <a class="chip uc" href="#UC-002">UC-002</a> <a class="chip uc" href="#UC-010">UC-010</a></p></article>
+  <article class="api-card" id="API-005"><h3><span class="id-badge api">API-005</span> PATCH /api/bookings/:id <span class="status done">Implemented</span></h3><p>ย้าย/แก้คาบด้วยมือ (teacher/date/time). <a class="chip uc" href="#UC-003">UC-003</a></p></article>
+  <article class="api-card" id="API-006"><h3><span class="id-badge api">API-006</span> POST /api/bookings/with-reschedule <span class="status done">Implemented</span></h3><p>จองทับ + ย้ายของเดิม (transaction + LINE ผู้ปกครอง). <a class="chip uc" href="#UC-005">UC-005</a></p></article>
+  <article class="api-card" id="API-007"><h3><span class="id-badge api">API-007</span> PATCH /api/bookings/:id/reschedule/{confirm,cancel} <span class="status done">Implemented</span></h3><p>ผู้ปกครองตกลง/ปฏิเสธการย้าย. <a class="chip uc" href="#UC-006">UC-006</a></p></article>
+  <article class="api-card" id="API-008"><h3><span class="id-badge api">API-008</span> POST /api/courses <span class="status done">Implemented</span></h3><p>สมัครคอร์ส 4/6/10 → gen คาบรายสัปดาห์ + expiry. <a class="chip uc" href="#UC-007">UC-007</a></p></article>
+  <article class="api-card" id="API-009"><h3><span class="id-badge api">API-009</span> POST /api/vouchers <span class="status done">Implemented</span></h3><p>ออก Voucher 5/10/15 ชม. + กฎอายุ. <a class="chip uc" href="#UC-008">UC-008</a></p></article>
+  <article class="api-card" id="API-010"><h3><span class="id-badge api">API-010</span> GET/POST /api/students <span class="status done">Implemented</span></h3><p>นักเรียน (normalize) + CRM แต้ม/level ใน DTO. <a class="chip uc" href="#UC-001">UC-001</a> <a class="chip uc" href="#UC-020">UC-020</a></p></article>
+  <article class="api-card" id="API-011"><h3><span class="id-badge api">API-011</span> GET /api/teachers · PATCH /api/teachers/availability <span class="status done">Implemented</span></h3><p>รายชื่อครูจัดกลุ่ม + เปิด/ปิดรับงาน. <a class="chip uc" href="#UC-014">UC-014</a></p></article>
+  <article class="api-card" id="API-012"><h3><span class="id-badge api">API-012</span> GET/PATCH /api/teachers/type-order <span class="status done">Implemented</span></h3><p>ลำดับความสำคัญกลุ่มครู (persist app_settings). <a class="chip uc" href="#UC-013">UC-013</a></p></article>
+  <article class="api-card" id="API-013"><h3><span class="id-badge api">API-013</span> PATCH /api/teachers/:id/work-days <span class="status done">Implemented</span></h3><p>วันทำงานครูรายคน. <a class="chip uc" href="#UC-015">UC-015</a></p></article>
+  <article class="api-card" id="API-014"><h3><span class="id-badge api">API-014</span> GET /api/reports/daily <span class="status done">Implemented</span></h3><p>สรุปยอดรายวัน. <a class="chip uc" href="#UC-021">UC-021</a></p></article>
+  <article class="api-card" id="API-015"><h3><span class="id-badge api">API-015</span> GET /api/bookings/:id/checkin · POST /api/checkin <span class="status done">Implemented</span></h3><p>ออก QR token + เช็คอิน (public) → ATTENDED + CRM. <a class="chip uc" href="#UC-009">UC-009</a></p></article>
+  <article class="api-card" id="API-016"><h3><span class="id-badge api">API-016</span> POST /api/webhooks/line <span class="status partial">Partial (need URL)</span></h3><p>LINE OA webhook — verify signature, bot flow ยืนยันบทบาท, ผูก userId↔role, แจ้ง admin. <a class="chip uc" href="#UC-017">UC-017</a> <a class="chip uc" href="#UC-018">UC-018</a></p></article>
+  <article class="api-card" id="API-017"><h3><span class="id-badge api">API-017</span> GET /api/courses · PATCH /api/courses/:id <span class="status done">Implemented</span></h3><p>รายการคอร์ส + โควตาการลา + admin unlock (Policy Lock). <a class="chip uc" href="#UC-011">UC-011</a></p></article>
+  <article class="api-card" id="API-018"><h3><span class="id-badge api">API-018</span> /api/v1/catalog/items (+ /movements) <span class="status partial">Partial</span></h3><p>Backoffice: สินค้า + stock IN/OUT. <a class="chip uc" href="#UC-022">UC-022</a></p></article>
+  <article class="api-card" id="API-019"><h3><span class="id-badge api">API-019</span> POST /api/v1/commerce/sales <span class="status partial">Partial</span></h3><p>Backoffice: ขาย → ตัดสต๊อก. <a class="chip uc" href="#UC-022">UC-022</a></p></article>
+  <article class="api-card" id="API-020"><h3><span class="id-badge api">API-020</span> /api/v1/parties <span class="status partial">Partial</span></h3><p>Backoffice: map นักเรียน/ครู → parties (external_ref). <a class="chip uc" href="#UC-023">UC-023</a></p></article>
+  <article class="api-card" id="API-021"><h3><span class="id-badge api">API-021</span> /api/v1/accounts (+ ledger, credits/debits) <span class="status partial">Partial</span></h3><p>Backoffice: wallet + ledger. <a class="chip uc" href="#UC-023">UC-023</a> <a class="chip uc" href="#UC-025">UC-025</a></p></article>
+  <article class="api-card" id="API-022"><h3><span class="id-badge api">API-022</span> /api/v1/commercial/requests (+ approve/reject) <span class="status partial">Partial</span></h3><p>Backoffice: คำขอซื้อคอร์ส (TOP_UP → credit). <a class="chip uc" href="#UC-023">UC-023</a></p></article>
+  <article class="api-card" id="API-023"><h3><span class="id-badge api">API-023</span> /api/v1/pricing/rules <span class="status partial">Partial</span></h3><p>Backoffice: เรทครู/ราคา → income cap + payroll. <a class="chip uc" href="#UC-016">UC-016</a> <a class="chip uc" href="#UC-024">UC-024</a></p></article>
+</section>
+
+<!-- ============ TEST CASES ============ -->
+<section id="testcases">
+  <h2 class="sec"><span class="k" style="background:var(--tc)">TC</span> ⑥ Test Cases</h2>
+  <p class="sec-sub">อ้างอิงเทสต์จริง (<code>bun test</code> 27 ผ่าน) + จุด manual QA</p>
+
+  <article class="tc-card" id="TC-001"><h3><span class="id-badge tc">TC-001</span> กฎโควตาการลา (leave.test) <span class="status done">Pass</span></h3><p>4→1, 6→2, 10→3 · remaining/lock · admin unlock override. <a class="chip uc" href="#UC-010">UC-010</a> <a class="chip uc" href="#UC-011">UC-011</a></p></article>
+  <article class="tc-card" id="TC-002"><h3><span class="id-badge tc">TC-002</span> reschedule target (reschedule.test) <span class="status done">Pass</span></h3><p>endTime +1h + preserve target. <a class="chip uc" href="#UC-005">UC-005</a></p></article>
+  <article class="tc-card" id="TC-003"><h3><span class="id-badge tc">TC-003</span> conflict create/confirm/cancel (e2e) <span class="status done">Pass</span></h3><p>สล็อตทับ → PENDING_RESCHEDULE → confirm/cancel + LINE outbox. <a class="chip uc" href="#UC-004">UC-004</a> <a class="chip uc" href="#UC-006">UC-006</a></p></article>
+  <article class="tc-card" id="TC-004"><h3><span class="id-badge tc">TC-004</span> recurring course (recurring.test) <span class="status done">Pass</span></h3><p>วันรายสัปดาห์ + expiry 4→5wk/6→8wk/10→13wk. <a class="chip uc" href="#UC-007">UC-007</a></p></article>
+  <article class="tc-card" id="TC-005"><h3><span class="id-badge tc">TC-005</span> voucher rules (voucher.test) <span class="status done">Pass</span></h3><p>อายุ 3/6/9 เดือน · ชั่วโมงหมด/หมดอายุ → block. <a class="chip uc" href="#UC-008">UC-008</a></p></article>
+  <article class="tc-card" id="TC-006"><h3><span class="id-badge tc">TC-006</span> check-in token (checkin.test) <span class="status done">Pass</span></h3><p>ออก/verify token → ATTENDED. <a class="chip uc" href="#UC-009">UC-009</a></p></article>
+  <article class="tc-card" id="TC-007"><h3><span class="id-badge tc">TC-007</span> CRM points (crm.test) <span class="status done">Pass</span></h3><p>ให้แต้ม/คำนวณ level. <a class="chip uc" href="#UC-019">UC-019</a> <a class="chip uc" href="#UC-020">UC-020</a></p></article>
+  <article class="tc-card" id="TC-008"><h3><span class="id-badge tc">TC-008</span> LINE webhook (webhooks.test / line-webhook.test) <span class="status done">Pass</span></h3><p>verify signature + bot บทบาท/รหัส → ผูก userId. <a class="chip uc" href="#UC-017">UC-017</a></p></article>
+  <article class="tc-card" id="TC-009"><h3><span class="id-badge tc">TC-009</span> auth (auth.test) <span class="status done">Pass</span></h3><p>login public แม้ guard เปิด · no/bad token → 401. <a class="chip uc" href="#UC-026">UC-026</a></p></article>
+  <article class="tc-card" id="TC-010"><h3><span class="id-badge tc">TC-010</span> LINE message format (line-message.test) <span class="status done">Pass</span></h3><p>booking_confirmed / reschedule / sick_leave. <a class="chip uc" href="#UC-002">UC-002</a> <a class="chip uc" href="#UC-018">UC-018</a></p></article>
+  <article class="tc-card" id="TC-011"><h3><span class="id-badge tc">TC-011</span> backoffice money (money.test) <span class="status done">Pass</span></h3><p>integer minor units + ledger. <a class="chip uc" href="#UC-022">UC-022</a> <a class="chip uc" href="#UC-023">UC-023</a></p></article>
+  <article class="tc-card" id="TC-012"><h3><span class="id-badge tc">TC-012</span> daily report / booking create <span class="status partial">Manual</span></h3><p>นับยอดถูกต้อง + สร้างคาบ. <a class="chip uc" href="#UC-001">UC-001</a> <a class="chip uc" href="#UC-021">UC-021</a></p></article>
+  <article class="tc-card" id="TC-013"><h3><span class="id-badge tc">TC-013</span> teacher order persist (smoke) <span class="status done">Pass</span></h3><p>set order → getTeachers เรียงตามจริง. <a class="chip uc" href="#UC-013">UC-013</a></p></article>
+  <article class="tc-card" id="TC-015"><h3><span class="id-badge tc">TC-015</span> income cap auto-disable <span class="status partial">Manual</span></h3><p>รายได้ ≥ เพดาน → bookable=false. <a class="chip uc" href="#UC-016">UC-016</a></p></article>
+</section>
+
+<!-- ============ MATRIX ============ -->
+<section id="matrix">
+  <h2 class="sec">⑦ Traceability Matrix</h2>
+  <p class="sec-sub">มองรวดเดียวเห็นทั้งระบบ — WF → UC → SCR → API → TC (N-to-N)</p>
+  <table class="matrix">
+    <thead><tr><th>WF</th><th>UC</th><th>SCR</th><th>API</th><th>TC</th></tr></thead>
+    <tbody>
+      <tr>
+        <td rowspan="3"><a class="chip wf" href="#WF-001">WF-001</a></td>
+        <td><a class="chip uc" href="#UC-001">UC-001</a></td><td><a class="chip scr" href="#SCR-003">SCR-003</a></td><td><div class="cellchips"><a class="chip api" href="#API-003">API-003</a><a class="chip api" href="#API-010">API-010</a></div></td><td><a class="chip tc" href="#TC-012">TC-012</a></td>
+      </tr>
+      <tr><td><a class="chip uc" href="#UC-002">UC-002</a></td><td><a class="chip scr" href="#SCR-004">SCR-004</a></td><td><a class="chip api" href="#API-004">API-004</a></td><td><a class="chip tc" href="#TC-010">TC-010</a></td></tr>
+      <tr><td><a class="chip uc" href="#UC-003">UC-003</a></td><td><a class="chip scr" href="#SCR-004">SCR-004</a></td><td><a class="chip api" href="#API-005">API-005</a></td><td><span class="chip none">manual</span></td></tr>
+
+      <tr>
+        <td rowspan="3"><a class="chip wf" href="#WF-002">WF-002</a></td>
+        <td><a class="chip uc" href="#UC-004">UC-004</a></td><td><a class="chip scr" href="#SCR-003">SCR-003</a></td><td><a class="chip api" href="#API-002">API-002</a></td><td rowspan="3"><div class="cellchips"><a class="chip tc" href="#TC-002">TC-002</a><a class="chip tc" href="#TC-003">TC-003</a></div></td>
+      </tr>
+      <tr><td><a class="chip uc" href="#UC-005">UC-005</a></td><td><a class="chip scr" href="#SCR-003">SCR-003</a></td><td><a class="chip api" href="#API-006">API-006</a></td></tr>
+      <tr><td><a class="chip uc" href="#UC-006">UC-006</a></td><td><a class="chip scr" href="#SCR-004">SCR-004</a></td><td><a class="chip api" href="#API-007">API-007</a></td></tr>
+
+      <tr>
+        <td rowspan="2"><a class="chip wf" href="#WF-003">WF-003</a></td>
+        <td><a class="chip uc" href="#UC-007">UC-007</a></td><td rowspan="2"><a class="chip scr" href="#SCR-005">SCR-005</a></td><td><a class="chip api" href="#API-008">API-008</a></td><td><a class="chip tc" href="#TC-004">TC-004</a></td>
+      </tr>
+      <tr><td><a class="chip uc" href="#UC-008">UC-008</a></td><td><a class="chip api" href="#API-009">API-009</a></td><td><a class="chip tc" href="#TC-005">TC-005</a></td></tr>
+
+      <tr>
+        <td rowspan="4"><a class="chip wf" href="#WF-004">WF-004</a></td>
+        <td><a class="chip uc" href="#UC-009">UC-009</a></td><td><a class="chip scr" href="#SCR-008">SCR-008</a></td><td><a class="chip api" href="#API-015">API-015</a></td><td><a class="chip tc" href="#TC-006">TC-006</a></td>
+      </tr>
+      <tr><td><a class="chip uc" href="#UC-010">UC-010</a></td><td><a class="chip scr" href="#SCR-004">SCR-004</a></td><td><a class="chip api" href="#API-004">API-004</a></td><td><a class="chip tc" href="#TC-001">TC-001</a></td></tr>
+      <tr><td><a class="chip uc" href="#UC-011">UC-011</a></td><td><a class="chip scr" href="#SCR-005">SCR-005</a></td><td><a class="chip api" href="#API-017">API-017</a></td><td><a class="chip tc" href="#TC-001">TC-001</a></td></tr>
+      <tr><td><a class="chip uc" href="#UC-012">UC-012</a></td><td><span class="chip none">job</span></td><td><span class="chip none">TBD</span></td><td><span class="chip none">—</span></td></tr>
+
+      <tr>
+        <td rowspan="4"><a class="chip wf" href="#WF-005">WF-005</a></td>
+        <td><a class="chip uc" href="#UC-013">UC-013</a></td><td rowspan="4"><a class="chip scr" href="#SCR-006">SCR-006</a></td><td><a class="chip api" href="#API-012">API-012</a></td><td><a class="chip tc" href="#TC-013">TC-013</a></td>
+      </tr>
+      <tr><td><a class="chip uc" href="#UC-014">UC-014</a></td><td><a class="chip api" href="#API-011">API-011</a></td><td><span class="chip none">manual</span></td></tr>
+      <tr><td><a class="chip uc" href="#UC-015">UC-015</a></td><td><a class="chip api" href="#API-013">API-013</a></td><td><span class="chip none">manual</span></td></tr>
+      <tr><td><a class="chip uc" href="#UC-016">UC-016</a></td><td><a class="chip api" href="#API-023">API-023</a></td><td><a class="chip tc" href="#TC-015">TC-015</a></td></tr>
+
+      <tr>
+        <td rowspan="2"><a class="chip wf" href="#WF-006">WF-006</a></td>
+        <td><a class="chip uc" href="#UC-017">UC-017</a></td><td rowspan="2"><a class="chip scr" href="#SCR-008">SCR-008</a></td><td rowspan="2"><a class="chip api" href="#API-016">API-016</a></td><td><a class="chip tc" href="#TC-008">TC-008</a></td>
+      </tr>
+      <tr><td><a class="chip uc" href="#UC-018">UC-018</a></td><td><a class="chip tc" href="#TC-010">TC-010</a></td></tr>
+
+      <tr>
+        <td rowspan="2"><a class="chip wf" href="#WF-007">WF-007</a></td>
+        <td><a class="chip uc" href="#UC-019">UC-019</a></td><td rowspan="2"><a class="chip scr" href="#SCR-005">SCR-005</a></td><td><a class="chip api" href="#API-015">API-015</a></td><td rowspan="2"><a class="chip tc" href="#TC-007">TC-007</a></td>
+      </tr>
+      <tr><td><a class="chip uc" href="#UC-020">UC-020</a></td><td><a class="chip api" href="#API-010">API-010</a></td></tr>
+
+      <tr>
+        <td><a class="chip wf" href="#WF-008">WF-008</a></td>
+        <td><a class="chip uc" href="#UC-021">UC-021</a></td><td><a class="chip scr" href="#SCR-007">SCR-007</a></td><td><a class="chip api" href="#API-014">API-014</a></td><td><a class="chip tc" href="#TC-012">TC-012</a></td>
+      </tr>
+
+      <tr>
+        <td rowspan="4"><a class="chip wf" href="#WF-009">WF-009</a></td>
+        <td><a class="chip uc" href="#UC-022">UC-022</a></td><td><a class="chip scr" href="#SCR-009">SCR-009</a></td><td><div class="cellchips"><a class="chip api" href="#API-018">API-018</a><a class="chip api" href="#API-019">API-019</a></div></td><td><a class="chip tc" href="#TC-011">TC-011</a></td>
+      </tr>
+      <tr><td><a class="chip uc" href="#UC-023">UC-023</a></td><td><a class="chip scr" href="#SCR-010">SCR-010</a></td><td><div class="cellchips"><a class="chip api" href="#API-021">API-021</a><a class="chip api" href="#API-022">API-022</a></div></td><td><a class="chip tc" href="#TC-011">TC-011</a></td></tr>
+      <tr><td><a class="chip uc" href="#UC-024">UC-024</a></td><td><a class="chip scr" href="#SCR-010">SCR-010</a></td><td><a class="chip api" href="#API-023">API-023</a></td><td><span class="chip none">—</span></td></tr>
+      <tr><td><a class="chip uc" href="#UC-025">UC-025</a></td><td><span class="chip none">server↔server</span></td><td><a class="chip api" href="#API-021">API-021</a></td><td><span class="chip none">—</span></td></tr>
+
+      <tr>
+        <td><a class="chip wf" href="#WF-010">WF-010</a></td>
+        <td><a class="chip uc" href="#UC-026">UC-026</a></td><td><a class="chip scr" href="#SCR-001">SCR-001</a></td><td><a class="chip api" href="#API-001">API-001</a></td><td><a class="chip tc" href="#TC-009">TC-009</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="meta" style="margin-top:14px">รวม: 10 WF · 26 UC · 10 SCR · 23 API · 14 TC — <b>Implemented</b> ส่วนใหญ่ของ frontoffice/scheduling · <b>Partial</b> = LINE OA (รอ URL), CRM level, backoffice API · <b>Planned</b> = ตัดโควตาสิ้นวัน (UC-012), wallet integration (UC-025), backoffice UI</p>
+</section>
+
+</main>
+</div>
+
+<script>
+// derive linkid from href/text
+document.querySelectorAll('.id-badge, .chip').forEach(function(el){
+  var id = el.hasAttribute('href') ? el.getAttribute('href').replace('#','').trim() : el.textContent.trim();
+  if(id && /^(WF|UC|SCR|API|TC|DOC)-/.test(id)) el.dataset.linkid = id;
+});
+function setHl(id,on){
+  document.querySelectorAll('[data-linkid="'+CSS.escape(id)+'"]').forEach(function(m){m.classList.toggle('hl',on);});
+}
+document.querySelectorAll('[data-linkid]').forEach(function(el){
+  var id = el.dataset.linkid;
+  el.addEventListener('mouseenter',function(){setHl(id,true);});
+  el.addEventListener('mouseleave',function(){setHl(id,false);});
+});
+// lazy iframe toggle
+document.querySelectorAll('.view-ui-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var wrap = document.getElementById(btn.dataset.target);
+    if(wrap.hasAttribute('hidden')){
+      wrap.removeAttribute('hidden');
+      var f = wrap.querySelector('iframe');
+      if(f && !f.getAttribute('src')) f.setAttribute('src', f.dataset.src);
+      btn.textContent='🖼 Hide UI Mockup ▴'; btn.classList.add('open');
+    } else {
+      wrap.setAttribute('hidden',''); btn.textContent='🖼 View UI Mockup ▾'; btn.classList.remove('open');
+    }
+  });
+});
+</script>
+</body>
+</html>

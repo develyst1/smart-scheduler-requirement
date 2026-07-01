@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>SCR-007 — Daily Report | UI Mockup</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page-id="SCR-007">
+<header class="mockup-top">
+  <a class="back" href="../requirement.html#SCR-007">← Back to Requirement Hub</a>
+  <div class="title">🖥 SCR-007 · Daily Report</div>
+  <div class="chain">
+    <a class="chip wf" href="../requirement.html#WF-008">WF-008</a><span class="arrow-sm">→</span>
+    <a class="chip uc" href="../requirement.html#UC-021">UC-021</a><span class="arrow-sm">→</span>
+    <span class="chip scr active">SCR-007</span><span class="arrow-sm">→</span>
+    <a class="chip api" href="../requirement.html#API-014">API-014</a><span class="arrow-sm">→</span>
+    <a class="chip tc" href="../requirement.html#TC-012">TC-012</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="screen-title">รายงานสรุปรายวัน</h1>
+  <p class="screen-sub">ตรวจความถูกต้องยอดนักเรียนรายวัน · เลือกวัน + กรองครูได้</p>
+
+  <div class="device-frame">
+    <div class="device-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">/scheduler/reports</span></div>
+    <div class="device-canvas">
+      <div class="mk-toolbar">
+        <span style="font-weight:800;">📊 สรุปวัน อาทิตย์ 5 ก.ค. 2026</span>
+        <div style="display:flex;gap:8px;"><div class="fake-input">📅 5 ก.ค. 2026</div><div class="fake-input">ครู: ทั้งหมด ▾</div></div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi-card"><div class="label">ทั้งหมด</div><div class="value">32</div></div>
+        <div class="kpi-card"><div class="label">มาเรียนจริง</div><div class="value" style="color:#059669;">24</div></div>
+        <div class="kpi-card"><div class="label">ลา/ป่วย</div><div class="value" style="color:#d97706;">3</div></div>
+        <div class="kpi-card"><div class="label">รอยืนยัน</div><div class="value" style="color:#2563eb;">4</div></div>
+        <div class="kpi-card"><div class="label">อัตรามาเรียน</div><div class="value">75%</div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div>
+          <div style="font-weight:800;margin-bottom:8px;font-size:.9em;">แยกตามครู (workload)</div>
+          <table class="mk-table"><thead><tr><th>ครู</th><th>คาบ</th><th>มาเรียน</th></tr></thead>
+            <tbody>
+              <tr><td>แอน</td><td>8</td><td>7</td></tr>
+              <tr><td>แคท</td><td>6</td><td>5</td></tr>
+              <tr><td>บีม</td><td>5</td><td>4</td></tr>
+              <tr><td>เอิร์ธ</td><td>4</td><td>3</td></tr>
+            </tbody></table>
+        </div>
+        <div>
+          <div style="font-weight:800;margin-bottom:8px;font-size:.9em;">แยกตามประเภทการจอง</div>
+          <table class="mk-table"><thead><tr><th>ประเภท</th><th>จำนวน</th></tr></thead>
+            <tbody>
+              <tr><td>คอร์สรายสัปดาห์</td><td>18</td></tr>
+              <tr><td>จองรายครั้ง</td><td>7</td></tr>
+              <tr><td>Voucher</td><td>4</td></tr>
+              <tr><td>ทดลองเรียน</td><td>3</td></tr>
+            </tbody></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box info"><b>ที่มาข้อมูล:</b> API รวมยอดฝั่ง backend · ไม่นับคาบที่ยกเลิก/รอช่อง (pendingSlot) · อัตรามาเรียน = มาเรียนจริง ÷ ทั้งหมด</div>
+
+  <section class="comments-panel">
+    <h2>💬 Feedback / Comments <span id="commentCount" class="count-badge"></span></h2>
+    <p class="hint">คอมเมนต์บันทึกในเบราว์เซอร์นี้ (localStorage) เฉพาะไฟล์นี้ — กด "Copy All" เพื่อคัดลอกไปวางในแชทกับ AI หรือ "Export .md" เพื่อดาวน์โหลดไว้ให้ AI อ่านตอนแก้ UI</p>
+    <textarea id="commentInput" placeholder="เช่น: อยากให้ย้ายปุ่มนี้... (Ctrl+Enter เพื่อส่ง)"></textarea>
+    <div class="c-toolbar">
+      <button id="addCommentBtn" class="btn primary">+ Add Comment</button>
+      <button id="copyBtn" class="btn">📋 Copy All</button>
+      <button id="exportBtn" class="btn">⬇ Export .md</button>
+    </div>
+    <div id="commentList"></div>
+  </section>
+</main>
+<script src="assets/comments.js"></script>
+</body>
+</html>

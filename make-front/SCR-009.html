@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>SCR-009 — Backoffice Inventory / POS | UI Mockup</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  /* dark backoffice theme */
+  .dark{background:#111827;padding:22px 24px;}
+  .dark .mk-toolbar,.dark .kpi-card,.dark table.mk-table,.dark table.mk-table td,.dark .panel{color:#e5e7eb;}
+  .dark .panel{background:#1f2937;border:1px solid #374151;border-radius:10px;padding:14px 16px;}
+  .dark table.mk-table{background:#1f2937;}
+  .dark table.mk-table th{background:#111827;color:#9ca3af;border-color:#374151;}
+  .dark table.mk-table td{border-color:#374151;}
+  .dark table.mk-table tr:hover td{background:#273549;}
+  .dark .kpi-card{background:#1f2937;border-color:#374151;}
+  .dark .kpi-card .value{color:#f9fafb;}
+  .dark .fake-input{background:#374151;border-color:#4b5563;color:#e5e7eb;}
+  .dark h3{color:#f9fafb;}
+</style>
+</head>
+<body data-page-id="SCR-009">
+<header class="mockup-top">
+  <a class="back" href="../requirement.html#SCR-009">← Back to Requirement Hub</a>
+  <div class="title">🖥 SCR-009 · Backoffice Inventory / POS</div>
+  <div class="chain">
+    <a class="chip wf" href="../requirement.html#WF-009">WF-009</a><span class="arrow-sm">→</span>
+    <a class="chip uc" href="../requirement.html#UC-022">UC-022</a><span class="arrow-sm">→</span>
+    <span class="chip scr active">SCR-009</span><span class="arrow-sm">→</span>
+    <a class="chip api" href="../requirement.html#API-018">API-018</a>
+    <a class="chip api" href="../requirement.html#API-019">API-019</a><span class="arrow-sm">→</span>
+    <a class="chip tc" href="../requirement.html#TC-011">TC-011</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="screen-title">Backoffice — คลังสินค้า / POS <span class="badge-pill amber">UI ยังไม่เริ่ม (API พร้อม)</span></h1>
+  <p class="screen-sub">ธีมเทา-ดำ · Mini ERP/POS แทน Alis To Soft — คีย์รับของเข้า / ตัดสต๊อกเมื่อขาย</p>
+
+  <div class="device-frame">
+    <div class="device-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">backoffice.develyst.online/inventory</span></div>
+    <div class="device-canvas dark">
+      <div class="mk-toolbar">
+        <span style="font-weight:800;color:#f9fafb;">📦 คลังสินค้า</span>
+        <div style="display:flex;gap:8px;"><button class="mk-btn success">+ รับของเข้า (IN)</button><button class="mk-btn violet">🛒 ขาย (POS)</button></div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi-card"><div class="label">SKU ทั้งหมด</div><div class="value">24</div></div>
+        <div class="kpi-card"><div class="label">ใกล้หมด</div><div class="value" style="color:#f59e0b;">3</div></div>
+        <div class="kpi-card"><div class="label">มูลค่าสต๊อก</div><div class="value">฿18,450</div></div>
+        <div class="kpi-card"><div class="label">ขายวันนี้</div><div class="value" style="color:#34d399;">฿1,220</div></div>
+      </div>
+
+      <table class="mk-table">
+        <thead><tr><th>สินค้า (SKU)</th><th>คงเหลือ</th><th>ราคาขาย</th><th>สถานะ</th></tr></thead>
+        <tbody>
+          <tr><td>น้ำดื่ม 600ml (WTR-600)</td><td>128</td><td>฿10</td><td><span class="badge-pill green">ปกติ</span></td></tr>
+          <tr><td>ดินสอ 2B (PEN-2B)</td><td>9</td><td>฿15</td><td><span class="badge-pill amber">ใกล้หมด</span></td></tr>
+          <tr><td>สมุด A5 (BK-A5)</td><td>0</td><td>฿25</td><td><span class="badge-pill red">หมด</span></td></tr>
+          <tr><td>ยางลบ (ERS-01)</td><td>42</td><td>฿8</td><td><span class="badge-pill green">ปกติ</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="panel" style="margin-top:16px;max-width:520px;">
+        <div style="font-weight:800;margin-bottom:10px;color:#f9fafb;">🛒 POS — ตัดสต๊อกเมื่อขาย</div>
+        <table class="mk-table"><tbody>
+          <tr><td>น้ำดื่ม 600ml × 2</td><td style="text-align:right;">฿20</td></tr>
+          <tr><td>ดินสอ 2B × 1</td><td style="text-align:right;">฿15</td></tr>
+          <tr><td style="font-weight:800;">รวม</td><td style="text-align:right;font-weight:800;color:#34d399;">฿35</td></tr>
+        </tbody></table>
+        <button class="mk-btn success" style="width:100%;justify-content:center;margin-top:10px;">ยืนยันการขาย → ตัดสต๊อก</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box info"><b>กฎ:</b> รับเข้า = stock movement (IN) · ขาย = movement (OUT) ตัด <code>stock_balances</code> อัตโนมัติ · เงินเก็บเป็น integer minor units + ledger (audit) · API ฝั่ง ops = <code>/api/v1/catalog/items</code>, <code>/commerce/sales</code> — <b>พร้อมแล้ว รอสร้างหน้า UI นี้จริง</b></div>
+
+  <section class="comments-panel">
+    <h2>💬 Feedback / Comments <span id="commentCount" class="count-badge"></span></h2>
+    <p class="hint">คอมเมนต์บันทึกในเบราว์เซอร์นี้ (localStorage) เฉพาะไฟล์นี้ — กด "Copy All" เพื่อคัดลอกไปวางในแชทกับ AI หรือ "Export .md" เพื่อดาวน์โหลดไว้ให้ AI อ่านตอนแก้ UI</p>
+    <textarea id="commentInput" placeholder="เช่น: อยากให้ย้ายปุ่มนี้... (Ctrl+Enter เพื่อส่ง)"></textarea>
+    <div class="c-toolbar">
+      <button id="addCommentBtn" class="btn primary">+ Add Comment</button>
+      <button id="copyBtn" class="btn">📋 Copy All</button>
+      <button id="exportBtn" class="btn">⬇ Export .md</button>
+    </div>
+    <div id="commentList"></div>
+  </section>
+</main>
+<script src="assets/comments.js"></script>
+</body>
+</html>

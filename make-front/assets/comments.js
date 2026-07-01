@@ -8,7 +8,7 @@
  * collisions when several projects are opened over file://.
  */
 (function () {
-  var KEY_PREFIX = 'req-hub-ui-comments::';
+  var KEY_PREFIX = 'sts-ui-comments::';
   function pageId() { return document.body.dataset.pageId || 'SCREEN'; }
   function key() { return KEY_PREFIX + pageId(); }
   function load() {

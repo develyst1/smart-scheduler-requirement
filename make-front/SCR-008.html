@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>SCR-008 — LINE OA + QR Check-in | UI Mockup</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .phone{width:300px;background:#7d9db3;border-radius:22px;padding:12px;margin:0 auto;}
+  .phone .screen2{background:#8cabbf;border-radius:14px;overflow:hidden;}
+  .lbar{background:#06c755;color:#fff;padding:8px 12px;font-weight:800;font-size:.85em;}
+  .chat{padding:12px;display:flex;flex-direction:column;gap:8px;min-height:280px;}
+  .bubble{max-width:78%;padding:8px 11px;border-radius:12px;font-size:.8em;line-height:1.4;}
+  .bot{background:#fff;color:#1e293b;align-self:flex-start;border-top-left-radius:3px;}
+  .me{background:#06c755;color:#fff;align-self:flex-end;border-top-right-radius:3px;}
+  .qr{width:120px;height:120px;background:conic-gradient(#000 25%,#fff 0 50%,#000 0 75%,#fff 0);background-size:16px 16px;border:6px solid #fff;border-radius:8px;margin:4px auto;}
+</style>
+</head>
+<body data-page-id="SCR-008">
+<header class="mockup-top">
+  <a class="back" href="../requirement.html#SCR-008">← Back to Requirement Hub</a>
+  <div class="title">🖥 SCR-008 · LINE OA + QR Check-in</div>
+  <div class="chain">
+    <a class="chip wf" href="../requirement.html#WF-006">WF-006</a><span class="arrow-sm">→</span>
+    <a class="chip uc" href="../requirement.html#UC-017">UC-017</a><span class="arrow-sm">→</span>
+    <span class="chip scr active">SCR-008</span><span class="arrow-sm">→</span>
+    <a class="chip api" href="../requirement.html#API-016">API-016</a>
+    <a class="chip api" href="../requirement.html#API-015">API-015</a><span class="arrow-sm">→</span>
+    <a class="chip tc" href="../requirement.html#TC-008">TC-008</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="screen-title">LINE OA — ยืนยันตัวตน + เช็คอิน/แจ้งลา</h1>
+  <p class="screen-sub">ผู้ปกครอง/ครูคุยกับ Official Account · บอทถามบทบาท+รหัส → ผูก userId ↔ role · เช็คอินผ่าน QR/ปุ่ม</p>
+
+  <div class="device-frame">
+    <div class="device-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">LINE Official Account · @808ijegp (smart-scheduler)</span></div>
+    <div class="device-canvas" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+
+      <!-- role verify -->
+      <div>
+        <div style="font-weight:800;margin-bottom:8px;font-size:.9em;">① ยืนยันตัวตน & บทบาท</div>
+        <div class="phone"><div class="screen2">
+          <div class="lbar">← smart-scheduler</div>
+          <div class="chat">
+            <div class="bubble bot">สวัสดีค่ะ 🙌 กรุณาเลือกบทบาท:<br>1️⃣ ลูกค้า/ผู้ปกครอง<br>2️⃣ ครู<br>3️⃣ แอดมิน</div>
+            <div class="bubble me">1</div>
+            <div class="bubble bot">กรุณาพิมพ์รหัสยืนยัน (จากทางโรงเรียน) เช่น "ลูกค้า : 4821"</div>
+            <div class="bubble me">ลูกค้า : 4821</div>
+            <div class="bubble bot">✅ ยืนยันแล้ว! ผูกบัญชี LINE นี้กับ <b>ผู้ปกครองน้องพีพี</b><br>พิมพ์ "เมนู" เพื่อดูตัวเลือก</div>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- checkin / leave -->
+      <div>
+        <div style="font-weight:800;margin-bottom:8px;font-size:.9em;">② เช็คอิน / แจ้งลา</div>
+        <div class="phone"><div class="screen2">
+          <div class="lbar">← smart-scheduler</div>
+          <div class="chat">
+            <div class="bubble me">เมนู</div>
+            <div class="bubble bot">คาบวันนี้: น้องพีพี · คณิต · 10:00 (ครูแอน)<br>เลือก: ✅ เช็คอิน · 🤒 แจ้งลา · 🔳 ขอ QR</div>
+            <div class="bubble me">ขอ QR</div>
+            <div class="bubble bot">สแกน QR นี้ที่โรงเรียนเพื่อเช็คอิน (ใช้ได้เฉพาะช่วงเวลาคาบ):
+              <div class="qr"></div>
+              <div style="text-align:center;font-size:.9em;">คาบ #BK-10233 · หมดอายุ 11:00</div>
+            </div>
+          </div>
+        </div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="note-box info"><b>กฎที่ flow นี้บังคับ:</b> ① webhook verify <code>X-Line-Signature</code> ก่อนเสมอ ② ต้องยืนยันบทบาท+รหัสถึงจะผูก userId↔role ③ QR ต่อคาบมี token + หมดอายุตามช่วงเวลาคาบ → สแกน = <code>POST /api/checkin</code> → ATTENDED + ได้แต้ม CRM ④ แจ้งลาจากลูกค้า → เด้ง LINE หาแอดมิน</div>
+  <div class="note-box danger"><b>สถานะ:</b> โค้ด webhook + bot + check-in พร้อมแล้ว · <b>รอตั้ง Webhook URL สาธารณะใน LINE Developers Console</b> ถึงจะรับ event จริงได้</div>
+
+  <section class="comments-panel">
+    <h2>💬 Feedback / Comments <span id="commentCount" class="count-badge"></span></h2>
+    <p class="hint">คอมเมนต์บันทึกในเบราว์เซอร์นี้ (localStorage) เฉพาะไฟล์นี้ — กด "Copy All" เพื่อคัดลอกไปวางในแชทกับ AI หรือ "Export .md" เพื่อดาวน์โหลดไว้ให้ AI อ่านตอนแก้ UI</p>
+    <textarea id="commentInput" placeholder="เช่น: อยากให้ย้ายปุ่มนี้... (Ctrl+Enter เพื่อส่ง)"></textarea>
+    <div class="c-toolbar">
+      <button id="addCommentBtn" class="btn primary">+ Add Comment</button>
+      <button id="copyBtn" class="btn">📋 Copy All</button>
+      <button id="exportBtn" class="btn">⬇ Export .md</button>
+    </div>
+    <div id="commentList"></div>
+  </section>
+</main>
+<script src="assets/comments.js"></script>
+</body>
+</html>
