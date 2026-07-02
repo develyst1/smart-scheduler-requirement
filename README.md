@@ -3,6 +3,11 @@
 **ศูนย์รวม requirement (Requirement Hub)** ของโปรเจค Smart Tutoring Scheduler — Option C (Ultimate)
 เปิดไฟล์เดียวเข้าใจทั้งระบบได้ โดยไม่ต้องเปิดไฟล์ต้นฉบับ
 
+> 📌 **แนวทาง as-built (reverse requirement):** repo นี้ทำ *หลังจาก* โปรเจคเริ่มไปแล้ว —
+> UI mockup ใน `make-front/SCR-001…007` จึง **วาดจากแอปที่รันจริง** (`smart-scheduler-front`,
+> Next.js 16 + Mantine v9) ไม่ใช่ wireframe ในจินตนาการ · ส่วนที่ยังไม่ได้สร้าง (LINE OA,
+> backoffice) จะติดป้าย **Planned** ไว้ชัดเจน
+
 ## เปิดยังไง
 
 เปิด **[requirement.html](requirement.html)** ในเบราว์เซอร์ — เป็นหน้าเดียวรวม:
@@ -18,8 +23,9 @@
 ```
 requirement.html          ← หน้า hub หลัก (เปิดอันนี้)
 make-front/
-  assets/                 ← style.css + comments.js (design system ร่วม)
-  SCR-001.html … SCR-010  ← mockup จริงต่อหน้าจอ (มีกล่องคอมเมนต์ในตัว)
+  assets/                 ← style.css + comments.js + app-skin.css (เลียนแบบ Mantine ของแอปจริง)
+  SCR-001.html … SCR-007  ← as-built: วาดจากแอป smart-scheduler-front จริง (Next.js 16 + Mantine v9)
+  SCR-008.html … SCR-010  ← planned: LINE OA / backoffice — ยังไม่มี UI จริง (mockup เชิงแนวคิด)
 diagrams/                 ← PlantUML source (DIA-001…008) — source of truth ของไดอะแกรม
   README.md               ← วิธี render / regenerate
 requirement-timeline.md   ← เอกสารต้นทาง (living spec) — DOC-001

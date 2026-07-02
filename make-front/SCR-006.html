@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>SCR-006 — Teachers Management | UI Mockup</title>
 <link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/app-skin.css">
 </head>
 <body data-page-id="SCR-006">
 <header class="mockup-top">
@@ -11,64 +12,134 @@
   <div class="title">🖥 SCR-006 · Teachers Management</div>
   <div class="chain">
     <a class="chip wf" href="../requirement.html#WF-005">WF-005</a><span class="arrow-sm">→</span>
+    <a class="chip uc" href="../requirement.html#UC-013">UC-013</a>
     <a class="chip uc" href="../requirement.html#UC-016">UC-016</a><span class="arrow-sm">→</span>
     <span class="chip scr active">SCR-006</span><span class="arrow-sm">→</span>
+    <a class="chip api" href="../requirement.html#API-011">API-011</a>
     <a class="chip api" href="../requirement.html#API-012">API-012</a>
-    <a class="chip api" href="../requirement.html#API-013">API-013</a><span class="arrow-sm">→</span>
-    <a class="chip tc" href="../requirement.html#TC-015">TC-015</a>
+    <a class="chip api" href="../requirement.html#API-013">API-013</a>
   </div>
 </header>
 
 <main class="wrap">
-  <h1 class="screen-title">จัดการครูผู้สอน</h1>
-  <p class="screen-sub">จัดลำดับความสำคัญ (drag) · เปิด/ปิดรับงาน · ตั้งวันทำงาน · Freelance คุมงบตามเพดานรายได้</p>
+  <h1 class="screen-title">จัดการครู</h1>
+  <p class="screen-sub"><span class="as-built">as-built</span> วาดจากแอปจริง · <code>/scheduler/teachers</code> · จัดลำดับกลุ่มครู (drag) · เปิด/ปิดรับงาน · วันทำงาน · เพดานรายได้ Freelance</p>
 
   <div class="device-frame">
-    <div class="device-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">/scheduler/teachers</span></div>
-    <div class="device-canvas">
-
-      <div style="border:1px solid #e2e6ec;border-radius:10px;padding:14px 16px;margin-bottom:18px;background:#fff;">
-        <div style="font-weight:800;margin-bottom:4px;">ลำดับความสำคัญการจัดครู</div>
-        <div style="color:#64748b;font-size:.82em;margin-bottom:10px;">ลากเพื่อจัดลำดับ — ครูจะเรียงตามนี้ในตารางจอง</div>
-        <div class="flow-row">
-          <span class="flow-box">≡ 1 · Full-time</span><span class="flow-arrow">→</span>
-          <span class="flow-box">≡ 2 · Part-time</span><span class="flow-arrow">→</span>
-          <span class="flow-box hl">≡ 3 · Freelance</span>
-        </div>
-      </div>
-
-      <div class="mk-toolbar"><span style="font-weight:800;">ครู Freelance (8 คน)</span><button class="mk-btn ghost">เปิด/ปิดทั้งกลุ่ม</button></div>
-
-      <div style="border:1px solid #fecaca;background:#fff8f8;border-radius:10px;padding:14px 16px;margin-bottom:12px;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-          <div><b>ครูเอิร์ธ กิตติ</b> (เอิร์ธ) · IELTS, อังกฤษ · ฿600/ชม.
-            <div style="margin-top:4px;"><span class="badge-pill blue">วันทำงาน: จ อ พฤ ส อา</span></div>
+    <div class="device-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">https://som.develyst.online/scheduler/teachers</span></div>
+    <div class="device-canvas app">
+      <div class="app-shell">
+        <aside class="app-sidebar">
+          <div class="app-brand">
+            <span class="logo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+            <div><div class="name">Smart Scheduler</div><div class="sub">จัดตารางเรียนหลังบ้าน</div></div>
           </div>
-          <span class="badge-pill red">เกินเพดาน · ปิดอัตโนมัติ</span>
-        </div>
-        <div style="margin-top:10px;font-size:.82em;color:#475569;">รายได้เดือนนี้ <b>฿26,400</b> / เพดาน ฿25,000 · 44 ชม.</div>
-        <div style="height:8px;background:#e2e8f0;border-radius:6px;margin-top:6px;overflow:hidden;"><div style="width:100%;height:100%;background:#e11d48;"></div></div>
-        <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:10px;font-size:.82em;">เปิดรับงานต่อแม้เกินเพดาน <span class="badge-pill amber">override: OFF</span></div>
-      </div>
+          <nav class="app-nav">
+            <a href="SCR-002.html"><span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>ตารางเรียน</a>
+            <a class="active" href="SCR-006.html"><span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>คุณครู</a>
+            <a href="SCR-005.html"><span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg></span>การจอง / นักเรียน</a>
+            <a href="SCR-007.html"><span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M18 17V9M13 17V5M8 17v-3"/></svg></span>รายงานประจำวัน</a>
+          </nav>
+          <div class="app-side-foot">v0.1 · ทีมงานหลังบ้าน</div>
+        </aside>
 
-      <div style="border:1px solid #e2e6ec;border-radius:10px;padding:14px 16px;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-          <div><b>ครูฟ้า ชนิดา</b> (ฟ้า) · ภาษาไทย · ฿500/ชม.
-            <div style="margin-top:4px;"><span class="badge-pill gray">วันทำงาน: ส อา</span></div>
+        <div class="app-main">
+          <header class="app-header">
+            <div class="left">
+              <span class="icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg></span>
+              <h1>คุณครู</h1>
+            </div>
+            <div class="right"><span class="who">admin</span><span class="app-avatar">TM</span><span class="logout"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>ออกจากระบบ</span></div>
+          </header>
+
+          <div class="app-content">
+            <div class="stack" style="gap:24px;">
+              <!-- Priority card -->
+              <div class="m-card">
+                <div style="font-weight:600;font-size:.95em;">ลำดับความสำคัญการจัดครู</div>
+                <div class="m-xs m-muted" style="margin:2px 0 12px;">ครูจะเรียงตามลำดับนี้ในตารางจอง — เลื่อนประเภทที่อยากเน้นช่วงนี้ขึ้นบนสุด</div>
+                <div class="stack" style="gap:8px;">
+                  <div class="row" style="border:1px solid var(--d100);border-radius:12px;padding:10px;">
+                    <span class="drag"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+                    <span style="width:24px;height:24px;border-radius:6px;background:rgba(34,139,230,.10);color:var(--m-primary);display:flex;align-items:center;justify-content:center;font-size:.74em;font-weight:700;">1</span>
+                    <span class="m-badge grape">PART-TIME</span>
+                  </div>
+                  <div class="row" style="border:1px solid var(--d100);border-radius:12px;padding:10px;">
+                    <span class="drag"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+                    <span style="width:24px;height:24px;border-radius:6px;background:rgba(34,139,230,.10);color:var(--m-primary);display:flex;align-items:center;justify-content:center;font-size:.74em;font-weight:700;">2</span>
+                    <span class="m-badge blue">FULL-TIME</span>
+                  </div>
+                  <div class="row" style="border:1px solid var(--d100);border-radius:12px;padding:10px;">
+                    <span class="drag"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+                    <span style="width:24px;height:24px;border-radius:6px;background:rgba(34,139,230,.10);color:var(--m-primary);display:flex;align-items:center;justify-content:center;font-size:.74em;font-weight:700;">3</span>
+                    <span class="m-badge gray">FREELANCE</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="m-sm m-muted">ปิดสิทธิ์รับงานเพื่อไม่ให้ครูแสดงในตารางจอง · ตั้งวันที่มาสอนต่อคน (เช่น PT เสาร์–อาทิตย์) · ครู Freelance ที่รายได้ถึงเพดานจะถูกปิดอัตโนมัติ</p>
+
+              <!-- PART-TIME group -->
+              <div class="m-card">
+                <div class="between" style="margin-bottom:12px;">
+                  <div class="row"><span class="m-badge grape">PART-TIME</span><span class="m-sm m-muted">7 คน</span></div>
+                  <button class="m-btn m-btn-light gray sm"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64M12 2v10"/></svg>ปิดทั้งกลุ่ม</button>
+                </div>
+                <div class="stack" style="gap:10px;">
+                  <div style="border:1px solid var(--d100);border-radius:12px;padding:12px;">
+                    <div class="between">
+                      <div><div style="font-weight:500;">ครูกานต์ (Karn)</div><div class="m-xs m-muted">(กานต์) · ทุกวัน · 1st Trial, Bike / Scooter / Balance Cruiser, Surfskate…</div></div>
+                      <div class="row" style="gap:10px;"><span class="m-xs" style="color:var(--m-success);">รับงาน</span><span class="m-switch"></span></div>
+                    </div>
+                    <div style="margin-top:12px;"><div class="m-xs m-muted" style="margin-bottom:6px;">วันที่สอน</div>
+                      <div class="day-row"><span class="day-pill">อา</span><span class="day-pill">จ</span><span class="day-pill">อ</span><span class="day-pill">พ</span><span class="day-pill">พฤ</span><span class="day-pill">ศ</span><span class="day-pill">ส</span></div>
+                      <div class="wrap-gap" style="margin-top:8px;"><span class="quick-chip on">✓ ทุกวัน</span><span class="quick-chip">เสาร์–อาทิตย์</span><span class="quick-chip">จ–ศ</span><span class="quick-chip">เสาร์</span><span class="quick-chip">อาทิตย์</span></div>
+                    </div>
+                  </div>
+                  <div style="border:1px solid var(--d100);border-radius:12px;padding:12px;">
+                    <div class="between">
+                      <div><div style="font-weight:500;">ครูคิด (Kid)</div><div class="m-xs m-muted">(คิด) · เสาร์–อาทิตย์ · 1st Trial, Bike / Scooter, Surfskate…</div></div>
+                      <div class="row" style="gap:10px;"><span class="m-xs" style="color:var(--m-success);">รับงาน</span><span class="m-switch"></span></div>
+                    </div>
+                    <div style="margin-top:12px;"><div class="m-xs m-muted" style="margin-bottom:6px;">วันที่สอน</div>
+                      <div class="day-row"><span class="day-pill">อา</span><span class="day-pill off">จ</span><span class="day-pill off">อ</span><span class="day-pill off">พ</span><span class="day-pill off">พฤ</span><span class="day-pill off">ศ</span><span class="day-pill">ส</span></div>
+                      <div class="wrap-gap" style="margin-top:8px;"><span class="quick-chip">✓ ทุกวัน</span><span class="quick-chip on">เสาร์–อาทิตย์</span><span class="quick-chip">จ–ศ</span><span class="quick-chip">เสาร์</span><span class="quick-chip">อาทิตย์</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- FREELANCE group (income cap) -->
+              <div class="m-card">
+                <div class="between" style="margin-bottom:12px;">
+                  <div class="row"><span class="m-badge gray">FREELANCE</span><span class="m-sm m-muted">8 คน</span></div>
+                  <button class="m-btn m-btn-light gray sm"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64M12 2v10"/></svg>ปิดทั้งกลุ่ม</button>
+                </div>
+                <div style="border:1px solid rgba(224,49,49,.30);background:rgba(224,49,49,.05);border-radius:12px;padding:12px;">
+                  <div class="between" style="align-items:flex-start;">
+                    <div><div style="font-weight:500;">ครูบีม (Beam)</div><div class="m-xs m-muted">(บีม) · จ–ศ · ฿350/ชม.</div></div>
+                    <div class="row" style="gap:10px;"><span class="m-badge red">เกินเพดาน · ปิดอัตโนมัติ</span><span class="m-switch off"></span></div>
+                  </div>
+                  <div style="margin-top:12px;">
+                    <div class="between m-xs m-muted" style="margin-bottom:5px;"><span class="row" style="gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2"/></svg>รายได้เดือนนี้</span><span>฿15,400 <span style="color:var(--d400);">/ เพดาน ฿15,000</span> · 44 ชม.</span></div>
+                    <div class="m-bar"><span class="red" style="width:100%;"></span></div>
+                    <div class="row" style="justify-content:flex-end;gap:8px;margin-top:10px;"><span class="m-xs m-muted">เปิดรับงานต่อแม้เกินเพดาน</span><span class="m-switch off" style="background:var(--m-warning);"></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <span class="badge-pill green">รับงาน</span>
         </div>
-        <div style="margin-top:10px;font-size:.82em;color:#475569;">รายได้เดือนนี้ <b>฿9,000</b> / เพดาน ฿25,000 · 18 ชม.</div>
-        <div style="height:8px;background:#e2e8f0;border-radius:6px;margin-top:6px;overflow:hidden;"><div style="width:36%;height:100%;background:#059669;"></div></div>
       </div>
     </div>
   </div>
 
-  <div class="note-box info"><b>กฎที่หน้านี้บังคับ:</b> ลำดับกลุ่มครู persist ใน DB → มีผลต่อการเรียงคอลัมน์ในปฏิทิน · <b>work-days</b> รายคน → ครูที่ไม่ทำงานวันนั้นจะไม่แสดง · Freelance: <b>เรท × ชม. ≥ เพดาน → auto-disable</b> (เรท/เพดานดึงจาก backoffice) — มี override รับงานต่อได้</div>
+  <div class="note-box info"><b>กฎ:</b> ลำดับกลุ่มครู (drag) persist ใน <code>app_settings</code> → มีผลต่อการเรียงคอลัมน์ปฏิทิน · toggle เปิด/ปิดรับงานรายคน/รายกลุ่ม · วันทำงานรายคน (work-days) ซ่อนครูในวันที่ไม่ทำงาน</div>
+  <div class="note-box"><b>Freelance income cap (UC-016):</b> รายได้ = เรท×ชม. เทียบเพดาน (จาก back-office, read-only) · ถึงเพดาน → ปิดอัตโนมัติ (มี override สำหรับกรณีพิเศษ) · ตอนนี้เรท/เพดานยัง mock รอ D.1 wire จาก backoffice</div>
 
   <section class="comments-panel">
     <h2>💬 Feedback / Comments <span id="commentCount" class="count-badge"></span></h2>
-    <p class="hint">คอมเมนต์บันทึกในเบราว์เซอร์นี้ (localStorage) เฉพาะไฟล์นี้ — กด "Copy All" เพื่อคัดลอกไปวางในแชทกับ AI หรือ "Export .md" เพื่อดาวน์โหลดไว้ให้ AI อ่านตอนแก้ UI</p>
+    <p class="hint">คอมเมนต์บันทึกในเบราว์เซอร์นี้ (localStorage) เฉพาะไฟล์นี้ — กด "Copy All" หรือ "Export .md" เพื่อส่งให้ AI แก้ UI</p>
     <textarea id="commentInput" placeholder="เช่น: อยากให้ย้ายปุ่มนี้... (Ctrl+Enter เพื่อส่ง)"></textarea>
     <div class="c-toolbar">
       <button id="addCommentBtn" class="btn primary">+ Add Comment</button>

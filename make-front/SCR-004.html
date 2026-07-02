@@ -4,14 +4,18 @@
 <meta charset="UTF-8">
 <title>SCR-004 — Booking Detail / Actions | UI Mockup</title>
 <link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/app-skin.css">
 </head>
 <body data-page-id="SCR-004">
 <header class="mockup-top">
   <a class="back" href="../requirement.html#SCR-004">← Back to Requirement Hub</a>
-  <div class="title">🖥 SCR-004 · Booking Detail / Reschedule</div>
+  <div class="title">🖥 SCR-004 · Booking Detail / Actions</div>
   <div class="chain">
+    <a class="chip wf" href="../requirement.html#WF-001">WF-001</a>
     <a class="chip wf" href="../requirement.html#WF-002">WF-002</a><span class="arrow-sm">→</span>
-    <a class="chip uc" href="../requirement.html#UC-006">UC-006</a><span class="arrow-sm">→</span>
+    <a class="chip uc" href="../requirement.html#UC-002">UC-002</a>
+    <a class="chip uc" href="../requirement.html#UC-006">UC-006</a>
+    <a class="chip uc" href="../requirement.html#UC-010">UC-010</a><span class="arrow-sm">→</span>
     <span class="chip scr active">SCR-004</span><span class="arrow-sm">→</span>
     <a class="chip api" href="../requirement.html#API-004">API-004</a>
     <a class="chip api" href="../requirement.html#API-007">API-007</a>
@@ -19,59 +23,98 @@
 </header>
 
 <main class="wrap">
-  <h1 class="screen-title">โมดอลดูคาบ + การกระทำ</h1>
-  <p class="screen-sub">ยืนยัน (push LINE ครู) / มาเรียน / บันทึกลา · กรณีคาบ "รอย้าย" → ยืนยันหรือยกเลิกการย้ายแทนผู้ปกครอง</p>
+  <h1 class="screen-title">โมดัลดูคาบ / การกระทำ</h1>
+  <p class="screen-sub"><span class="as-built">as-built</span> Mantine Modal เปิดจากการคลิกคาบในปฏิทิน · component <code>BookingModal → ViewBooking</code></p>
 
-  <div class="mk-tabs" style="max-width:640px;margin:0 auto 4px;">
-    <span class="mk-tab active">โหมดปกติ</span><span class="mk-tab">โหมดรอย้าย (จองทับ)</span>
-  </div>
-
+  <!-- STATE 1: view + actions -->
+  <p class="m-sm m-muted" style="font-weight:700;margin-bottom:8px;">สถานะ 1 · ดูรายละเอียด + ปุ่มจัดการ (คาบ "รอยืนยัน")</p>
   <div class="device-frame">
-    <div class="device-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">/scheduler/calendar → ดูคาบ</span></div>
-    <div class="device-canvas" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
-
-      <!-- normal -->
-      <div style="border:1px solid #e2e6ec;border-radius:10px;padding:16px;background:#fff;">
-        <div style="font-weight:800;margin-bottom:10px;">คาบปกติ — <span class="badge-pill amber">รอยืนยัน</span></div>
-        <table class="mk-table"><tbody>
-          <tr><td>นักเรียน</td><td><b>น้องมายด์</b></td></tr>
-          <tr><td>ครู / วิชา</td><td>แคท · ชีวะ</td></tr>
-          <tr><td>เวลา</td><td>13:00 – 14:00</td></tr>
-        </tbody></table>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px;">
-          <button class="mk-btn primary">🔔 ยืนยัน + แจ้งเตือน LINE ครู</button>
-          <button class="mk-btn success">✔ มาเรียน (ATTENDED)</button>
-          <button class="mk-btn ghost">🤒 บันทึกลา/ป่วย</button>
-          <button class="mk-btn amber">↔ จองทับ (จัดการของเดิม)</button>
+    <div class="device-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">https://som.develyst.online/scheduler/calendar</span></div>
+    <div class="device-canvas app">
+      <div class="m-modal-backdrop" style="min-height:380px;">
+        <div class="m-modal">
+          <div class="mh">
+            <div>
+              <div class="m-title">น้องพีพี</div>
+              <div class="wrap-gap" style="margin-top:6px;">
+                <span class="m-badge orange">รอยืนยัน</span>
+                <span class="m-badge blue"><span class="dot"></span>คอร์สรายสัปดาห์</span>
+              </div>
+            </div>
+            <span class="x">✕</span>
+          </div>
+          <div class="mb">
+            <dl class="m-dl">
+              <div><dt>ครูผู้สอน</dt><dd>กานต์ (Karn)</dd></div>
+              <div><dt>วิชา</dt><dd>Bike / Scooter</dd></div>
+              <div><dt>วันที่</dt><dd>2026-07-02</dd></div>
+              <div><dt>เวลา</dt><dd>10:00 - 11:00</dd></div>
+            </dl>
+            <div class="m-actions split">
+              <button class="m-btn m-btn-light orange"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 4 7l4 4M4 7h16M16 21l4-4-4-4M20 17H4"/></svg>จองทับ (จัดการของเดิม)</button>
+              <div class="wrap-gap">
+                <button class="m-btn m-btn-subtle" style="background:transparent;color:var(--d600);">ปิด</button>
+                <button class="m-btn m-btn-light gray"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7M17 17l4 4M21 17l-4 4"/></svg>บันทึกลา/ป่วย</button>
+                <button class="m-btn m-btn-light green"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>มาเรียน</button>
+                <button class="m-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>ยืนยัน + แจ้งเตือน Line</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="note-box" style="margin-top:12px;font-size:.78em;">ยืนยัน → push LINE ครูทันที (idempotent) · ลา → auto-extend ถ้าอยู่ในโควตา</div>
       </div>
-
-      <!-- reschedule -->
-      <div style="border:2px solid #fecaca;border-radius:10px;padding:16px;background:#fff8f8;">
-        <div style="font-weight:800;margin-bottom:10px;">รอผู้ปกครองตอบรับ — <span class="badge-pill red">PENDING_RESCHEDULE</span></div>
-        <table class="mk-table"><tbody>
-          <tr><td>นักเรียน (เดิม)</td><td><b>น้องพีพี</b> · คณิต</td></tr>
-          <tr><td>คาบเดิม</td><td>อา 5 ก.ค. · 10:00</td></tr>
-          <tr><td>วิธีย้าย</td><td>ย้ายไปสัปดาห์อื่น</td></tr>
-          <tr><td>ปลายทางที่เสนอ</td><td><b>อา 12 ก.ค. · 10:00</b></td></tr>
-        </tbody></table>
-        <div style="background:#f1f5f9;border-radius:8px;padding:8px 10px;margin-top:10px;font-size:.8em;">การจองใหม่ที่รอช่องนี้: <b>น้องต้นน้ำ</b> · คณิต</div>
-        <div style="display:flex;gap:8px;margin-top:14px;">
-          <button class="mk-btn danger" style="flex:1;">ยกเลิกการย้าย</button>
-          <button class="mk-btn success" style="flex:1.4;">ผู้ปกครองตกลง — ยืนยันย้าย</button>
-        </div>
-        <div class="note-box danger" style="margin-top:12px;font-size:.78em;">ส่ง LINE แจ้งผู้ปกครองแล้ว · <b>ของเดิมยังคาที่ช่องนี้จนกว่าจะยืนยัน</b></div>
-      </div>
-
     </div>
   </div>
 
-  <div class="note-box info"><b>ผลของปุ่ม (ฝั่ง reschedule):</b> "ยืนยันย้าย" → ย้ายคาบน้องพีพีไปสล็อตใหม่ + ปล่อยช่องเดิมให้น้องต้นน้ำ · "ยกเลิก" → ลบคาบน้องต้นน้ำ + คืนคาบน้องพีพีไว้ที่เดิม</div>
+  <!-- STATE 2: reschedule pending -->
+  <p class="m-sm m-muted" style="font-weight:700;margin:22px 0 8px;">สถานะ 2 · รอผู้ปกครองตอบรับการย้าย (จองทับ · UC-006)</p>
+  <div class="device-frame">
+    <div class="device-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">https://som.develyst.online/scheduler/calendar</span></div>
+    <div class="device-canvas app">
+      <div class="m-modal-backdrop" style="min-height:420px;">
+        <div class="m-modal">
+          <div class="mh">
+            <div>
+              <div class="m-title">น้องพีพี</div>
+              <div class="wrap-gap" style="margin-top:6px;">
+                <span class="m-badge red">รอย้าย (รอผู้ปกครอง)</span>
+                <span class="m-badge blue"><span class="dot"></span>คอร์สรายสัปดาห์</span>
+              </div>
+            </div>
+            <span class="x">✕</span>
+          </div>
+          <div class="mb">
+            <div class="stack" style="gap:14px;">
+              <div class="m-alert orange">
+                <span class="ai"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3Z"/><path d="M12 9v4M12 17h.01"/></svg></span>
+                <div><b>รอผู้ปกครองตอบรับการย้าย</b><br>คาบนี้ถูกขอย้ายเพราะมีการจองทับ — ส่ง Line แจ้งผู้ปกครองแล้ว ของเดิมยังคาที่ช่องนี้จนกว่าจะยืนยัน</div>
+              </div>
+              <dl class="m-dl">
+                <div><dt>ครู (เดิม)</dt><dd>กานต์ (Karn)</dd></div>
+                <div><dt>คาบเดิม</dt><dd>2026-07-02 10:00</dd></div>
+                <div><dt>วิธีย้าย</dt><dd>ย้ายไปวันอื่น</dd></div>
+                <div><dt>ปลายทาง</dt><dd>กานต์ · 2026-07-03 10:00</dd></div>
+              </dl>
+              <div class="m-card" style="background:var(--d100);border:1px solid var(--m-border);padding:12px 14px;">
+                <div class="m-xs m-muted">การจองใหม่ที่รอช่องนี้</div>
+                <div class="m-sm" style="font-weight:600;margin-top:2px;">น้องเจมส์ · Surfskate</div>
+              </div>
+              <div class="m-actions">
+                <button class="m-btn m-btn-subtle" style="background:transparent;color:var(--d600);">ปิด</button>
+                <button class="m-btn m-btn-light red">ยกเลิกการย้าย</button>
+                <button class="m-btn" style="background:var(--m-success);">ผู้ปกครองตกลง — ยืนยันย้าย</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box info"><b>Actions → API:</b> ยืนยัน = <code>PATCH /bookings/:id/status confirm</code> (idempotent + enqueue Line ครู) · มาเรียน = <code>attend</code> (+แต้ม CRM) · ลา/ป่วย = <code>sick-leave</code> (auto ขยายคาบถ้าในโควตา / ล็อกถ้าเกิน) · ยืนยัน/ยกเลิกการย้าย = <code>PATCH /bookings/:id/reschedule/{confirm,cancel}</code></div>
 
   <section class="comments-panel">
     <h2>💬 Feedback / Comments <span id="commentCount" class="count-badge"></span></h2>
-    <p class="hint">คอมเมนต์บันทึกในเบราว์เซอร์นี้ (localStorage) เฉพาะไฟล์นี้ — กด "Copy All" เพื่อคัดลอกไปวางในแชทกับ AI หรือ "Export .md" เพื่อดาวน์โหลดไว้ให้ AI อ่านตอนแก้ UI</p>
+    <p class="hint">คอมเมนต์บันทึกในเบราว์เซอร์นี้ (localStorage) เฉพาะไฟล์นี้ — กด "Copy All" หรือ "Export .md" เพื่อส่งให้ AI แก้ UI</p>
     <textarea id="commentInput" placeholder="เช่น: อยากให้ย้ายปุ่มนี้... (Ctrl+Enter เพื่อส่ง)"></textarea>
     <div class="c-toolbar">
       <button id="addCommentBtn" class="btn primary">+ Add Comment</button>

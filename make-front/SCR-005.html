@@ -4,65 +4,131 @@
 <meta charset="UTF-8">
 <title>SCR-005 — Bookings + Course/Voucher | UI Mockup</title>
 <link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/app-skin.css">
 </head>
 <body data-page-id="SCR-005">
 <header class="mockup-top">
   <a class="back" href="../requirement.html#SCR-005">← Back to Requirement Hub</a>
-  <div class="title">🖥 SCR-005 · Bookings + Course/Voucher</div>
+  <div class="title">🖥 SCR-005 · Bookings · Course / Voucher</div>
   <div class="chain">
     <a class="chip wf" href="../requirement.html#WF-003">WF-003</a><span class="arrow-sm">→</span>
-    <a class="chip uc" href="../requirement.html#UC-007">UC-007</a><span class="arrow-sm">→</span>
+    <a class="chip uc" href="../requirement.html#UC-007">UC-007</a>
+    <a class="chip uc" href="../requirement.html#UC-008">UC-008</a><span class="arrow-sm">→</span>
     <span class="chip scr active">SCR-005</span><span class="arrow-sm">→</span>
     <a class="chip api" href="../requirement.html#API-008">API-008</a>
-    <a class="chip api" href="../requirement.html#API-009">API-009</a><span class="arrow-sm">→</span>
-    <a class="chip tc" href="../requirement.html#TC-004">TC-004</a>
+    <a class="chip api" href="../requirement.html#API-009">API-009</a>
   </div>
 </header>
 
 <main class="wrap">
-  <h1 class="screen-title">การจอง + สมัครคอร์ส / ออก Voucher</h1>
-  <p class="screen-sub">สมัครคอร์ส 4/6/10 ครั้ง → ระบบล็อกคาบรายสัปดาห์ให้อัตโนมัติ + คำนวณวันหมดอายุ · Voucher 5/10/15 ชม.</p>
+  <h1 class="screen-title">การจอง / นักเรียน — คอร์ส & Voucher</h1>
+  <p class="screen-sub"><span class="as-built">as-built</span> วาดจากแอปจริง · <code>/scheduler/bookings</code> · แท็บ คอร์ส+สิทธิ์การลา / วอยเชอร์ / การจองทั้งหมด</p>
 
   <div class="device-frame">
-    <div class="device-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">/scheduler/bookings</span></div>
-    <div class="device-canvas">
-      <div class="mk-tabs"><span class="mk-tab active">คอร์ส & โควตาการลา</span><span class="mk-tab">Voucher</span><span class="mk-tab">การจองทั้งหมด</span></div>
+    <div class="device-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">https://som.develyst.online/scheduler/bookings</span></div>
+    <div class="device-canvas app">
+      <div class="app-shell">
+        <aside class="app-sidebar">
+          <div class="app-brand">
+            <span class="logo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+            <div><div class="name">Smart Scheduler</div><div class="sub">จัดตารางเรียนหลังบ้าน</div></div>
+          </div>
+          <nav class="app-nav">
+            <a href="SCR-002.html"><span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>ตารางเรียน</a>
+            <a href="SCR-006.html"><span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>คุณครู</a>
+            <a class="active" href="SCR-005.html"><span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg></span>การจอง / นักเรียน</a>
+            <a href="SCR-007.html"><span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M18 17V9M13 17V5M8 17v-3"/></svg></span>รายงานประจำวัน</a>
+          </nav>
+          <div class="app-side-foot">v0.1 · ทีมงานหลังบ้าน</div>
+        </aside>
 
-      <div class="mk-toolbar">
-        <span style="font-weight:800;">คอร์สรายสัปดาห์</span>
-        <div style="display:flex;gap:8px;"><button class="mk-btn primary">+ สมัครคอร์ส</button><button class="mk-btn amber">+ ออก Voucher</button></div>
-      </div>
+        <div class="app-main">
+          <header class="app-header">
+            <div class="left">
+              <span class="icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg></span>
+              <h1>การจอง / นักเรียน</h1>
+            </div>
+            <div class="right"><span class="who">admin</span><span class="app-avatar">TM</span><span class="logout"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>ออกจากระบบ</span></div>
+          </header>
 
-      <table class="mk-table">
-        <thead><tr><th>นักเรียน</th><th>ขนาด</th><th>ใช้ไป</th><th>โควตาลา</th><th>ขยายถึง</th><th>หมดอายุ</th><th>สถานะ</th></tr></thead>
-        <tbody>
-          <tr><td>น้องพีพี</td><td>10 ครั้ง</td><td>3/10</td><td>1/3 <span class="badge-pill green">เหลือ 2</span></td><td>สัปดาห์ 13</td><td>2026-09-30</td><td><span class="badge-pill green">ปกติ</span></td></tr>
-          <tr><td>น้องเจมส์</td><td>4 ครั้ง</td><td>1/4</td><td>1/1 <span class="badge-pill red">เต็ม</span></td><td>สัปดาห์ 5</td><td>2026-08-05</td><td><span class="badge-pill amber">🔒 Policy Lock</span></td></tr>
-          <tr><td>น้องมายด์</td><td>6 ครั้ง</td><td>4/6</td><td>2/2 <span class="badge-pill red">เต็ม</span></td><td>สัปดาห์ 8</td><td>2026-08-26</td><td><span class="badge-pill blue">ปลดล็อกโดยแอดมิน</span></td></tr>
-        </tbody>
-      </table>
+          <div class="app-content">
+            <div class="m-tabs">
+              <span class="tab on">คอร์ส + สิทธิ์การลา</span>
+              <span class="tab">วอยเชอร์</span>
+              <span class="tab">การจองทั้งหมด</span>
+            </div>
 
-      <div style="border:1px solid #dbeafe;background:#eff6ff;border-radius:10px;padding:16px;margin-top:18px;max-width:620px;">
-        <div style="font-weight:800;margin-bottom:12px;">📝 สมัครคอร์ส — น้องต้นน้ำ</div>
-        <div class="mk-grid" style="grid-template-columns:1fr 1fr 1fr;">
-          <div class="mk-field"><label>ขนาด</label><div class="fake-input filled">10 ครั้ง ▾</div></div>
-          <div class="mk-field"><label>ครู / วิชา</label><div class="fake-input filled">แอน · คณิต</div></div>
-          <div class="mk-field"><label>เริ่ม (อาทิตย์)</label><div class="fake-input filled">อา 6 ก.ย. 09:00</div></div>
+            <div class="between" style="margin-bottom:16px;gap:12px;align-items:flex-start;">
+              <p class="m-sm m-muted" style="max-width:640px;">โควตาการลาผูกกับขนาดคอร์ส: 4 ครั้ง → ลาได้ 1 · 6 ครั้ง → 2 · 10 ครั้ง → 3 · ลาเกินโควตาระบบจะล็อกการเลื่อนตารางจนกว่าแอดมินจะปลดล็อก</p>
+              <button class="m-btn" style="flex:none;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M12 18h.01"/></svg>สมัครคอร์ส</button>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <!-- Card 1: normal -->
+              <div class="m-card">
+                <div class="between"><span class="m-title">น้องพีพี</span><span class="m-badge green">ปกติ</span></div>
+                <div class="m-xs m-muted" style="margin-top:2px;">คอร์ส 10 ครั้ง · หมดอายุ 2026-09-09</div>
+                <div class="row" style="margin-top:14px;gap:16px;">
+                  <span class="ring" style="width:64px;height:64px;">
+                    <svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke="#e2e8f0" stroke-width="7"/><circle cx="32" cy="32" r="26" fill="none" stroke="#228be6" stroke-width="7" stroke-linecap="round" stroke-dasharray="49 115" transform="rotate(-90 32 32)"/></svg>
+                    <span class="rc"><span class="big">3/10</span><span class="sm">ครั้ง</span></span>
+                  </span>
+                  <div style="flex:1;">
+                    <div class="between m-xs"><span class="m-muted">สิทธิ์การลา</span><span style="font-weight:700;">เหลือ 2</span></div>
+                    <div class="m-bar" style="margin:6px 0;"><span class="green" style="width:33%;"></span></div>
+                    <div class="m-xs m-muted">ใช้ไป 1/3 · ขยายได้ถึงสัปดาห์ที่ 13</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 2: locked -->
+              <div class="m-card">
+                <div class="between"><span class="m-title">น้องเจมส์</span><span class="m-badge red">🔒 ล็อก</span></div>
+                <div class="m-xs m-muted" style="margin-top:2px;">คอร์ส 4 ครั้ง · หมดอายุ 2026-07-29</div>
+                <div class="row" style="margin-top:14px;gap:16px;">
+                  <span class="ring" style="width:64px;height:64px;">
+                    <svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke="#e2e8f0" stroke-width="7"/><circle cx="32" cy="32" r="26" fill="none" stroke="#228be6" stroke-width="7" stroke-linecap="round" stroke-dasharray="41 123" transform="rotate(-90 32 32)"/></svg>
+                    <span class="rc"><span class="big">1/4</span><span class="sm">ครั้ง</span></span>
+                  </span>
+                  <div style="flex:1;">
+                    <div class="between m-xs"><span class="m-muted">สิทธิ์การลา</span><span style="font-weight:700;">เหลือ 0</span></div>
+                    <div class="m-bar" style="margin:6px 0;"><span class="red" style="width:100%;"></span></div>
+                    <div class="m-xs m-muted">ใช้ไป 1/1 · ขยายได้ถึงสัปดาห์ที่ 5</div>
+                  </div>
+                </div>
+                <button class="m-btn m-btn-light orange" style="width:100%;justify-content:center;margin-top:14px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>ปลดล็อก (แอดมิน)</button>
+              </div>
+
+              <!-- Card 3: locked -->
+              <div class="m-card">
+                <div class="between"><span class="m-title">น้องมายด์</span><span class="m-badge red">🔒 ล็อก</span></div>
+                <div class="m-xs m-muted" style="margin-top:2px;">คอร์ส 6 ครั้ง · หมดอายุ 2026-07-15</div>
+                <div class="row" style="margin-top:14px;gap:16px;">
+                  <span class="ring" style="width:64px;height:64px;">
+                    <svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke="#e2e8f0" stroke-width="7"/><circle cx="32" cy="32" r="26" fill="none" stroke="#228be6" stroke-width="7" stroke-linecap="round" stroke-dasharray="109 55" transform="rotate(-90 32 32)"/></svg>
+                    <span class="rc"><span class="big">4/6</span><span class="sm">ครั้ง</span></span>
+                  </span>
+                  <div style="flex:1;">
+                    <div class="between m-xs"><span class="m-muted">สิทธิ์การลา</span><span style="font-weight:700;">เหลือ 0</span></div>
+                    <div class="m-bar" style="margin:6px 0;"><span class="red" style="width:100%;"></span></div>
+                    <div class="m-xs m-muted">ใช้ไป 2/2 · ขยายได้ถึงสัปดาห์ที่ 8</div>
+                  </div>
+                </div>
+                <button class="m-btn m-btn-light orange" style="width:100%;justify-content:center;margin-top:14px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>ปลดล็อก (แอดมิน)</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="note-box info" style="margin-top:12px;font-size:.8em;">
-          <b>Preview คาบที่จะสร้าง (รายสัปดาห์):</b> 06 ก.ย. · 13 ก.ย. · 20 ก.ย. · 27 ก.ย. · … (รวม 10 คาบ)<br>
-          <b>วันหมดอายุอัตโนมัติ:</b> 2026-12-06 (start + 13 สัปดาห์) · โควตาการลา = 3 ครั้ง
-        </div>
-        <div class="mk-toolbar" style="justify-content:flex-end;margin-top:8px;"><button class="mk-btn ghost">ยกเลิก</button><button class="mk-btn primary">สร้างคอร์ส + ล็อกคาบ</button></div>
       </div>
     </div>
   </div>
 
-  <div class="note-box info"><b>กฎที่หน้านี้บังคับ:</b> คอร์ส 4→ลา1/ขยาย≤สัปดาห์5 · 6→ลา2/สัปดาห์8 · 10→ลา3/สัปดาห์13 · ลาเกินโควตา = <b>Policy Lock</b> จนแอดมินปลด · <b>Voucher</b> ไม่ฟิกครู/ตาราง อายุ 3/6/9 เดือนนับจากจองครั้งแรก · ชนสล็อตสัปดาห์ไหน = ยกเลิกทั้งการสมัคร</div>
+  <div class="note-box info"><b>คอร์สรายสัปดาห์:</b> เลือกขนาด 4/6/10 + วันเริ่ม + เวลา → ระบบ gen คาบรายสัปดาห์อัตโนมัติ (lock slot) + คำนวณวันหมดอายุ · ริงแสดง used/size · แถบแสดงสิทธิ์การลา (แดง=หมดโควตา → ต้องแอดมินปลดล็อก)</div>
+  <div class="note-box"><b>แท็บ Voucher:</b> ออก Voucher 5/10/15 ชม. (ไม่ฟิกครู/เวลา) อายุ 3/6/9 เดือนนับจากจองครั้งแรก · แท็บ "การจองทั้งหมด" = ตารางรวมทุกการจอง</div>
 
   <section class="comments-panel">
     <h2>💬 Feedback / Comments <span id="commentCount" class="count-badge"></span></h2>
-    <p class="hint">คอมเมนต์บันทึกในเบราว์เซอร์นี้ (localStorage) เฉพาะไฟล์นี้ — กด "Copy All" เพื่อคัดลอกไปวางในแชทกับ AI หรือ "Export .md" เพื่อดาวน์โหลดไว้ให้ AI อ่านตอนแก้ UI</p>
+    <p class="hint">คอมเมนต์บันทึกในเบราว์เซอร์นี้ (localStorage) เฉพาะไฟล์นี้ — กด "Copy All" หรือ "Export .md" เพื่อส่งให้ AI แก้ UI</p>
     <textarea id="commentInput" placeholder="เช่น: อยากให้ย้ายปุ่มนี้... (Ctrl+Enter เพื่อส่ง)"></textarea>
     <div class="c-toolbar">
       <button id="addCommentBtn" class="btn primary">+ Add Comment</button>

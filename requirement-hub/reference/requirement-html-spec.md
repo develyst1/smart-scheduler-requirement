@@ -6,7 +6,8 @@ The hub page. Single self-contained HTML file (inline `<style>` + `<script>`, no
 
 - CSS Grid, two columns: `aside.sidebar` (sticky, dark, ~280px) + `main`.
 - **Sidebar contains:** project title; a mini hierarchy-flow diagram (`WF → UC → SCR → API → TC` as colored steps); a color legend; a "how to read the links" box explaining hover-to-highlight; nav links to each section.
-- **Main sections, in order:** `#overview` (DOC-00x cards for each source file) → `#workflows` → `#usecases` → `#screens` → `#apis` → `#testcases` → `#matrix`.
+- **Main sections, in order:** `#overview` (DOC-00x cards for each source file) → `#workflows` → `#usecases` → `#screens` → `#apis` → `#testcases` → `#matrix` → `#diagrams` (PlantUML, DIA-00x).
+- The sidebar legend + nav include the **Diagram** entry (`--dia:#0ea5e9`, sky). The matrix footer count includes the DIA total.
 
 ## Badges, chips, cards
 
@@ -101,6 +102,14 @@ document.querySelectorAll('.view-ui-btn').forEach(function (btn) {
 ```
 
 `.ui-frame-wrap iframe` should be full width, ~640px tall, no border.
+
+## Diagrams section (⑧, PlantUML)
+
+Final `#diagrams` section renders the `diagrams/*.puml` set as inline-rendered images via the
+plantuml.com server (no build step). Each diagram is a `DIA-00x` card with a chain of chips to the
+WF/UC/API it visualizes, a **View source** toggle, an **Open in PlantUML editor** link, and a
+**↓ .puml** link. Full authoring + client-side render/encoding + lazy-queue details are in
+**reference/diagrams-plantuml-spec.md**.
 
 ## Traceability matrix
 

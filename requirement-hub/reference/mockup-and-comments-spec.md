@@ -5,11 +5,13 @@ One mockup file per Screen. Each is a standalone, openable-via-`file://` page th
 ## Required structure of every mockup
 
 1. `<body data-page-id="SCR-XXX">` — binds the page to `comments.js` (its localStorage key).
-2. `<link rel="stylesheet" href="assets/style.css">` — relative path so it works both standalone and iframed.
+2. `<link rel="stylesheet" href="assets/style.css">` **and** `<link rel="stylesheet" href="assets/app-skin.css">` — relative paths so they work both standalone and iframed. (`app-skin.css` provides the as-built app shell/components.)
 3. **Top bar** (`header.mockup-top`):
    - `← Back to Requirement Hub` linking to `../requirement.html#SCR-XXX`.
    - The screen's own chain as chips (`WF → UC → SCR(active) → API → TC`), every chip linking back to `../requirement.html#<ID>`.
-4. **Device frame** (`div.device-frame`): a faux browser window (colored dots + fake URL bar) wrapping the real UI. Build the UI from the shared components in `style.css`:
+4. **Device frame** (`div.device-frame`): a faux browser window (colored dots + fake URL bar) wrapping the UI.
+   - **As-built (preferred when the app exists):** use `.device-canvas.app` → `.app-shell` with the `.m-*`/`.cal-*`/`.kpi`/`.ring` components from `app-skin.css` to reproduce the running app, and tag the screen `as-built`. See **reference/as-built-mockups-spec.md**.
+   - **Greenfield (no app yet):** build from the shared components in `style.css`:
    - `.mk-toolbar`, `.mk-btn` (`.primary/.success/.danger/.ghost/.amber/.violet`)
    - `.mk-tabs` / `.mk-tab.active`
    - `.mk-grid` + `.mk-field` + `.fake-input` (`.filled` / `.disabled`)
