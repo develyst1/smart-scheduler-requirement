@@ -1,0 +1,37 @@
+@startuml 06-seq-conflict
+' DIA-006 — WF-002 / UC-004,005,006: conflict resolution & reschedule.
+title WF-002 — Overbooking & reschedule (parent confirms)
+
+skinparam shadowing false
+actor Staff
+participant "front :3000" as FE
+participant "back :3001" as API
+database "public.*" as DB
+participant "outbox/LINE" as LINE
+actor Parent
+
+Staff -> FE : book a slot that is already taken
+FE -> API : POST /api/bookings
+API --> FE : 409 conflict (UC-004) + existing booking info
+
+Staff -> FE : choose move: day / week / teacher
+FE -> API : POST /api/bookings/with-reschedule (UC-005)
+group single transaction
+  API -> DB : create incoming booking (pendingSlot=true)
+  API -> DB : old booking -> PENDING_RESCHEDULE\n(store rescheduleTo, release slot)
+  API -> DB : enqueue LINE outbox -> parent
+end
+API --> FE : 200 pending parent decision
+LINE -> Parent : "please confirm the move"
+
+alt parent accepts
+  Parent -> LINE : accept
+  Staff -> FE : "Parent agreed — confirm move"
+  FE -> API : PATCH /api/bookings/:id/reschedule/confirm (UC-006)
+  API -> DB : move old booking to new slot,\nincoming takes original slot -> CONFIRMED
+else parent rejects
+  FE -> API : PATCH /api/bookings/:id/reschedule/cancel (UC-006)
+  API -> DB : delete incoming, restore old booking
+end
+API --> FE : 200 resolved
+@enduml

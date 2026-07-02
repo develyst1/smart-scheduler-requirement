@@ -1,0 +1,80 @@
+@startuml 02-usecases
+' DIA-002 — Use case overview, grouped by workflow (WF). IDs match requirement.html.
+title Smart Scheduler — Use Cases (UC-001 … UC-026)
+
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor "Staff / Admin"    as staff
+actor "Teacher"          as teacher
+actor "Parent / Student" as parent
+actor "Owner / Finance"  as owner
+actor "System / Cron"    as sys
+
+rectangle "Scheduling (frontoffice)" {
+  usecase "UC-001 Book session (4 types)"        as UC1
+  usecase "UC-002 Confirm + LINE push teacher"   as UC2
+  usecase "UC-003 Manual move / add"             as UC3
+  usecase "UC-004 Detect overbooking"            as UC4
+  usecase "UC-005 Choose move + notify parent"   as UC5
+  usecase "UC-006 Parent accept/reject move"     as UC6
+  usecase "UC-007 Register recurring course"     as UC7
+  usecase "UC-008 Issue voucher"                 as UC8
+  usecase "UC-009 Check-in (QR / LINE)"          as UC9
+  usecase "UC-010 Report leave + auto-extend"    as UC10
+  usecase "UC-011 Policy Lock over quota"        as UC11
+  usecase "UC-012 End-of-day quota cron"         as UC12
+  usecase "UC-013 Order teacher priority"        as UC13
+  usecase "UC-014 Toggle teacher availability"   as UC14
+  usecase "UC-015 Set teacher work-days"         as UC15
+  usecase "UC-016 Freelance income cap"          as UC16
+  usecase "UC-017 LINE OA identity/role"         as UC17
+  usecase "UC-018 Leave from customer -> admin"  as UC18
+  usecase "UC-019 Earn CRM points"               as UC19
+  usecase "UC-020 Customer level / perks"        as UC20
+  usecase "UC-021 Daily report"                  as UC21
+  usecase "UC-026 Staff login"                   as UC26
+}
+
+rectangle "Backoffice (finance / ops)" {
+  usecase "UC-022 Inventory / POS"               as UC22
+  usecase "UC-023 Wallet + approve purchase"     as UC23
+  usecase "UC-024 Teacher rates & payroll"       as UC24
+  usecase "UC-025 Debit wallet on ATTENDED"      as UC25
+}
+
+staff --> UC1
+staff --> UC2
+staff --> UC3
+staff --> UC7
+staff --> UC8
+staff --> UC10
+staff --> UC11
+staff --> UC13
+staff --> UC14
+staff --> UC15
+staff --> UC16
+staff --> UC21
+staff --> UC26
+
+UC1 ..> UC4 : <<include>>
+UC4 ..> UC5 : <<extend>>
+
+teacher --> UC2
+teacher --> UC17
+
+parent --> UC6
+parent --> UC9
+parent --> UC17
+parent --> UC18
+parent --> UC19
+UC19 ..> UC20 : <<extend>>
+
+sys --> UC12
+sys --> UC25
+
+owner --> UC22
+owner --> UC23
+owner --> UC24
+@enduml

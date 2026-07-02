@@ -1,0 +1,45 @@
+@startuml 01-system-context
+' DIA-001 — System context / deployment: 4 repos + shared PostgreSQL + LINE OA
+' Source of truth for the "4 repos + 2 schemas" story in monorepo-overview.md
+title Smart Scheduler — System Context (4 repos, 1 shared PostgreSQL)
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+left to right direction
+
+actor "Staff / Admin"      as staff
+actor "Owner / Finance"    as owner
+actor "Teacher"            as teacher
+actor "Parent / Student"   as parent
+
+cloud "LINE Official\nAccount" as line
+
+package "Frontoffice (Scheduling)" {
+  [smart-scheduler-front\nStaff calendar UI\n:3000] as feFront
+  [smart-scheduler-back\nScheduling API\n:3001]  as beSched
+}
+
+package "Backoffice (Operations / Finance)" {
+  [smart-scheduler-backoffice-front\nAdmin ERP / payroll UI\n(greenfield)] as feBack
+  [smart-scheduler-backoffice-back\nOperations API\n:3002] as beOps
+}
+
+database "PostgreSQL (shared)" as db {
+  frame "public.*\n(scheduling — owned by back)" as pub
+  frame "ops.*\n(finance — owned by backoffice-back)" as ops
+}
+
+staff   --> feFront
+owner   --> feBack
+teacher --> line
+parent  --> line
+
+feFront --> beSched : REST + JWT
+feBack  ..> beOps   : REST (planned)
+
+beSched --> pub
+beOps   --> ops
+beSched ..> ops     : D.1 debit hours / read pricing (planned)
+
+beSched <--> line   : Messaging API push /\nOA webhook (C.4)
+@enduml

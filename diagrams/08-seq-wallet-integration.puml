@@ -1,0 +1,33 @@
+@startuml 08-seq-wallet-integration
+' DIA-008 — WF-009 / UC-023,025: purchase approval + cross-backend wallet debit (planned D.1).
+title WF-009 — Wallet top-up, approval & debit on ATTENDED (planned integration)
+
+skinparam shadowing false
+actor Parent
+actor Owner
+actor Staff
+participant "LINE OA" as LINE
+participant "back :3001\n(scheduling)" as SCHED
+participant "backoffice-back :3002\n(ops)" as OPS
+database "ops.*" as OPSDB
+
+== Buy course (UC-023) ==
+Parent -> LINE : agree to buy course
+LINE -> OPS : commercial request (TOP_UP)
+Owner -> OPS : approve request
+OPS -> OPSDB : credit account (wallet HOURS) + ledger entry
+Staff -> SCHED : book sessions against wallet
+
+== Debit on attendance (UC-025, planned) ==
+Staff -> SCHED : booking -> ATTENDED
+SCHED -> OPS : POST /api/v1/accounts/:id/debits  (D.1)
+OPS -> OPSDB : debit HOURS + ledger entry
+OPS --> SCHED : new balance
+SCHED -> LINE : push parent (hours left)
+
+note over SCHED, OPS
+  Scheduling also reads GET /api/v1/pricing/rules
+  for freelance income cap (UC-016) & payroll (UC-024).
+  Not yet wired — currently mocked.
+end note
+@enduml

@@ -1,0 +1,133 @@
+@startuml 03-erd
+' DIA-003 — Entity-Relationship. public.* is authoritative (schema.ts); ops.* summarised.
+title Smart Scheduler — Data Model (public.* owned by -back, ops.* owned by -backoffice-back)
+
+skinparam shadowing false
+hide circle
+skinparam linetype ortho
+
+package "public.*  (scheduling)" #f1f8f4 {
+  entity parents {
+    * id : uuid <<PK>>
+    --
+    * phone : text <<uq>>
+    name : text
+    line_user_id : text <<uq>>
+  }
+  entity students {
+    * id : uuid <<PK>>
+    --
+    * name : text
+    parent_id : uuid <<FK>>
+    crm_points : int
+    crm_level : smallint
+  }
+  entity teachers {
+    * id : uuid <<PK>>
+    --
+    * nickname : text
+    * type : FULL_TIME|PART_TIME|FREELANCE
+    active : bool
+    work_days : smallint[]
+    line_user_id : text
+  }
+  entity subjects {
+    * id : uuid <<PK>>
+    --
+    * name : text <<uq>>
+  }
+  entity teacher_subjects {
+    * teacher_id : uuid <<FK>>
+    * subject_id : uuid <<FK>>
+  }
+  entity course_packages {
+    * id : uuid <<PK>>
+    --
+    student_id : uuid <<FK>>
+    size : 4|6|10
+    used_sessions : int
+    leave_used : int
+    admin_unlocked : bool
+    expiry_date : date
+  }
+  entity vouchers {
+    * id : uuid <<PK>>
+    --
+    student_id : uuid <<FK>>
+    total_hours : 5|10|15
+    used_hours : int
+    expiry_date : date
+  }
+  entity bookings {
+    * id : uuid <<PK>>
+    --
+    student_id : uuid <<FK>>
+    teacher_id : uuid <<FK>>
+    subject_id : uuid <<FK>>
+    date / start_time / end_time
+    booking_type : enum
+    status : enum
+    course_id : uuid <<FK>>
+    voucher_id : uuid <<FK>>
+    reschedule_to : jsonb
+    checkin_token : text
+  }
+  entity notification_outbox {
+    * id : uuid <<PK>>
+    --
+    recipient_type / line_user_id
+    booking_id : uuid <<FK>>
+    payload : jsonb
+    status : PENDING|SENT|FAILED|SKIPPED
+  }
+  entity app_settings {
+    * key : text <<PK>>
+    value : jsonb
+  }
+}
+
+package "ops.*  (finance — summary)" #f4f1fa {
+  entity "parties" as parties {
+    * id <<PK>>
+    external_ref (student/teacher)
+  }
+  entity "accounts (wallet)" as accounts {
+    * id <<PK>>
+    unit : HOURS|MONEY
+    balance
+  }
+  entity "ledger_entries" as ledger {
+    debit / credit
+  }
+  entity "catalog_items" as catalog {
+    sku / stock
+  }
+  entity "price_rules" as pricerules {
+    HOURLY|FIXED|CAP
+  }
+  entity "settlement_runs" as settle {
+    payroll period
+  }
+}
+
+parents ||--o{ students
+students ||--o{ bookings
+students ||--o{ course_packages
+students ||--o{ vouchers
+teachers ||--o{ bookings
+subjects ||--o{ bookings
+teachers ||--o{ teacher_subjects
+subjects ||--o{ teacher_subjects
+course_packages ||--o{ bookings
+vouchers ||--o{ bookings
+bookings ||--o{ notification_outbox
+
+parties ||--o{ accounts
+accounts ||--o{ ledger
+parties ||--o{ pricerules
+parties ||--o{ settle
+
+' cross-schema (planned integration D.1 / UC-025)
+students ..> parties : external_ref
+bookings ..> accounts : "debit HOURS on ATTENDED (planned)"
+@enduml

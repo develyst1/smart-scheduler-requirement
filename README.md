@@ -10,6 +10,7 @@
 - ชี้เมาส์ที่ ID ใดๆ → จุดอื่นที่อ้าง ID เดียวกันไฮไลต์พร้อมกัน · คลิกเพื่อกระโดด
 - แต่ละ Screen กด **View UI Mockup** เพื่อดูหน้าจอจริง (ฝังจาก `make-front/`)
 - **Traceability Matrix** ท้ายหน้า — เห็นทั้งระบบรวดเดียว
+- **Diagrams (PlantUML)** ท้ายสุด — context / use-case / ERD / state / sequence (render ผ่าน plantuml.com, source อยู่ที่ `diagrams/*.puml`)
 - badge สถานะเทียบโค้ดจริง: **Implemented / Partial / Planned**
 
 ## โครงสร้าง
@@ -19,6 +20,8 @@ requirement.html          ← หน้า hub หลัก (เปิดอั�
 make-front/
   assets/                 ← style.css + comments.js (design system ร่วม)
   SCR-001.html … SCR-010  ← mockup จริงต่อหน้าจอ (มีกล่องคอมเมนต์ในตัว)
+diagrams/                 ← PlantUML source (DIA-001…008) — source of truth ของไดอะแกรม
+  README.md               ← วิธี render / regenerate
 requirement-timeline.md   ← เอกสารต้นทาง (living spec) — DOC-001
 propasal.md               ← ข้อเสนอ 3 ทางเลือก — DOC-002
 start_phase.md            ← มัดจำ + เลือก Option C — DOC-003
@@ -27,7 +30,7 @@ source-pdf/               ← PDF ต้นฉบับ — DOC-004
 
 ## รวม ณ ปัจจุบัน
 
-10 Workflows · 26 Use Cases · 10 Screens · 23 APIs · 14 Test Cases
+10 Workflows · 26 Use Cases · 10 Screens · 23 APIs · 14 Test Cases · 8 Diagrams
 Frontoffice (ตารางเรียน) + scheduling API เสร็จเป็นส่วนใหญ่ · LINE OA รอตั้ง Webhook URL · Backoffice API มีบางส่วน, UI ยังไม่เริ่ม
 
 ## คอมเมนต์บน mockup (ข้อจำกัดที่ต้องรู้)

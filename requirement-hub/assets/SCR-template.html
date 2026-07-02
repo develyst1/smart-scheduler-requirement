@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+  MOCKUP TEMPLATE — copy to make-front/SCR-XXX.html and replace every {{TOKEN}}.
+  Keep the top bar, comment panel, and script include as-is.
+  Build the real UI inside .device-canvas using components from assets/style.css:
+    .mk-toolbar .mk-btn | .mk-tabs .mk-tab | .mk-grid .mk-field .fake-input |
+    table.mk-table | .badge-pill | .kpi-row .kpi-card | .flow-row .flow-box | .note-box
+  Add/remove chain chips to match this screen's real WF/UC/API/TC links.
+-->
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>{{SCR_ID}} — {{SCREEN_TITLE_EN}} | UI Mockup</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page-id="{{SCR_ID}}">
+<header class="mockup-top">
+  <a class="back" href="../requirement.html#{{SCR_ID}}">← Back to Requirement Hub</a>
+  <div class="title">🖥 {{SCR_ID}} · {{SCREEN_TITLE_EN}}</div>
+  <div class="chain">
+    <a class="chip wf" href="../requirement.html#{{WF_ID}}">{{WF_ID}}</a><span class="arrow-sm">→</span>
+    <a class="chip uc" href="../requirement.html#{{UC_ID}}">{{UC_ID}}</a><span class="arrow-sm">→</span>
+    <span class="chip scr active">{{SCR_ID}}</span><span class="arrow-sm">→</span>
+    <a class="chip api" href="../requirement.html#{{API_ID}}">{{API_ID}}</a><span class="arrow-sm">→</span>
+    <a class="chip tc" href="../requirement.html#{{TC_ID}}">{{TC_ID}}</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="screen-title">{{SCREEN_TITLE_TH}}</h1>
+  <p class="screen-sub">{{SCREEN_SUBTITLE}}</p>
+
+  <div class="device-frame">
+    <div class="device-bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="url">{{FAKE_URL}}</span>
+    </div>
+    <div class="device-canvas">
+      <!-- ==== BUILD THE REAL UI HERE (must encode this screen's business rules) ==== -->
+      <div class="mk-toolbar">
+        <span class="badge-pill blue">{{STATUS_LABEL}}</span>
+        <button class="mk-btn primary">{{PRIMARY_ACTION}}</button>
+      </div>
+      <table class="mk-table">
+        <thead><tr><th>Col A</th><th>Col B</th><th>Col C</th></tr></thead>
+        <tbody>
+          <tr><td>sample</td><td>sample</td><td><span class="badge-pill green">OK</span></td></tr>
+        </tbody>
+      </table>
+      <div class="note-box info">{{RULE_NOTE — explain the key business rule this screen enforces}}</div>
+      <!-- ==== END UI ==== -->
+    </div>
+  </div>
+
+  <section class="comments-panel">
+    <h2>💬 Feedback / Comments <span id="commentCount" class="count-badge"></span></h2>
+    <p class="hint">คอมเมนต์บันทึกในเบราว์เซอร์นี้ (localStorage) เฉพาะไฟล์นี้ — กด "Copy All" เพื่อคัดลอกไปวางในแชทกับ AI หรือ "Export .md" เพื่อดาวน์โหลดไว้ให้ AI อ่านตอนแก้ UI</p>
+    <textarea id="commentInput" placeholder="เช่น: อยากให้ย้ายปุ่มนี้... (Ctrl+Enter เพื่อส่ง)"></textarea>
+    <div class="c-toolbar">
+      <button id="addCommentBtn" class="btn primary">+ Add Comment</button>
+      <button id="copyBtn" class="btn">📋 Copy All</button>
+      <button id="exportBtn" class="btn">⬇ Export .md</button>
+    </div>
+    <div id="commentList"></div>
+  </section>
+</main>
+<script src="assets/comments.js"></script>
+</body>
+</html>

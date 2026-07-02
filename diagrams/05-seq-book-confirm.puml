@@ -1,0 +1,41 @@
+@startuml 05-seq-book-confirm
+' DIA-005 — WF-001 / UC-001,UC-002: book then confirm with reliable LINE push (outbox).
+title WF-001 — Book & confirm session (+ LINE push to teacher)
+
+skinparam shadowing false
+actor Staff
+participant "front :3000" as FE
+participant "back :3001\n(API)" as API
+participant "scheduler\n.service" as SVC
+database "public.*" as DB
+participant "outbox\nworker" as WK
+participant "LINE API" as LINE
+actor Teacher
+
+Staff -> FE : pick empty slot -> booking form
+FE -> API : POST /api/bookings (UC-001)
+API -> SVC : createBooking()
+SVC -> DB : check teacher slot (unique index)
+alt slot free
+  SVC -> DB : insert booking (PENDING)
+  API --> FE : 201 booking
+else slot taken
+  API --> FE : 409 -> conflict flow (WF-002)
+end
+
+Staff -> FE : press "Confirm"
+FE -> API : PATCH /api/bookings/:id/status = confirm (UC-002)
+API -> SVC : confirmBooking() (idempotent via confirmedAt)
+SVC -> DB : status = CONFIRMED, set checkin_token
+SVC -> DB : insert notification_outbox (PENDING)
+API --> FE : 200 (toast: queued / skipped)
+
+WK -> DB : poll PENDING outbox rows
+alt teacher has line_user_id
+  WK -> LINE : push message
+  LINE -> Teacher : booking summary
+  WK -> DB : mark SENT
+else no userId
+  WK -> DB : mark SKIPPED
+end
+@enduml

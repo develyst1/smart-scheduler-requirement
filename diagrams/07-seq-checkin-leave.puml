@@ -1,0 +1,33 @@
+@startuml 07-seq-checkin-leave
+' DIA-007 — WF-004 / UC-009,010,011: check-in, leave, auto-extend, Policy Lock.
+title WF-004 — Check-in & leave (auto-extend / Policy Lock)
+
+skinparam shadowing false
+actor "Parent / Student" as Parent
+actor Staff
+participant "front :3000" as FE
+participant "back :3001" as API
+participant "scheduler\n.service" as SVC
+database "public.*" as DB
+
+== Check-in (UC-009) ==
+Parent -> API : POST /api/checkin (public, token)
+API -> SVC : verify checkin_token
+SVC -> DB : booking -> ATTENDED
+SVC -> DB : award CRM points (student.crm_points/level) (UC-019)
+note right of SVC : planned UC-025:\ncall backoffice -> debit wallet HOURS
+API --> Parent : ok
+
+== Leave (UC-010 / UC-011) ==
+Staff -> FE : report leave (or via LINE)
+FE -> API : PATCH /api/bookings/:id/status = sick-leave
+API -> SVC : reportLeave()
+SVC -> DB : booking -> SICK_LEAVE, leave_used++
+alt within quota (4->1, 6->2, 10->3)
+  SVC -> DB : auto-append EXTENDED session (later week)
+  API --> FE : extended
+else over quota
+  SVC -> SVC : Policy Lock (UC-011)
+  API --> FE : locked — needs admin_unlocked
+end
+@enduml

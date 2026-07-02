@@ -85,6 +85,19 @@ table.matrix td{padding:8px 11px;border-bottom:1px solid var(--line);border-righ
 table.matrix td:last-child{border-right:0;}
 .matrix .cellchips{display:flex;flex-direction:column;gap:5px;align-items:flex-start;}
 
+/* Diagrams (PlantUML) */
+.dia-card{background:#fff;border:1px solid var(--line);border-left:5px solid #0ea5e9;border-radius:10px;padding:14px 18px;margin-bottom:14px;scroll-margin-top:16px;box-shadow:0 1px 2px rgba(15,23,42,.04);}
+.dia-card h3{margin:0 0 6px;font-size:1.02em;display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.id-badge.dia{background:#0ea5e9;} .chip.dia{background:#0ea5e9;}
+.dia-view{margin-top:10px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;padding:12px;text-align:center;overflow:auto;}
+.dia-view img{max-width:100%;height:auto;}
+.dia-view .dia-loading{color:var(--doc);font-size:.85em;padding:24px;}
+.dia-view .dia-error{color:#b91c1c;font-size:.82em;padding:18px;line-height:1.5;}
+.dia-tools{display:flex;gap:8px;margin:10px 0 2px;flex-wrap:wrap;}
+.dia-btn{padding:6px 12px;border-radius:7px;border:1px solid #0ea5e9;background:#fff;color:#0369a1;font-weight:700;font-size:.78em;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;}
+.dia-btn:hover{background:#e0f2fe;}
+.dia-src{margin-top:10px;}
+.dia-src pre{background:#0f172a;color:#e2e8f0;border-radius:8px;padding:12px 14px;overflow:auto;font-size:.76em;line-height:1.45;margin:0;max-height:420px;}
 @media(max-width:860px){.app{grid-template-columns:1fr;}aside.sidebar{position:static;height:auto;}}
 </style>
 </head>
@@ -115,6 +128,7 @@ table.matrix td:last-child{border-right:0;}
     <div class="row"><span class="sw" style="background:var(--api)"></span>API</div>
     <div class="row"><span class="sw" style="background:var(--tc)"></span>Test Case</div>
     <div class="row"><span class="sw" style="background:var(--doc)"></span>Source doc</div>
+    <div class="row"><span class="sw" style="background:#0ea5e9"></span>Diagram (PlantUML)</div>
   </div>
 
   <h4>วิธีอ่านลิงก์</h4>
@@ -129,6 +143,7 @@ table.matrix td:last-child{border-right:0;}
     <a href="#apis">⑤ APIs</a>
     <a href="#testcases">⑥ Test Cases (TC)</a>
     <a href="#matrix">⑦ Traceability Matrix</a>
+    <a href="#diagrams">⑧ Diagrams (PlantUML)</a>
   </nav>
 </aside>
 
@@ -603,7 +618,461 @@ table.matrix td:last-child{border-right:0;}
       </tr>
     </tbody>
   </table>
-  <p class="meta" style="margin-top:14px">รวม: 10 WF · 26 UC · 10 SCR · 23 API · 14 TC — <b>Implemented</b> ส่วนใหญ่ของ frontoffice/scheduling · <b>Partial</b> = LINE OA (รอ URL), CRM level, backoffice API · <b>Planned</b> = ตัดโควตาสิ้นวัน (UC-012), wallet integration (UC-025), backoffice UI</p>
+  <p class="meta" style="margin-top:14px">รวม: 10 WF · 26 UC · 10 SCR · 23 API · 14 TC · 8 DIA — <b>Implemented</b> ส่วนใหญ่ของ frontoffice/scheduling · <b>Partial</b> = LINE OA (รอ URL), CRM level, backoffice API · <b>Planned</b> = ตัดโควตาสิ้นวัน (UC-012), wallet integration (UC-025), backoffice UI · ดูภาพรวมเชิงสถาปัตยกรรมที่ <a href="#diagrams">⑧ Diagrams (PlantUML)</a></p>
+</section>
+
+<!-- ============ DIAGRAMS (PlantUML) ============ -->
+<section id="diagrams">
+  <h2 class="sec"><span class="k" style="background:#0ea5e9">DIA</span> ⑧ Diagrams (PlantUML)</h2>
+  <p class="sec-sub">มุมมองสถาปัตยกรรม/พฤติกรรมของทั้งระบบ · source อยู่ที่ <code>diagrams/*.puml</code> (source of truth) — การ์ดนี้ render ผ่าน <a href="https://www.plantuml.com/plantuml" target="_blank">plantuml.com</a> (ต้องต่อเน็ต) · กด <b>View source</b> เพื่อดู/คัดลอกโค้ด หรือเปิดใน editor</p>
+
+  <article class="dia-card" id="DIA-001">
+    <h3><span class="id-badge dia">DIA-001</span> System Context — 4 repos + shared PostgreSQL</h3>
+    <p>ภาพรวม deployment: frontoffice (<code>front</code>/<code>back</code>) + backoffice (<code>backoffice-front</code>/<code>backoffice-back</code>) + LINE OA + DB สองสคีมา <code>public.*</code>/<code>ops.*</code></p>
+    <div class="chain"><a class="chip doc" href="#overview">overview</a><span class="arrow">→</span><span class="chip dia active">DIA-001</span></div>
+    <div class="dia-tools"><button class="dia-btn dia-src-btn">▤ View source</button><a class="dia-btn dia-open" target="_blank">↗ Open in PlantUML editor</a><a class="dia-btn" href="diagrams/01-system-context.puml" target="_blank">↓ .puml</a></div>
+    <div class="dia-view"><div class="dia-loading">⏳ กำลัง render…</div></div>
+    <div class="dia-src" hidden><pre></pre></div>
+<script type="text/plantuml">@startuml
+title Smart Scheduler — System Context (4 repos, 1 shared PostgreSQL)
+skinparam componentStyle rectangle
+skinparam shadowing false
+left to right direction
+actor "Staff / Admin"      as staff
+actor "Owner / Finance"    as owner
+actor "Teacher"            as teacher
+actor "Parent / Student"   as parent
+cloud "LINE Official\nAccount" as line
+package "Frontoffice (Scheduling)" {
+  [smart-scheduler-front\nStaff calendar UI\n:3000] as feFront
+  [smart-scheduler-back\nScheduling API\n:3001]  as beSched
+}
+package "Backoffice (Operations / Finance)" {
+  [smart-scheduler-backoffice-front\nAdmin ERP / payroll UI\n(greenfield)] as feBack
+  [smart-scheduler-backoffice-back\nOperations API\n:3002] as beOps
+}
+database "PostgreSQL (shared)" as db {
+  frame "public.*\n(scheduling - owned by back)" as pub
+  frame "ops.*\n(finance - owned by backoffice-back)" as ops
+}
+staff   --> feFront
+owner   --> feBack
+teacher --> line
+parent  --> line
+feFront --> beSched : REST + JWT
+feBack  ..> beOps   : REST (planned)
+beSched --> pub
+beOps   --> ops
+beSched ..> ops     : D.1 debit hours / read pricing (planned)
+beSched <--> line   : Messaging API push /\nOA webhook (C.4)
+@enduml</script>
+  </article>
+
+  <article class="dia-card" id="DIA-002">
+    <h3><span class="id-badge dia">DIA-002</span> Use Case Overview (UC-001 … UC-026)</h3>
+    <p>Actors (Staff / Teacher / Parent / Owner / Cron) แมปกับ Use Case ทั้งหมด แยกกลุ่ม scheduling vs backoffice · ID ตรงกับหัวข้อ ③</p>
+    <div class="chain"><a class="chip uc" href="#usecases">Use Cases</a><span class="arrow">→</span><span class="chip dia active">DIA-002</span></div>
+    <div class="dia-tools"><button class="dia-btn dia-src-btn">▤ View source</button><a class="dia-btn dia-open" target="_blank">↗ Open in PlantUML editor</a><a class="dia-btn" href="diagrams/02-usecases.puml" target="_blank">↓ .puml</a></div>
+    <div class="dia-view"><div class="dia-loading">⏳ กำลัง render…</div></div>
+    <div class="dia-src" hidden><pre></pre></div>
+<script type="text/plantuml">@startuml
+title Smart Scheduler — Use Cases (UC-001 ... UC-026)
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+actor "Staff / Admin"    as staff
+actor "Teacher"          as teacher
+actor "Parent / Student" as parent
+actor "Owner / Finance"  as owner
+actor "System / Cron"    as sys
+rectangle "Scheduling (frontoffice)" {
+  usecase "UC-001 Book session (4 types)"        as UC1
+  usecase "UC-002 Confirm + LINE push teacher"   as UC2
+  usecase "UC-003 Manual move / add"             as UC3
+  usecase "UC-004 Detect overbooking"            as UC4
+  usecase "UC-005 Choose move + notify parent"   as UC5
+  usecase "UC-006 Parent accept/reject move"     as UC6
+  usecase "UC-007 Register recurring course"     as UC7
+  usecase "UC-008 Issue voucher"                 as UC8
+  usecase "UC-009 Check-in (QR / LINE)"          as UC9
+  usecase "UC-010 Report leave + auto-extend"    as UC10
+  usecase "UC-011 Policy Lock over quota"        as UC11
+  usecase "UC-012 End-of-day quota cron"         as UC12
+  usecase "UC-013 Order teacher priority"        as UC13
+  usecase "UC-014 Toggle teacher availability"   as UC14
+  usecase "UC-015 Set teacher work-days"         as UC15
+  usecase "UC-016 Freelance income cap"          as UC16
+  usecase "UC-017 LINE OA identity/role"         as UC17
+  usecase "UC-018 Leave from customer -> admin"  as UC18
+  usecase "UC-019 Earn CRM points"               as UC19
+  usecase "UC-020 Customer level / perks"        as UC20
+  usecase "UC-021 Daily report"                  as UC21
+  usecase "UC-026 Staff login"                   as UC26
+}
+rectangle "Backoffice (finance / ops)" {
+  usecase "UC-022 Inventory / POS"               as UC22
+  usecase "UC-023 Wallet + approve purchase"     as UC23
+  usecase "UC-024 Teacher rates & payroll"       as UC24
+  usecase "UC-025 Debit wallet on ATTENDED"      as UC25
+}
+staff --> UC1
+staff --> UC2
+staff --> UC3
+staff --> UC7
+staff --> UC8
+staff --> UC10
+staff --> UC11
+staff --> UC13
+staff --> UC14
+staff --> UC15
+staff --> UC16
+staff --> UC21
+staff --> UC26
+UC1 ..> UC4 : <<include>>
+UC4 ..> UC5 : <<extend>>
+teacher --> UC2
+teacher --> UC17
+parent --> UC6
+parent --> UC9
+parent --> UC17
+parent --> UC18
+parent --> UC19
+UC19 ..> UC20 : <<extend>>
+sys --> UC12
+sys --> UC25
+owner --> UC22
+owner --> UC23
+owner --> UC24
+@enduml</script>
+  </article>
+
+  <article class="dia-card" id="DIA-003">
+    <h3><span class="id-badge dia">DIA-003</span> Data Model (ERD) — public.* + ops.*</h3>
+    <p>ตารางจริงจาก <code>schema.ts</code> (scheduling) + สรุปตาราง <code>ops.*</code> ฝั่งการเงิน · แสดงจุดเชื่อม cross-schema ที่ยังไม่ wire (D.1 / UC-025)</p>
+    <div class="chain"><a class="chip api" href="#apis">APIs</a><span class="arrow">→</span><span class="chip dia active">DIA-003</span></div>
+    <div class="dia-tools"><button class="dia-btn dia-src-btn">▤ View source</button><a class="dia-btn dia-open" target="_blank">↗ Open in PlantUML editor</a><a class="dia-btn" href="diagrams/03-erd.puml" target="_blank">↓ .puml</a></div>
+    <div class="dia-view"><div class="dia-loading">⏳ กำลัง render…</div></div>
+    <div class="dia-src" hidden><pre></pre></div>
+<script type="text/plantuml">@startuml
+title Smart Scheduler — Data Model (public.* owned by -back, ops.* owned by -backoffice-back)
+skinparam shadowing false
+hide circle
+skinparam linetype ortho
+package "public.*  (scheduling)" #f1f8f4 {
+  entity parents {
+    * id : uuid <<PK>>
+    --
+    * phone : text <<uq>>
+    name : text
+    line_user_id : text <<uq>>
+  }
+  entity students {
+    * id : uuid <<PK>>
+    --
+    * name : text
+    parent_id : uuid <<FK>>
+    crm_points : int
+    crm_level : smallint
+  }
+  entity teachers {
+    * id : uuid <<PK>>
+    --
+    * nickname : text
+    * type : FULL_TIME|PART_TIME|FREELANCE
+    active : bool
+    work_days : smallint[]
+    line_user_id : text
+  }
+  entity subjects {
+    * id : uuid <<PK>>
+    --
+    * name : text <<uq>>
+  }
+  entity teacher_subjects {
+    * teacher_id : uuid <<FK>>
+    * subject_id : uuid <<FK>>
+  }
+  entity course_packages {
+    * id : uuid <<PK>>
+    --
+    student_id : uuid <<FK>>
+    size : 4|6|10
+    used_sessions : int
+    leave_used : int
+    admin_unlocked : bool
+    expiry_date : date
+  }
+  entity vouchers {
+    * id : uuid <<PK>>
+    --
+    student_id : uuid <<FK>>
+    total_hours : 5|10|15
+    used_hours : int
+    expiry_date : date
+  }
+  entity bookings {
+    * id : uuid <<PK>>
+    --
+    student_id : uuid <<FK>>
+    teacher_id : uuid <<FK>>
+    subject_id : uuid <<FK>>
+    date / start_time / end_time
+    booking_type : enum
+    status : enum
+    course_id : uuid <<FK>>
+    voucher_id : uuid <<FK>>
+    reschedule_to : jsonb
+    checkin_token : text
+  }
+  entity notification_outbox {
+    * id : uuid <<PK>>
+    --
+    recipient_type / line_user_id
+    booking_id : uuid <<FK>>
+    payload : jsonb
+    status : PENDING|SENT|FAILED|SKIPPED
+  }
+  entity app_settings {
+    * key : text <<PK>>
+    value : jsonb
+  }
+}
+package "ops.*  (finance - summary)" #f4f1fa {
+  entity "parties" as parties {
+    * id <<PK>>
+    external_ref (student/teacher)
+  }
+  entity "accounts (wallet)" as accounts {
+    * id <<PK>>
+    unit : HOURS|MONEY
+    balance
+  }
+  entity "ledger_entries" as ledger {
+    debit / credit
+  }
+  entity "catalog_items" as catalog {
+    sku / stock
+  }
+  entity "price_rules" as pricerules {
+    HOURLY|FIXED|CAP
+  }
+  entity "settlement_runs" as settle {
+    payroll period
+  }
+}
+parents ||--o{ students
+students ||--o{ bookings
+students ||--o{ course_packages
+students ||--o{ vouchers
+teachers ||--o{ bookings
+subjects ||--o{ bookings
+teachers ||--o{ teacher_subjects
+subjects ||--o{ teacher_subjects
+course_packages ||--o{ bookings
+vouchers ||--o{ bookings
+bookings ||--o{ notification_outbox
+parties ||--o{ accounts
+accounts ||--o{ ledger
+parties ||--o{ pricerules
+parties ||--o{ settle
+students ..> parties : external_ref
+bookings ..> accounts : "debit HOURS on ATTENDED (planned)"
+@enduml</script>
+  </article>
+
+  <article class="dia-card" id="DIA-004">
+    <h3><span class="id-badge dia">DIA-004</span> Booking Status Lifecycle (State machine)</h3>
+    <p>enum <code>booking_status</code>: PENDING → CONFIRMED → ATTENDED / SICK_LEAVE / PENDING_RESCHEDULE / EXTENDED / CANCELLED · ครอบคลุม auto-extend + Policy Lock + conflict swap</p>
+    <div class="chain"><a class="chip uc" href="#UC-010">UC-010</a><a class="chip uc" href="#UC-006">UC-006</a><span class="arrow">→</span><span class="chip dia active">DIA-004</span></div>
+    <div class="dia-tools"><button class="dia-btn dia-src-btn">▤ View source</button><a class="dia-btn dia-open" target="_blank">↗ Open in PlantUML editor</a><a class="dia-btn" href="diagrams/04-booking-state.puml" target="_blank">↓ .puml</a></div>
+    <div class="dia-view"><div class="dia-loading">⏳ กำลัง render…</div></div>
+    <div class="dia-src" hidden><pre></pre></div>
+<script type="text/plantuml">@startuml
+title Booking status lifecycle (booking_status enum)
+skinparam shadowing false
+[*] --> PENDING : create booking\n(FIRST_TRIAL / SINGLE_SESSION /\nCOURSE_PACKAGE / VOUCHER)
+PENDING --> CONFIRMED : staff confirm\n(idempotent + enqueue LINE to teacher)
+PENDING --> CANCELLED : cancel
+CONFIRMED --> ATTENDED : check-in (QR/LINE)\n+ award CRM points\n(planned: debit wallet)
+CONFIRMED --> SICK_LEAVE : report leave
+CONFIRMED --> CANCELLED : cancel
+CONFIRMED --> PENDING_RESCHEDULE : overbooked by\nincoming booking
+SICK_LEAVE --> EXTENDED : within leave quota\nauto-append later week
+SICK_LEAVE --> [*] : over quota -> Policy Lock\n(admin unlock required)
+PENDING_RESCHEDULE --> CONFIRMED : parent accepts move\n(slot swapped)
+PENDING_RESCHEDULE --> CANCELLED : parent rejects\n(incoming removed)
+EXTENDED --> ATTENDED
+EXTENDED --> SICK_LEAVE
+ATTENDED --> [*]
+CANCELLED --> [*]
+note right of PENDING_RESCHEDULE
+  Releases its teacher slot so the
+  incoming (pendingSlot=true) booking
+  can hold it during conflict resolution.
+end note
+@enduml</script>
+  </article>
+
+  <article class="dia-card" id="DIA-005">
+    <h3><span class="id-badge dia">DIA-005</span> Sequence — WF-001 Book &amp; Confirm (+LINE)</h3>
+    <p>จองสล็อต → ยืนยัน (idempotent) → เขียน outbox → worker push LINE หาครู · แสดงทั้งเคส slot ว่าง/ชน (409)</p>
+    <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><a class="chip uc" href="#UC-001">UC-001</a><a class="chip uc" href="#UC-002">UC-002</a><span class="arrow">→</span><span class="chip dia active">DIA-005</span></div>
+    <div class="dia-tools"><button class="dia-btn dia-src-btn">▤ View source</button><a class="dia-btn dia-open" target="_blank">↗ Open in PlantUML editor</a><a class="dia-btn" href="diagrams/05-seq-book-confirm.puml" target="_blank">↓ .puml</a></div>
+    <div class="dia-view"><div class="dia-loading">⏳ กำลัง render…</div></div>
+    <div class="dia-src" hidden><pre></pre></div>
+<script type="text/plantuml">@startuml
+title WF-001 — Book & confirm session (+ LINE push to teacher)
+skinparam shadowing false
+actor Staff
+participant "front :3000" as FE
+participant "back :3001\n(API)" as API
+participant "scheduler\n.service" as SVC
+database "public.*" as DB
+participant "outbox\nworker" as WK
+participant "LINE API" as LINE
+actor Teacher
+Staff -> FE : pick empty slot -> booking form
+FE -> API : POST /api/bookings (UC-001)
+API -> SVC : createBooking()
+SVC -> DB : check teacher slot (unique index)
+alt slot free
+  SVC -> DB : insert booking (PENDING)
+  API --> FE : 201 booking
+else slot taken
+  API --> FE : 409 -> conflict flow (WF-002)
+end
+Staff -> FE : press "Confirm"
+FE -> API : PATCH /api/bookings/:id/status = confirm (UC-002)
+API -> SVC : confirmBooking() (idempotent via confirmedAt)
+SVC -> DB : status = CONFIRMED, set checkin_token
+SVC -> DB : insert notification_outbox (PENDING)
+API --> FE : 200 (toast: queued / skipped)
+WK -> DB : poll PENDING outbox rows
+alt teacher has line_user_id
+  WK -> LINE : push message
+  LINE -> Teacher : booking summary
+  WK -> DB : mark SENT
+else no userId
+  WK -> DB : mark SKIPPED
+end
+@enduml</script>
+  </article>
+
+  <article class="dia-card" id="DIA-006">
+    <h3><span class="id-badge dia">DIA-006</span> Sequence — WF-002 Conflict &amp; Reschedule</h3>
+    <p>จองทับ (409) → เลือกวิธีย้าย (day/week/teacher) ใน transaction เดียว → ผู้ปกครองตอบรับ/ปฏิเสธผ่าน LINE → confirm/cancel</p>
+    <div class="chain"><a class="chip wf" href="#WF-002">WF-002</a><a class="chip uc" href="#UC-004">UC-004</a><a class="chip uc" href="#UC-005">UC-005</a><a class="chip uc" href="#UC-006">UC-006</a><span class="arrow">→</span><span class="chip dia active">DIA-006</span></div>
+    <div class="dia-tools"><button class="dia-btn dia-src-btn">▤ View source</button><a class="dia-btn dia-open" target="_blank">↗ Open in PlantUML editor</a><a class="dia-btn" href="diagrams/06-seq-conflict.puml" target="_blank">↓ .puml</a></div>
+    <div class="dia-view"><div class="dia-loading">⏳ กำลัง render…</div></div>
+    <div class="dia-src" hidden><pre></pre></div>
+<script type="text/plantuml">@startuml
+title WF-002 — Overbooking & reschedule (parent confirms)
+skinparam shadowing false
+actor Staff
+participant "front :3000" as FE
+participant "back :3001" as API
+database "public.*" as DB
+participant "outbox/LINE" as LINE
+actor Parent
+Staff -> FE : book a slot that is already taken
+FE -> API : POST /api/bookings
+API --> FE : 409 conflict (UC-004) + existing booking info
+Staff -> FE : choose move: day / week / teacher
+FE -> API : POST /api/bookings/with-reschedule (UC-005)
+group single transaction
+  API -> DB : create incoming booking (pendingSlot=true)
+  API -> DB : old booking -> PENDING_RESCHEDULE\n(store rescheduleTo, release slot)
+  API -> DB : enqueue LINE outbox -> parent
+end
+API --> FE : 200 pending parent decision
+LINE -> Parent : "please confirm the move"
+alt parent accepts
+  Parent -> LINE : accept
+  Staff -> FE : "Parent agreed - confirm move"
+  FE -> API : PATCH /api/bookings/:id/reschedule/confirm (UC-006)
+  API -> DB : move old booking to new slot,\nincoming takes original slot -> CONFIRMED
+else parent rejects
+  FE -> API : PATCH /api/bookings/:id/reschedule/cancel (UC-006)
+  API -> DB : delete incoming, restore old booking
+end
+API --> FE : 200 resolved
+@enduml</script>
+  </article>
+
+  <article class="dia-card" id="DIA-007">
+    <h3><span class="id-badge dia">DIA-007</span> Sequence — WF-004 Check-in &amp; Leave</h3>
+    <p>เช็คอิน (token) → ATTENDED + แต้ม CRM · แจ้งลา → auto-append EXTENDED ถ้าในโควตา / Policy Lock ถ้าเกิน · จุด hook UC-025 (planned)</p>
+    <div class="chain"><a class="chip wf" href="#WF-004">WF-004</a><a class="chip uc" href="#UC-009">UC-009</a><a class="chip uc" href="#UC-010">UC-010</a><a class="chip uc" href="#UC-011">UC-011</a><span class="arrow">→</span><span class="chip dia active">DIA-007</span></div>
+    <div class="dia-tools"><button class="dia-btn dia-src-btn">▤ View source</button><a class="dia-btn dia-open" target="_blank">↗ Open in PlantUML editor</a><a class="dia-btn" href="diagrams/07-seq-checkin-leave.puml" target="_blank">↓ .puml</a></div>
+    <div class="dia-view"><div class="dia-loading">⏳ กำลัง render…</div></div>
+    <div class="dia-src" hidden><pre></pre></div>
+<script type="text/plantuml">@startuml
+title WF-004 — Check-in & leave (auto-extend / Policy Lock)
+skinparam shadowing false
+actor "Parent / Student" as Parent
+actor Staff
+participant "front :3000" as FE
+participant "back :3001" as API
+participant "scheduler\n.service" as SVC
+database "public.*" as DB
+== Check-in (UC-009) ==
+Parent -> API : POST /api/checkin (public, token)
+API -> SVC : verify checkin_token
+SVC -> DB : booking -> ATTENDED
+SVC -> DB : award CRM points (student.crm_points/level) (UC-019)
+note right of SVC : planned UC-025:\ncall backoffice -> debit wallet HOURS
+API --> Parent : ok
+== Leave (UC-010 / UC-011) ==
+Staff -> FE : report leave (or via LINE)
+FE -> API : PATCH /api/bookings/:id/status = sick-leave
+API -> SVC : reportLeave()
+SVC -> DB : booking -> SICK_LEAVE, leave_used++
+alt within quota (4->1, 6->2, 10->3)
+  SVC -> DB : auto-append EXTENDED session (later week)
+  API --> FE : extended
+else over quota
+  SVC -> SVC : Policy Lock (UC-011)
+  API --> FE : locked - needs admin_unlocked
+end
+@enduml</script>
+  </article>
+
+  <article class="dia-card" id="DIA-008">
+    <h3><span class="id-badge dia">DIA-008</span> Sequence — WF-009 Wallet / Payroll integration (planned)</h3>
+    <p>ซื้อคอร์ส → อนุมัติ → credit wallet · ตอน ATTENDED scheduling เรียก ops ตัดชั่วโมง (D.1) · pricing rules สำหรับ cap/payroll · <b>ยังไม่ wire</b></p>
+    <div class="chain"><a class="chip wf" href="#WF-009">WF-009</a><a class="chip uc" href="#UC-023">UC-023</a><a class="chip uc" href="#UC-025">UC-025</a><span class="arrow">→</span><span class="chip dia active">DIA-008</span></div>
+    <div class="dia-tools"><button class="dia-btn dia-src-btn">▤ View source</button><a class="dia-btn dia-open" target="_blank">↗ Open in PlantUML editor</a><a class="dia-btn" href="diagrams/08-seq-wallet-integration.puml" target="_blank">↓ .puml</a></div>
+    <div class="dia-view"><div class="dia-loading">⏳ กำลัง render…</div></div>
+    <div class="dia-src" hidden><pre></pre></div>
+<script type="text/plantuml">@startuml
+title WF-009 — Wallet top-up, approval & debit on ATTENDED (planned integration)
+skinparam shadowing false
+actor Parent
+actor Owner
+actor Staff
+participant "LINE OA" as LINE
+participant "back :3001\n(scheduling)" as SCHED
+participant "backoffice-back :3002\n(ops)" as OPS
+database "ops.*" as OPSDB
+== Buy course (UC-023) ==
+Parent -> LINE : agree to buy course
+LINE -> OPS : commercial request (TOP_UP)
+Owner -> OPS : approve request
+OPS -> OPSDB : credit account (wallet HOURS) + ledger entry
+Staff -> SCHED : book sessions against wallet
+== Debit on attendance (UC-025, planned) ==
+Staff -> SCHED : booking -> ATTENDED
+SCHED -> OPS : POST /api/v1/accounts/:id/debits  (D.1)
+OPS -> OPSDB : debit HOURS + ledger entry
+OPS --> SCHED : new balance
+SCHED -> LINE : push parent (hours left)
+note over SCHED, OPS
+  Scheduling also reads GET /api/v1/pricing/rules
+  for freelance income cap (UC-016) & payroll (UC-024).
+  Not yet wired - currently mocked.
+end note
+@enduml</script>
+  </article>
 </section>
 
 </main>
@@ -635,6 +1104,52 @@ document.querySelectorAll('.view-ui-btn').forEach(function(btn){
     } else {
       wrap.setAttribute('hidden',''); btn.textContent='🖼 View UI Mockup ▾'; btn.classList.remove('open');
     }
+  });
+});
+
+// ── PlantUML: encode inline source (UTF-8 -> hex, "~h") and render via plantuml.com ──
+var PLANTUML_BASE = 'https://www.plantuml.com/plantuml';
+function pumlHex(text){
+  var bytes = new TextEncoder().encode(text), hex = '';
+  for(var i=0;i<bytes.length;i++){ hex += bytes[i].toString(16).padStart(2,'0'); }
+  return '~h' + hex;
+}
+// Render one card's diagram, resolving when the image settles. plantuml.com renders
+// SVG server-side (slow/rate-limited), so we process a bounded queue instead of
+// firing all 8 at once.
+function renderDia(card){
+  return new Promise(function(resolve){
+    var view = card.querySelector('.dia-view');
+    var img  = new Image();
+    img.alt  = card.querySelector('h3').textContent.trim();
+    img.onload  = function(){ view.innerHTML=''; view.appendChild(img); resolve(); };
+    img.onerror = function(){
+      view.innerHTML = '<div class="dia-error">⚠️ เปิด render ไม่ได้ (ต้องต่ออินเทอร์เน็ตถึง plantuml.com)<br>กด <b>View source</b> เพื่อดูโค้ด หรือ <b>Open in PlantUML editor</b></div>';
+      resolve();
+    };
+    img.src = PLANTUML_BASE + '/svg/' + card.dataset.diaEnc;
+  });
+}
+var diaCards = [...document.querySelectorAll('.dia-card')].filter(function(card){
+  var src = card.querySelector('script[type="text/plantuml"]');
+  if(!src) return false;
+  var code = src.textContent.trim();
+  card.dataset.diaEnc = pumlHex(code);
+  var pre  = card.querySelector('.dia-src pre');
+  var open = card.querySelector('.dia-open');
+  if(pre)  pre.textContent = code;
+  if(open) open.href = PLANTUML_BASE + '/uml/' + card.dataset.diaEnc;
+  return true;
+});
+// Bounded-concurrency queue (2 at a time) — appears progressively, no thundering herd.
+var diaQueue = diaCards.slice();
+function diaNext(){ var c = diaQueue.shift(); if(c) renderDia(c).then(diaNext); }
+diaNext(); diaNext();
+document.querySelectorAll('.dia-src-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var box = btn.closest('.dia-card').querySelector('.dia-src');
+    if(box.hasAttribute('hidden')){ box.removeAttribute('hidden'); btn.textContent='▤ Hide source'; }
+    else { box.setAttribute('hidden',''); btn.textContent='▤ View source'; }
   });
 });
 </script>
