@@ -37,7 +37,7 @@ source-pdf/               ← PDF ต้นฉบับ — DOC-004
 ## รวม ณ ปัจจุบัน
 
 10 Workflows · 26 Use Cases · 10 Screens · 23 APIs · 14 Test Cases · 8 Diagrams
-Frontoffice (ตารางเรียน) + scheduling API เสร็จเป็นส่วนใหญ่ · LINE OA รอตั้ง Webhook URL · Backoffice API มีบางส่วน, UI ยังไม่เริ่ม
+Frontoffice (ตารางเรียน) + scheduling API เสร็จเป็นส่วนใหญ่ · LINE OA ตั้ง Webhook URL แล้ว (บอทตอบกลับได้จริง) + CRM level/perks เสร็จ · Backoffice API มีบางส่วน, UI ยังไม่เริ่ม
 
 ## คอมเมนต์บน mockup (ข้อจำกัดที่ต้องรู้)
 
