@@ -14,7 +14,7 @@
 
 3. **Draft the mapping.** Before writing HTML, sketch the UC ↔ SCR ↔ API ↔ TC relationships (a scratch table). This drives both the chain components and the final matrix. Get N-to-N links right here.
 
-4. **Generate `requirement.html`** per `reference/requirement-html-spec.md` — sidebar, all sections, chain on every UC card, hover-highlight JS, `:target` flash, embedded UI toggles on every SCR card, matrix.
+4. **Generate `requirement.html`** per `reference/requirement-html-spec.md` — sidebar, all sections, chain on every UC card, hover-highlight JS, `:target` flash, embedded UI toggles on every SCR card, matrix. Add the **★ Graph** section at the top: inline `assets/graph.css` + `assets/graph.js` and paste `assets/graph-section.html` (per `reference/graph-spec.md`). It auto-derives from the cards/chains — no data to fill in.
 
 5. **Seed `make-front/assets/`.** Copy this skill's `assets/style.css`, `assets/comments.js`, and `assets/app-skin.css` into `<project>-requirement/make-front/assets/`. For as-built, tune `app-skin.css` `:root` tokens to the real app's palette. (Optionally rename the comment-key prefix in `comments.js` to the project code to avoid `file://` localStorage collisions across projects.)
 
@@ -27,6 +27,7 @@
 8. **Verify.**
    - Count-check balanced `<article>`/`<section>` tags and a single DOCTYPE/`</html>` in `requirement.html`.
    - Serve the repo (preview_start static server) and open in a browser: hover highlights cross-section, chip clicks jump+flash, each Screen toggle loads its iframe, every diagram renders (no PlantUML "syntax error").
+   - ★ Graph: node count == number of cards; toggle a type/status off and confirm it filters + refits; click a node → info panel + correct neighbours; double-click → jumps to the card; Flow⇄Web, customer mode, and PNG export all work; console is clean.
    - Open one mockup standalone: comment add/copy/export works, back-link returns to the hub anchor.
    - As-built: screenshot each rewritten SCR and compare against the live-app screen.
 
@@ -35,7 +36,7 @@
 ## B. Incremental update / new screen
 
 1. **Never renumber.** Existing IDs are stable references. New items append to the running number (if `SCR-014` exists, the next is `SCR-015`).
-2. Update the affected Use Case card's chain + the corresponding matrix row(s).
+2. Update the affected Use Case card's chain + the corresponding matrix row(s). **The ★ Graph updates itself** from the new card + chains on next open — no graph edits needed; just keep the chains accurate (a missing chip = a missing edge).
 3. Create the new `make-front/SCR-XXX.html` from the template (comment panel included). If the app exists, draw it as-built.
 4. Add the toggle block (button + iframe wrap) to that Screen's card in `requirement.html`. Add/refresh any impacted diagram (`diagrams/*.puml` + its DIA card) and keep the inline copy in `requirement.html` in sync with the `.puml` file.
 5. If the user pastes comments copied/exported from a mockup, treat them as new requirements: fix the mockup, and if they change behavior, update the matching UC/API/TC content and chains in `requirement.html` too. Keep both in sync.

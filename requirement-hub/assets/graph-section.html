@@ -1,0 +1,36 @@
+<!--
+  ★ Interactive Graph — paste-in markup for requirement.html.
+  THREE insertion points:
+    1) Sidebar nav: add the ★ link below as the FIRST item inside <nav class="side-nav">.
+    2) Body: paste the <section id="graph">…</section> as the FIRST main section
+       (right after </aside>'s <main> opens, before #overview) so it's the friendly entry point.
+    3) Also inline assets/graph.css into <style>, and assets/graph.js inside a <script> before </body>.
+  The section carries NO node data — graph.js derives everything from the cards + chains at load.
+  Localise the Thai copy to the requirement's language if it isn't Thai.
+-->
+
+<!-- (1) SIDEBAR NAV LINK — first entry in <nav class="side-nav"> -->
+<a href="#graph" style="background:#1e293b;color:#fff;font-weight:800;">★ แผนผังกราฟ (Graph)</a>
+
+<!-- (2) MAIN SECTION — place first, before #overview -->
+<section id="graph">
+  <h2 class="sec"><span class="k" style="background:#0f172a">MAP</span> ★ แผนผังเชื่อมโยง (Interactive Graph)</h2>
+  <p class="sec-sub">โหนดทุกชนิด <b>WF · UC · SCR · API · TC · DOC · DIA</b> เชื่อมกัน<b>อัตโนมัติ</b>จากความสัมพันธ์จริงในหน้านี้ (แก้การ์ด → กราฟอัปเดตเอง) · เลือกเฉพาะชนิด/สถานะที่สนใจ · ค้นหา · <b>คลิกโหนด</b> = โฟกัส + เห็นสิ่งที่เชื่อมถึง · <b>ดับเบิลคลิก</b> = กระโดดไปการ์ดเต็ม · สลับ <b>Flow</b> (คอลัมน์ตามลำดับชั้น สำหรับ PM/Dev) ↔ <b>Web</b> (ลากได้ โชว์ลูกค้า) · 👤 โหมดลูกค้า (ชื่อไทย ซ่อนรหัส) · ⬇ บันทึกเป็นรูป</p>
+  <div class="graph-toolbar">
+    <div class="gt-group"><span class="gt-label">มุมมอง</span><button class="g-btn g-mode-btn active" data-mode="flow">↔ Flow</button><button class="g-btn g-mode-btn" data-mode="web">🕸 Web</button></div>
+    <div class="gt-group"><span class="gt-label">ชนิด</span><span id="gTypeFilters"></span></div>
+    <div class="gt-group"><span class="gt-label">สถานะ</span><button class="g-btn g-status-btn" data-st="done">Implemented</button><button class="g-btn g-status-btn" data-st="partial">Partial</button><button class="g-btn g-status-btn" data-st="planned">Planned</button></div>
+    <div class="gt-group"><input id="gSearch" class="graph-search" type="search" placeholder="🔍 ค้นหา ID หรือชื่อ…"></div>
+    <div class="gt-group"><button id="gCustomer" class="g-btn">👤 โหมดลูกค้า</button><button id="gFit" class="g-btn">⤢ พอดีจอ</button><button id="gExport" class="g-btn">⬇ PNG</button></div>
+  </div>
+  <div class="graph-wrap" id="graphWrap">
+    <svg id="graphSvg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="graph-hint">ลาก = เลื่อน · ล้อเมาส์ = ซูม · คลิกโหนด = โฟกัส · ดับเบิลคลิก = เปิดการ์ด</div>
+    <div class="graph-legend">
+      <div class="lg-row"><span class="lg-sw" style="background:#334155"></span>ทึบ = Implemented</div>
+      <div class="lg-row"><span class="lg-sw" style="background:#334155;opacity:.5"></span>จาง = Partial</div>
+      <div class="lg-row"><span class="lg-sw" style="background:#fff;border:1.5px dashed #334155"></span>เส้นประ = Planned</div>
+    </div>
+    <div class="graph-info" id="graphInfo" hidden></div>
+  </div>
+</section>

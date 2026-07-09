@@ -5,8 +5,8 @@ The hub page. Single self-contained HTML file (inline `<style>` + `<script>`, no
 ## Layout
 
 - CSS Grid, two columns: `aside.sidebar` (sticky, dark, ~280px) + `main`.
-- **Sidebar contains:** project title; a mini hierarchy-flow diagram (`WF → UC → SCR → API → TC` as colored steps); a color legend; a "how to read the links" box explaining hover-to-highlight; nav links to each section.
-- **Main sections, in order:** `#overview` (DOC-00x cards for each source file) → `#workflows` → `#usecases` → `#screens` → `#apis` → `#testcases` → `#matrix` → `#diagrams` (PlantUML, DIA-00x).
+- **Sidebar contains:** project title; a mini hierarchy-flow diagram (`WF → UC → SCR → API → TC` as colored steps); a color legend; a "how to read the links" box explaining hover-to-highlight; nav links to each section — with the **★ Graph** link first.
+- **Main sections, in order:** `#graph` (★ Interactive Graph — see below) → `#overview` (DOC-00x cards for each source file) → `#workflows` → `#usecases` → `#screens` → `#apis` → `#testcases` → `#matrix` → `#diagrams` (PlantUML, DIA-00x).
 - The sidebar legend + nav include the **Diagram** entry (`--dia:#0ea5e9`, sky). The matrix footer count includes the DIA total.
 
 ## Badges, chips, cards
@@ -103,6 +103,15 @@ document.querySelectorAll('.view-ui-btn').forEach(function (btn) {
 
 `.ui-frame-wrap iframe` should be full width, ~640px tall, no border.
 
+## ★ Graph section (`#graph`, first section)
+
+An auto-derived interactive node graph of the whole ID web, placed at the **top** as the friendly
+entry point. It reads the same cards + `.chain` links this page already has — **no data of its own** —
+so it can never drift from the chains. Inline `assets/graph.css` into `<style>`, paste the
+`assets/graph-section.html` markup (section + sidebar link), and inline `assets/graph.js` before
+`</body>`. Features: Flow⇄Web layouts, filter by type/status, search, click-to-focus + jump, customer
+mode, PNG export. Full contract, insertion points, and customisation are in **reference/graph-spec.md**.
+
 ## Diagrams section (⑧, PlantUML)
 
 Final `#diagrams` section renders the `diagrams/*.puml` set as inline-rendered images via the
@@ -120,3 +129,4 @@ Final `#matrix` section: a table with columns WF / UC / SCR / API / TC using `ro
 - Balanced `<article>`/`</article>` and `<section>`/`</section>` counts (script-count them).
 - Exactly one `<!DOCTYPE>` / `</html>`.
 - Open in a browser: hover highlights across sections, chip clicks jump + flash, each Screen toggle loads its iframe.
+- The ★ Graph renders (node count == number of cards), type/status filters + click-focus + Flow⇄Web + customer mode + PNG all work, and the console is clean.

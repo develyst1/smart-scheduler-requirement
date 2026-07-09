@@ -1,0 +1,37 @@
+/* ── ★ Interactive Graph section ──
+   Inline this block INTO requirement.html's <style> (do NOT <link> it — requirement.html
+   stays a single self-contained file). Colours reuse the shared --wf/--uc/--scr/--api/--tc/--doc
+   tokens already defined in :root; the sky Diagram colour (#0ea5e9) is hard-coded to match --dia. */
+.graph-toolbar{display:flex;flex-wrap:wrap;gap:9px 18px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 14px;margin-bottom:12px;}
+.gt-group{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.gt-label{color:var(--doc);font-weight:800;font-size:.7em;text-transform:uppercase;letter-spacing:.05em;}
+.g-btn{padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:#f8fafc;color:var(--ink);font-weight:700;font-size:.82em;cursor:pointer;line-height:1.2;transition:background .12s;}
+.g-btn:hover{background:#eef2f7;}
+.g-btn.active{background:#0f172a;color:#fff;border-color:#0f172a;}
+.g-chip-btn{padding:4px 11px;border-radius:20px;border:0;color:#fff;font-weight:800;font-size:.78em;cursor:pointer;letter-spacing:.02em;transition:opacity .12s,filter .12s;}
+.g-chip-btn.off{opacity:.3;filter:grayscale(.6);}
+.graph-search{padding:7px 11px;border:1px solid var(--line);border-radius:8px;font-size:.9em;min-width:180px;font-family:inherit;}
+.graph-wrap{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.06);}
+.graph-wrap.customer{background:#fbfaf6;}
+#graphSvg{display:block;width:100%;height:600px;background:#fff;cursor:grab;touch-action:none;}
+#graphSvg.customer{background:#fbfaf6;}
+#graphSvg:active{cursor:grabbing;}
+.gnode{cursor:pointer;}
+.gnode text{font-family:"Segoe UI","Tahoma",sans-serif;pointer-events:none;}
+.gnode:hover rect{filter:drop-shadow(0 3px 6px rgba(15,23,42,.35));}
+.graph-hint{position:absolute;left:12px;top:10px;font-size:.7em;color:var(--doc);background:rgba(255,255,255,.82);padding:4px 9px;border-radius:6px;pointer-events:none;}
+.graph-legend{position:absolute;left:12px;bottom:12px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:9px;padding:8px 11px;font-size:.7em;display:flex;flex-direction:column;gap:5px;}
+.graph-legend .lg-row{display:flex;align-items:center;gap:7px;}
+.graph-legend .lg-sw{width:14px;height:14px;border-radius:4px;flex:none;}
+.graph-info{position:absolute;right:12px;top:12px;width:250px;max-width:calc(100% - 24px);background:#fff;border:1px solid var(--line);border-radius:11px;padding:13px 15px 15px;box-shadow:0 10px 30px rgba(15,23,42,.2);}
+.graph-info h4{margin:0 0 7px;font-size:1em;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.graph-info .gi-badge{font-size:.82em;font-weight:800;color:#fff;padding:3px 9px;border-radius:6px;}
+.graph-info .gi-st{font-size:.78em;font-weight:800;}
+.graph-info .gi-title{font-size:.86em;color:var(--ink);margin-bottom:4px;line-height:1.4;}
+.graph-info .gi-close{position:absolute;top:7px;right:11px;cursor:pointer;color:var(--doc);font-weight:800;border:0;background:none;font-size:1.25em;line-height:1;}
+.graph-info .gi-nb-label{font-size:.74em;color:var(--doc);margin-top:9px;font-weight:700;}
+.graph-info .gi-nb{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
+.graph-info .g-nb-chip{font-size:.7em;font-weight:800;color:#fff;padding:3px 8px;border-radius:20px;cursor:pointer;}
+.graph-info .gi-jump{display:inline-block;margin-top:12px;padding:7px 13px;border-radius:8px;background:#0f172a;color:#fff;font-weight:700;text-decoration:none;font-size:.82em;}
+.graph-info .gi-jump:hover{background:#1e293b;}
+@media(max-width:860px){.graph-info{position:static;width:auto;margin:10px;max-width:none;}#graphSvg{height:460px;}}

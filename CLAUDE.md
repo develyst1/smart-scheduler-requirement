@@ -58,6 +58,11 @@ In `requirement.html` every WF/UC/SCR/API/TC carries one of:
 
 - `requirement.html` is **hand-editable** — it's a single static HTML file (status = `<span class="status
   partial|done|planned">`). Small status flips: just edit the badge + the `<b>note</b>`.
+- The **★ Graph section** (`#graph`) is **auto-derived at page-load** from each card's `id` + `.chain`
+  links (vanilla JS/SVG, zero deps, works offline). **There is no node/edge data to maintain** — add or
+  edit a card or a chain chip and the graph reflects it on next open. So keep chains accurate: a missing
+  `<a class="chip …" href="#ID">` = a missing edge in the graph. Nodes = `WF/UC/SCR/API/TC/DOC/DIA`;
+  status styling (solid/faded/dashed) comes from the card's status badge.
 - For larger regeneration (new UCs, re-derive as-built from the running apps), use the
   **`requirement-hub` skill** (`requirement-hub/`). Comments on mockups live in **browser
   localStorage only** — use the mockup's **📋 Copy All / ⬇ Export .md** to hand them to an AI.
