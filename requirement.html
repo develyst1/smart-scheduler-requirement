@@ -352,9 +352,9 @@ table.matrix td:last-child{border-right:0;}
   </article>
 
   <article class="uc-card" id="UC-008">
-    <h3><span class="id-badge uc">UC-008</span> ออก Voucher + กฎอายุ/ชั่วโมง <span class="status done">Implemented</span></h3>
-    <p>ออก Voucher 5/10/15 ชม. → จองครั้งแรกตั้ง expiry = วันจอง + 3/6/9 เดือน · จองต้องมีชั่วโมงเหลือ+ไม่หมดอายุ · attend ตัด usedHours</p>
-    <div class="chain"><a class="chip wf" href="#WF-003">WF-003</a><span class="arrow">→</span><span class="chip uc active">UC-008</span><span class="arrow">→</span><a class="chip scr" href="#SCR-005">SCR-005</a><span class="arrow">→</span><a class="chip api" href="#API-009">API-009</a><span class="arrow">→</span><a class="chip tc" href="#TC-005">TC-005</a></div>
+    <h3><span class="id-badge uc">UC-008</span> ออก + ใช้งาน Voucher (กฎอายุ/ชั่วโมง) <span class="status done">Implemented</span></h3>
+    <p>ออก Voucher 5/10/15 ชม. → จองครั้งแรกตั้ง expiry = วันจอง + 3/6/9 เดือน · <b>2026-07-11 (ใช้งานจริงได้แล้ว):</b> โมดอลจอง (SCR-003) เลือกประเภท Voucher → <b>เลือกวอยเชอร์ของนักเรียน</b> (เฉพาะที่มีชั่วโมงเหลือ+ไม่หมดอายุ) → ผูก <code>voucherId</code> ตอนสร้างคาบ · attend ตัด usedHours · <code>GET /api/vouchers</code> สำหรับแท็บวอยเชอร์ + ตัวเลือกตอนจอง</p>
+    <div class="chain"><a class="chip wf" href="#WF-003">WF-003</a><span class="arrow">→</span><span class="chip uc active">UC-008</span><span class="arrow">→</span><a class="chip scr" href="#SCR-005">SCR-005</a><a class="chip scr" href="#SCR-003">SCR-003</a><span class="arrow">→</span><a class="chip api" href="#API-009">API-009</a><a class="chip api" href="#API-003">API-003</a><span class="arrow">→</span><a class="chip tc" href="#TC-005">TC-005</a></div>
   </article>
 
   <article class="uc-card" id="UC-009">
@@ -489,8 +489,8 @@ table.matrix td:last-child{border-right:0;}
 
   <article class="scr-card" id="SCR-003">
     <h3><span class="id-badge scr">SCR-003</span> โมดอลจอง + จองทับคนลา <span class="status done">Implemented</span></h3>
-    <p>ฟอร์มจอง (นักเรียน/วิชา/ประเภท 4 แบบ) · <b>2026-07-11:</b> ถ้าช่องมีคาบที่<b>ลา</b> → จองแทนได้เลย (banner "จองแทนคาบที่ลา") · ถ้ามีคาบที่<b>ไม่ใช่</b>การลา → บล็อก "จองทับไม่ได้"</p>
-    <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><a class="chip wf" href="#WF-002">WF-002</a><a class="chip uc" href="#UC-001">UC-001</a><a class="chip uc" href="#UC-004">UC-004</a><span class="chip scr active">SCR-003</span><a class="chip api" href="#API-003">API-003</a></div>
+    <p>ฟอร์มจอง (นักเรียน/วิชา/ประเภท 4 แบบ) · <b>2026-07-11:</b> ถ้าช่องมีคาบที่<b>ลา</b> → จองแทนได้เลย (banner "จองแทนคาบที่ลา") · ถ้ามีคาบที่<b>ไม่ใช่</b>การลา → บล็อก "จองทับไม่ได้" · เลือกประเภท <b>Voucher</b> → ตัวเลือกวอยเชอร์ของนักเรียน (มีชั่วโมงเหลือ+ไม่หมดอายุ) ผูก voucherId (UC-008)</p>
+    <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><a class="chip wf" href="#WF-002">WF-002</a><a class="chip uc" href="#UC-001">UC-001</a><a class="chip uc" href="#UC-004">UC-004</a><a class="chip uc" href="#UC-008">UC-008</a><span class="chip scr active">SCR-003</span><a class="chip api" href="#API-003">API-003</a><a class="chip api" href="#API-009">API-009</a></div>
     <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-003">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-003.html" target="_blank">↗ Open Full Page</a></div>
     <div class="ui-frame-wrap" id="frame-SCR-003" hidden><iframe data-src="make-front/SCR-003.html" loading="lazy"></iframe></div>
   </article>
@@ -505,7 +505,7 @@ table.matrix td:last-child{border-right:0;}
 
   <article class="scr-card" id="SCR-005">
     <h3><span class="id-badge scr">SCR-005</span> การจอง + สมัครคอร์ส/Voucher <span class="status done">Implemented</span></h3>
-    <p>ตารางการจองทั้งหมด + พาเนลคอร์ส/โควตาการลา · ฟอร์มสมัครคอร์ส (preview คาบรายสัปดาห์) + ฟอร์มออก Voucher</p>
+    <p>ตารางการจองทั้งหมด + พาเนลคอร์ส/โควตาการลา · ฟอร์มสมัครคอร์ส (preview คาบรายสัปดาห์) + ฟอร์มออก Voucher · <b>2026-07-11:</b> แท็บวอยเชอร์ดึงข้อมูลจริงจาก <code>GET /api/vouchers</code> (เดิม hardcode mock)</p>
     <div class="chain"><a class="chip wf" href="#WF-003">WF-003</a><a class="chip uc" href="#UC-007">UC-007</a><a class="chip uc" href="#UC-008">UC-008</a><span class="chip scr active">SCR-005</span><a class="chip api" href="#API-008">API-008</a><a class="chip api" href="#API-009">API-009</a></div>
     <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-005">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-005.html" target="_blank">↗ Open Full Page</a></div>
     <div class="ui-frame-wrap" id="frame-SCR-005" hidden><iframe data-src="make-front/SCR-005.html" loading="lazy"></iframe></div>
@@ -565,7 +565,7 @@ table.matrix td:last-child{border-right:0;}
   <article class="api-card" id="API-006"><h3><span class="id-badge api">API-006</span> POST /api/bookings/with-reschedule <span class="status removed">ยกเลิก</span></h3><p><b>ถอดออก 2026-07-11:</b> จองทับคนลาใช้ <a class="chip api" href="#API-003">API-003</a> (POST /api/bookings) ตรง ๆ ได้แล้ว. <a class="chip uc" href="#UC-005">UC-005</a></p></article>
   <article class="api-card" id="API-007"><h3><span class="id-badge api">API-007</span> PATCH /api/bookings/:id/reschedule/{confirm,cancel} <span class="status removed">ยกเลิก</span></h3><p><b>ถอดออก 2026-07-11:</b> ไม่มี flow ให้ผู้ปกครองตอบรับการย้ายแล้ว. <a class="chip uc" href="#UC-006">UC-006</a></p></article>
   <article class="api-card" id="API-008"><h3><span class="id-badge api">API-008</span> POST /api/courses <span class="status done">Implemented</span></h3><p>สมัครคอร์ส 4/6/10 → gen คาบรายสัปดาห์ + expiry. <a class="chip uc" href="#UC-007">UC-007</a></p></article>
-  <article class="api-card" id="API-009"><h3><span class="id-badge api">API-009</span> POST /api/vouchers <span class="status done">Implemented</span></h3><p>ออก Voucher 5/10/15 ชม. + กฎอายุ. <a class="chip uc" href="#UC-008">UC-008</a></p></article>
+  <article class="api-card" id="API-009"><h3><span class="id-badge api">API-009</span> GET/POST /api/vouchers <span class="status done">Implemented</span></h3><p>ออก Voucher 5/10/15 ชม. + กฎอายุ · <b>GET</b> รายการ (กรอง studentId/q) สำหรับแท็บวอยเชอร์ + ตัวเลือกตอนจอง. <a class="chip uc" href="#UC-008">UC-008</a></p></article>
   <article class="api-card" id="API-010"><h3><span class="id-badge api">API-010</span> GET/POST /api/students <span class="status done">Implemented</span></h3><p>นักเรียน (normalize) + CRM แต้ม/level/perks (priorityBooking) ใน DTO · <code>GET /api/crm/levels</code> = บันได level+สิทธิประโยชน์. <a class="chip uc" href="#UC-001">UC-001</a> <a class="chip uc" href="#UC-020">UC-020</a></p></article>
   <article class="api-card" id="API-011"><h3><span class="id-badge api">API-011</span> GET /api/teachers · PATCH /api/teachers/availability <span class="status done">Implemented</span></h3><p>รายชื่อครูจัดกลุ่ม + เปิด/ปิดรับงาน. <a class="chip uc" href="#UC-014">UC-014</a></p></article>
   <article class="api-card" id="API-012"><h3><span class="id-badge api">API-012</span> GET/PATCH /api/teachers/type-order <span class="status done">Implemented</span></h3><p>ลำดับความสำคัญกลุ่มครู (persist app_settings). <a class="chip uc" href="#UC-013">UC-013</a></p></article>
