@@ -56,7 +56,7 @@ article li{margin:3px 0;}
 .id-badge.api{background:var(--api);} .id-badge.tc{background:var(--tc);} .id-badge.doc{background:var(--doc);}
 
 .status{font-size:.68em;font-weight:800;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.03em;}
-.status.done{background:#d1f5e0;color:#0a6b3d;} .status.partial{background:#fff3cd;color:#856404;} .status.planned{background:#e2e8f0;color:#475569;}
+.status.done{background:#d1f5e0;color:#0a6b3d;} .status.partial{background:#fff3cd;color:#856404;} .status.planned{background:#e2e8f0;color:#475569;} .status.removed{background:#fee2e2;color:#991b1b;text-decoration:line-through;}
 
 .chain{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin:9px 0 2px;padding:8px 10px;background:#f8fafc;border-radius:8px;}
 .chip{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:.72em;font-weight:800;color:#fff;text-decoration:none;white-space:nowrap;}
@@ -250,9 +250,9 @@ table.matrix td:last-child{border-right:0;}
   </article>
 
   <article class="wf-card" id="WF-002">
-    <h3><span class="id-badge wf">WF-002</span> จองทับ & ย้ายคาบ (Conflict Resolution) <span class="status done">Implemented</span></h3>
-    <p>จองในสล็อตที่มีคนอยู่ → เลือกวิธีย้ายของเดิม (วันอื่น/สัปดาห์อื่น/ครูอื่น) → ของเดิมเป็น "รอผู้ปกครองตอบรับ" + push LINE → ผู้ปกครองตกลง/ปฏิเสธ → ยืนยันหรือยกเลิกการย้าย</p>
-    <div class="chain"><a class="chip uc" href="#UC-004">UC-004</a><a class="chip uc" href="#UC-005">UC-005</a><a class="chip uc" href="#UC-006">UC-006</a></div>
+    <h3><span class="id-badge wf">WF-002</span> จองทับคนลา & ย้ายคาบด้วยมือ <span class="status done">Implemented</span></h3>
+    <p><b>ปรับ 2026-07-11:</b> จองทับได้<b>เฉพาะช่องที่นักเรียนเดิมลา (SICK_LEAVE)</b> — จองแทนในช่องเดิมได้เลย (นักเรียนที่ลาถูกเลื่อนชดเชยอัตโนมัติอยู่แล้ว) ไม่มีการ "ย้ายของเดิม + รอผู้ปกครองตอบรับ" อีกต่อไป · กรณีพิเศษ staff <b>ย้ายคาบด้วยมือ</b> (ครู/วัน/เวลา) ได้</p>
+    <div class="chain"><a class="chip uc" href="#UC-003">UC-003</a><a class="chip uc" href="#UC-004">UC-004</a><a class="chip scr" href="#SCR-004">SCR-004</a><a class="chip api" href="#API-005">API-005</a></div>
   </article>
 
   <article class="wf-card" id="WF-003">
@@ -323,26 +323,26 @@ table.matrix td:last-child{border-right:0;}
 
   <article class="uc-card" id="UC-003">
     <h3><span class="id-badge uc">UC-003</span> ย้าย/เพิ่มคาบด้วยมือ (Manual Move/Add) <span class="status done">Implemented</span></h3>
-    <p>กรณีพิเศษ (เรียนเพิ่มช่วงปิดเทอม ฯลฯ) — staff ย้ายครู/วัน/เวลา หรือเพิ่มคาบเองได้ · ชนสล็อต → 409</p>
+    <p>กรณีพิเศษ (เรียนเพิ่มช่วงปิดเทอม ฯลฯ) — staff ย้ายครู/วัน/เวลาได้ · <b>2026-07-11:</b> เพิ่มปุ่ม "ย้ายคาบ" ในโมดอลดูคาบ (SCR-004) ต่อกับ API-005 แล้ว (เดิม FE ยังไม่มี) · ชนสล็อต → 409</p>
     <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><span class="arrow">→</span><span class="chip uc active">UC-003</span><span class="arrow">→</span><a class="chip scr" href="#SCR-004">SCR-004</a><span class="arrow">→</span><a class="chip api" href="#API-005">API-005</a><span class="arrow">→</span><span class="chip none">manual QA</span></div>
   </article>
 
   <article class="uc-card" id="UC-004">
-    <h3><span class="id-badge uc">UC-004</span> ตรวจจับการจองทับ <span class="status done">Implemented</span></h3>
-    <p>ตอนจอง ระบบเช็คสล็อตครู/วัน/เวลา — ถ้ามีคาบอยู่แล้วเปิด flow ย้าย (แสดงข้อมูลคาบเดิม)</p>
-    <div class="chain"><a class="chip wf" href="#WF-002">WF-002</a><span class="arrow">→</span><span class="chip uc active">UC-004</span><span class="arrow">→</span><a class="chip scr" href="#SCR-003">SCR-003</a><span class="arrow">→</span><a class="chip api" href="#API-002">API-002</a><span class="arrow">→</span><a class="chip tc" href="#TC-003">TC-003</a></div>
+    <h3><span class="id-badge uc">UC-004</span> จองทับช่องที่นักเรียนลา <span class="status done">Implemented</span></h3>
+    <p><b>ปรับ 2026-07-11:</b> จองทับได้<b>เฉพาะช่องที่นักเรียนเดิมลา (SICK_LEAVE)</b> — ปุ่ม "จองทับ" ขึ้นเฉพาะคาบที่ลา, สร้างคาบแทนในช่องเดิมได้เลย (unique index กันซ้ำยกเว้น SICK_LEAVE) · ช่องที่<b>ไม่ใช่</b>การลา → จองทับไม่ได้ (SLOT_TAKEN 409) · ไม่มี flow ย้ายของเดิม/รอผู้ปกครองแล้ว</p>
+    <div class="chain"><a class="chip wf" href="#WF-002">WF-002</a><span class="arrow">→</span><span class="chip uc active">UC-004</span><span class="arrow">→</span><a class="chip scr" href="#SCR-003">SCR-003</a><span class="arrow">→</span><a class="chip api" href="#API-003">API-003</a><span class="arrow">→</span><span class="chip none">manual QA</span></div>
   </article>
 
   <article class="uc-card" id="UC-005">
-    <h3><span class="id-badge uc">UC-005</span> เลือกวิธีย้ายของเดิม + แจ้งผู้ปกครอง <span class="status done">Implemented</span></h3>
-    <p>Dropdown: ย้ายวันอื่น / ย้ายสัปดาห์อื่น / ย้ายครูอื่น → สร้างคาบใหม่ (pendingSlot) + ตั้งของเดิมเป็น <code>PENDING_RESCHEDULE</code> + enqueue LINE ผู้ปกครอง — ทั้งหมดใน transaction เดียว</p>
-    <div class="chain"><a class="chip wf" href="#WF-002">WF-002</a><span class="arrow">→</span><span class="chip uc active">UC-005</span><span class="arrow">→</span><a class="chip scr" href="#SCR-003">SCR-003</a><span class="arrow">→</span><a class="chip api" href="#API-006">API-006</a><span class="arrow">→</span><a class="chip tc" href="#TC-002">TC-002</a><a class="chip tc" href="#TC-003">TC-003</a></div>
+    <h3><span class="id-badge uc">UC-005</span> เลือกวิธีย้ายของเดิม + แจ้งผู้ปกครอง <span class="status removed">ยกเลิก</span></h3>
+    <p><b>ยกเลิก 2026-07-11:</b> เพราะจองทับได้เฉพาะคนลา (UC-004) จึงไม่ต้อง "ย้ายของเดิม" อีก — flow เลือกวันอื่น/สัปดาห์อื่น/ครูอื่น + <code>PENDING_RESCHEDULE</code> ถูกถอดออกจากทั้ง FE และ API-006</p>
+    <div class="chain"><a class="chip wf" href="#WF-002">WF-002</a><span class="arrow">→</span><span class="chip uc active">UC-005</span></div>
   </article>
 
   <article class="uc-card" id="UC-006">
-    <h3><span class="id-badge uc">UC-006</span> ผู้ปกครองยืนยัน/ยกเลิกการย้าย <span class="status done">Implemented</span></h3>
-    <p>ตกลง → ย้ายคาบเดิมไปสล็อตใหม่ + ปล่อยสล็อตเดิมให้คาบใหม่ · ปฏิเสธ → ลบคาบใหม่ + คืนคาบเดิม</p>
-    <div class="chain"><a class="chip wf" href="#WF-002">WF-002</a><span class="arrow">→</span><span class="chip uc active">UC-006</span><span class="arrow">→</span><a class="chip scr" href="#SCR-004">SCR-004</a><span class="arrow">→</span><a class="chip api" href="#API-007">API-007</a><span class="arrow">→</span><a class="chip tc" href="#TC-003">TC-003</a></div>
+    <h3><span class="id-badge uc">UC-006</span> ผู้ปกครองยืนยัน/ยกเลิกการย้าย <span class="status removed">ยกเลิก</span></h3>
+    <p><b>ยกเลิก 2026-07-11:</b> ไม่มีการย้ายของเดิมแล้ว (จองทับเฉพาะคนลา) จึงไม่ต้องให้ผู้ปกครองยืนยัน/ยกเลิก — ถอดปุ่มใน SCR-004 และ endpoint API-007 ออก</p>
+    <div class="chain"><a class="chip wf" href="#WF-002">WF-002</a><span class="arrow">→</span><span class="chip uc active">UC-006</span></div>
   </article>
 
   <article class="uc-card" id="UC-007">
@@ -488,17 +488,17 @@ table.matrix td:last-child{border-right:0;}
   </article>
 
   <article class="scr-card" id="SCR-003">
-    <h3><span class="id-badge scr">SCR-003</span> โมดอลจอง + จัดการจองทับ <span class="status done">Implemented</span></h3>
-    <p>ฟอร์มจอง (นักเรียน/วิชา/ประเภท 4 แบบ) · ถ้าชน → Dropdown เลือกวิธีย้ายของเดิม 3 ทาง + แจ้งผู้ปกครอง</p>
-    <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><a class="chip wf" href="#WF-002">WF-002</a><a class="chip uc" href="#UC-001">UC-001</a><a class="chip uc" href="#UC-005">UC-005</a><span class="chip scr active">SCR-003</span><a class="chip api" href="#API-003">API-003</a><a class="chip api" href="#API-006">API-006</a></div>
+    <h3><span class="id-badge scr">SCR-003</span> โมดอลจอง + จองทับคนลา <span class="status done">Implemented</span></h3>
+    <p>ฟอร์มจอง (นักเรียน/วิชา/ประเภท 4 แบบ) · <b>2026-07-11:</b> ถ้าช่องมีคาบที่<b>ลา</b> → จองแทนได้เลย (banner "จองแทนคาบที่ลา") · ถ้ามีคาบที่<b>ไม่ใช่</b>การลา → บล็อก "จองทับไม่ได้"</p>
+    <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><a class="chip wf" href="#WF-002">WF-002</a><a class="chip uc" href="#UC-001">UC-001</a><a class="chip uc" href="#UC-004">UC-004</a><span class="chip scr active">SCR-003</span><a class="chip api" href="#API-003">API-003</a></div>
     <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-003">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-003.html" target="_blank">↗ Open Full Page</a></div>
     <div class="ui-frame-wrap" id="frame-SCR-003" hidden><iframe data-src="make-front/SCR-003.html" loading="lazy"></iframe></div>
   </article>
 
   <article class="scr-card" id="SCR-004">
-    <h3><span class="id-badge scr">SCR-004</span> โมดอลดูคาบ / การกระทำ / ยืนยันการย้าย <span class="status done">Implemented</span></h3>
-    <p>ดูรายละเอียดคาบ → ยืนยัน (push LINE) / มาเรียน / บันทึกลา · ถ้า PENDING_RESCHEDULE → ปุ่ม "ผู้ปกครองตกลง — ยืนยันย้าย" / "ยกเลิกการย้าย"</p>
-    <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><a class="chip wf" href="#WF-002">WF-002</a><a class="chip uc" href="#UC-002">UC-002</a><a class="chip uc" href="#UC-006">UC-006</a><a class="chip uc" href="#UC-010">UC-010</a><span class="chip scr active">SCR-004</span><a class="chip api" href="#API-004">API-004</a><a class="chip api" href="#API-007">API-007</a></div>
+    <h3><span class="id-badge scr">SCR-004</span> โมดอลดูคาบ / การกระทำ / ย้ายคาบ <span class="status done">Implemented</span></h3>
+    <p>ดูรายละเอียดคาบ → ยืนยัน (push LINE) / มาเรียน / บันทึกลา · <b>2026-07-11:</b> ปุ่ม "ย้ายคาบ" (ครู/วัน/เวลา, UC-003) · ถ้าคาบ <b>ลา</b> → ปุ่ม "จองทับ (นักเรียนลา)" · ถอดปุ่มยืนยัน/ยกเลิกการย้าย (UC-006) ออกแล้ว</p>
+    <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><a class="chip wf" href="#WF-002">WF-002</a><a class="chip uc" href="#UC-002">UC-002</a><a class="chip uc" href="#UC-003">UC-003</a><a class="chip uc" href="#UC-010">UC-010</a><span class="chip scr active">SCR-004</span><a class="chip api" href="#API-004">API-004</a><a class="chip api" href="#API-005">API-005</a></div>
     <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-004">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-004.html" target="_blank">↗ Open Full Page</a></div>
     <div class="ui-frame-wrap" id="frame-SCR-004" hidden><iframe data-src="make-front/SCR-004.html" loading="lazy"></iframe></div>
   </article>
@@ -562,8 +562,8 @@ table.matrix td:last-child{border-right:0;}
   <article class="api-card" id="API-003"><h3><span class="id-badge api">API-003</span> POST /api/bookings <span class="status done">Implemented</span></h3><p>สร้างคาบ (4 ประเภท) + enforce voucher. <a class="chip uc" href="#UC-001">UC-001</a></p></article>
   <article class="api-card" id="API-004"><h3><span class="id-badge api">API-004</span> PATCH /api/bookings/:id/status <span class="status done">Implemented</span></h3><p>confirm / attend / sick-leave / cancel — พร้อม side-effects (LINE, auto-extend, CRM, voucher/course usage). <a class="chip uc" href="#UC-002">UC-002</a> <a class="chip uc" href="#UC-010">UC-010</a></p></article>
   <article class="api-card" id="API-005"><h3><span class="id-badge api">API-005</span> PATCH /api/bookings/:id <span class="status done">Implemented</span></h3><p>ย้าย/แก้คาบด้วยมือ (teacher/date/time). <a class="chip uc" href="#UC-003">UC-003</a></p></article>
-  <article class="api-card" id="API-006"><h3><span class="id-badge api">API-006</span> POST /api/bookings/with-reschedule <span class="status done">Implemented</span></h3><p>จองทับ + ย้ายของเดิม (transaction + LINE ผู้ปกครอง). <a class="chip uc" href="#UC-005">UC-005</a></p></article>
-  <article class="api-card" id="API-007"><h3><span class="id-badge api">API-007</span> PATCH /api/bookings/:id/reschedule/{confirm,cancel} <span class="status done">Implemented</span></h3><p>ผู้ปกครองตกลง/ปฏิเสธการย้าย. <a class="chip uc" href="#UC-006">UC-006</a></p></article>
+  <article class="api-card" id="API-006"><h3><span class="id-badge api">API-006</span> POST /api/bookings/with-reschedule <span class="status removed">ยกเลิก</span></h3><p><b>ถอดออก 2026-07-11:</b> จองทับคนลาใช้ <a class="chip api" href="#API-003">API-003</a> (POST /api/bookings) ตรง ๆ ได้แล้ว. <a class="chip uc" href="#UC-005">UC-005</a></p></article>
+  <article class="api-card" id="API-007"><h3><span class="id-badge api">API-007</span> PATCH /api/bookings/:id/reschedule/{confirm,cancel} <span class="status removed">ยกเลิก</span></h3><p><b>ถอดออก 2026-07-11:</b> ไม่มี flow ให้ผู้ปกครองตอบรับการย้ายแล้ว. <a class="chip uc" href="#UC-006">UC-006</a></p></article>
   <article class="api-card" id="API-008"><h3><span class="id-badge api">API-008</span> POST /api/courses <span class="status done">Implemented</span></h3><p>สมัครคอร์ส 4/6/10 → gen คาบรายสัปดาห์ + expiry. <a class="chip uc" href="#UC-007">UC-007</a></p></article>
   <article class="api-card" id="API-009"><h3><span class="id-badge api">API-009</span> POST /api/vouchers <span class="status done">Implemented</span></h3><p>ออก Voucher 5/10/15 ชม. + กฎอายุ. <a class="chip uc" href="#UC-008">UC-008</a></p></article>
   <article class="api-card" id="API-010"><h3><span class="id-badge api">API-010</span> GET/POST /api/students <span class="status done">Implemented</span></h3><p>นักเรียน (normalize) + CRM แต้ม/level/perks (priorityBooking) ใน DTO · <code>GET /api/crm/levels</code> = บันได level+สิทธิประโยชน์. <a class="chip uc" href="#UC-001">UC-001</a> <a class="chip uc" href="#UC-020">UC-020</a></p></article>
@@ -588,8 +588,8 @@ table.matrix td:last-child{border-right:0;}
   <p class="sec-sub">อ้างอิงเทสต์จริง (<code>bun test</code> 27 ผ่าน) + จุด manual QA</p>
 
   <article class="tc-card" id="TC-001"><h3><span class="id-badge tc">TC-001</span> กฎโควตาการลา (leave.test) <span class="status done">Pass</span></h3><p>4→1, 6→2, 10→3 · remaining/lock · admin unlock override. <a class="chip uc" href="#UC-010">UC-010</a> <a class="chip uc" href="#UC-011">UC-011</a></p></article>
-  <article class="tc-card" id="TC-002"><h3><span class="id-badge tc">TC-002</span> reschedule target (reschedule.test) <span class="status done">Pass</span></h3><p>endTime +1h + preserve target. <a class="chip uc" href="#UC-005">UC-005</a></p></article>
-  <article class="tc-card" id="TC-003"><h3><span class="id-badge tc">TC-003</span> conflict create/confirm/cancel (e2e) <span class="status done">Pass</span></h3><p>สล็อตทับ → PENDING_RESCHEDULE → confirm/cancel + LINE outbox. <a class="chip uc" href="#UC-004">UC-004</a> <a class="chip uc" href="#UC-006">UC-006</a></p></article>
+  <article class="tc-card" id="TC-002"><h3><span class="id-badge tc">TC-002</span> reschedule target (reschedule.test) <span class="status removed">ยกเลิก</span></h3><p><b>ลบ 2026-07-11:</b> reschedule.test.ts ถูกลบพร้อม flow ย้ายของเดิม. <a class="chip uc" href="#UC-005">UC-005</a></p></article>
+  <article class="tc-card" id="TC-003"><h3><span class="id-badge tc">TC-003</span> conflict create/confirm/cancel (e2e) <span class="status removed">ยกเลิก</span></h3><p><b>ลบ 2026-07-11:</b> flow PENDING_RESCHEDULE ถูกถอดออก — จองทับคนลาใช้ create ปกติ (manual QA). <a class="chip uc" href="#UC-004">UC-004</a></p></article>
   <article class="tc-card" id="TC-004"><h3><span class="id-badge tc">TC-004</span> recurring course (recurring.test) <span class="status done">Pass</span></h3><p>วันรายสัปดาห์ + expiry 4→5wk/6→8wk/10→13wk. <a class="chip uc" href="#UC-007">UC-007</a></p></article>
   <article class="tc-card" id="TC-005"><h3><span class="id-badge tc">TC-005</span> voucher rules (voucher.test) <span class="status done">Pass</span></h3><p>อายุ 3/6/9 เดือน · ชั่วโมงหมด/หมดอายุ → block. <a class="chip uc" href="#UC-008">UC-008</a></p></article>
   <article class="tc-card" id="TC-006"><h3><span class="id-badge tc">TC-006</span> check-in token (checkin.test) <span class="status done">Pass</span></h3><p>ออก/verify token → ATTENDED. <a class="chip uc" href="#UC-009">UC-009</a></p></article>
@@ -618,11 +618,10 @@ table.matrix td:last-child{border-right:0;}
       <tr><td><a class="chip uc" href="#UC-003">UC-003</a></td><td><a class="chip scr" href="#SCR-004">SCR-004</a></td><td><a class="chip api" href="#API-005">API-005</a></td><td><span class="chip none">manual</span></td></tr>
 
       <tr>
-        <td rowspan="3"><a class="chip wf" href="#WF-002">WF-002</a></td>
-        <td><a class="chip uc" href="#UC-004">UC-004</a></td><td><a class="chip scr" href="#SCR-003">SCR-003</a></td><td><a class="chip api" href="#API-002">API-002</a></td><td rowspan="3"><div class="cellchips"><a class="chip tc" href="#TC-002">TC-002</a><a class="chip tc" href="#TC-003">TC-003</a></div></td>
+        <td rowspan="2"><a class="chip wf" href="#WF-002">WF-002</a></td>
+        <td><a class="chip uc" href="#UC-004">UC-004</a></td><td><a class="chip scr" href="#SCR-003">SCR-003</a></td><td><a class="chip api" href="#API-003">API-003</a></td><td rowspan="2"><span class="chip none">manual QA</span></td>
       </tr>
-      <tr><td><a class="chip uc" href="#UC-005">UC-005</a></td><td><a class="chip scr" href="#SCR-003">SCR-003</a></td><td><a class="chip api" href="#API-006">API-006</a></td></tr>
-      <tr><td><a class="chip uc" href="#UC-006">UC-006</a></td><td><a class="chip scr" href="#SCR-004">SCR-004</a></td><td><a class="chip api" href="#API-007">API-007</a></td></tr>
+      <tr><td><span class="chip none">UC-005/006 ยกเลิก</span></td><td><span class="chip none">—</span></td><td><span class="chip none">API-006/007 ถอด</span></td></tr>
 
       <tr>
         <td rowspan="2"><a class="chip wf" href="#WF-003">WF-003</a></td>
@@ -1241,7 +1240,7 @@ document.querySelectorAll('.dia-src-btn').forEach(function(btn){
     var type=m[1], title=id, h=art.querySelector('h3');
     if(h){ var c=h.cloneNode(true); c.querySelectorAll('.id-badge,.status').forEach(function(x){x.remove();}); title=c.textContent.replace(/\s+/g,' ').trim(); }
     var st=null, s=art.querySelector('.status');
-    if(s){ if(s.classList.contains('done'))st='done'; else if(s.classList.contains('partial'))st='partial'; else if(s.classList.contains('planned'))st='planned'; }
+    if(s){ if(s.classList.contains('done'))st='done'; else if(s.classList.contains('partial'))st='partial'; else if(s.classList.contains('planned')||s.classList.contains('removed'))st='planned'; }
     var n={id:id,type:type,title:title,status:st,x:0,y:0,vx:0,vy:0,visible:true,webInit:false,pin:false};
     nodes.push(n); nodeById[id]=n;
   });
