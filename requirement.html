@@ -241,12 +241,12 @@ table.matrix td:last-child{border-right:0;}
 <!-- ============ WORKFLOWS ============ -->
 <section id="workflows">
   <h2 class="sec"><span class="k" style="background:var(--wf)">WF</span> ② Workflows</h2>
-  <p class="sec-sub">กระบวนการ end-to-end 10 สาย · badge สถานะเทียบโค้ดจริง (Implemented / Partial / Planned)</p>
+  <p class="sec-sub">กระบวนการ end-to-end 11 สาย · badge สถานะเทียบโค้ดจริง (Implemented / Partial / Planned) · WF-011 = backlog จากประชุม 2026-07-11</p>
 
   <article class="wf-card" id="WF-001">
     <h3><span class="id-badge wf">WF-001</span> จอง & ยืนยันคาบเรียน <span class="status done">Implemented</span></h3>
-    <p>Staff เปิดปฏิทิน → เลือกสล็อตครู/เวลา → จอง (4 ประเภท) → กดยืนยัน → ระบบ push LINE หาครูทันที · รองรับย้าย/เพิ่มคาบด้วยมือ (special case)</p>
-    <div class="chain"><a class="chip uc" href="#UC-001">UC-001</a><a class="chip uc" href="#UC-002">UC-002</a><a class="chip uc" href="#UC-003">UC-003</a></div>
+    <p>Staff เปิดปฏิทิน → เลือกสล็อตครู/เวลา → จอง (4 ประเภท) → กดยืนยัน → ระบบ push LINE หาครูทันที · รองรับย้าย/เพิ่มคาบด้วยมือ (special case) · <b>ประชุม 2026-07-11:</b> เพิ่มยืนยันแบบกลุ่ม (UC-027)</p>
+    <div class="chain"><a class="chip uc" href="#UC-001">UC-001</a><a class="chip uc" href="#UC-002">UC-002</a><a class="chip uc" href="#UC-003">UC-003</a><a class="chip uc" href="#UC-027">UC-027</a></div>
   </article>
 
   <article class="wf-card" id="WF-002">
@@ -257,26 +257,26 @@ table.matrix td:last-child{border-right:0;}
 
   <article class="wf-card" id="WF-003">
     <h3><span class="id-badge wf">WF-003</span> สมัครคอร์ส & Voucher <span class="status done">Implemented</span></h3>
-    <p>สมัครคอร์ส 4/6/10 ครั้ง → ระบบ lock สล็อตรายสัปดาห์อัตโนมัติ + คำนวณวันหมดอายุ · ออก Voucher 5/10/15 ชม. (ไม่ฟิกครู/ตาราง, อายุ 3/6/9 เดือนนับจากจองครั้งแรก)</p>
-    <div class="chain"><a class="chip uc" href="#UC-007">UC-007</a><a class="chip uc" href="#UC-008">UC-008</a></div>
+    <p>สมัครคอร์ส 4/6/10 ครั้ง → ระบบ lock สล็อตรายสัปดาห์อัตโนมัติ + คำนวณวันหมดอายุ · ออก Voucher 5/10/15 ชม. (ไม่ฟิกครู/ตาราง, อายุ 3/6/9 เดือนนับจากจองครั้งแรก) · <b>ประชุม 2026-07-11:</b> เพิ่ม LINE แจ้งผู้ปกครอง (UC-028), แก้/ขยายคอร์สด้วยมือ (UC-031), แยกวิชา Bike/Scooter (UC-033)</p>
+    <div class="chain"><a class="chip uc" href="#UC-007">UC-007</a><a class="chip uc" href="#UC-008">UC-008</a><a class="chip uc" href="#UC-028">UC-028</a><a class="chip uc" href="#UC-031">UC-031</a><a class="chip uc" href="#UC-033">UC-033</a></div>
   </article>
 
   <article class="wf-card" id="WF-004">
     <h3><span class="id-badge wf">WF-004</span> เช็คอิน & กฎการลา <span class="status partial">Partial</span></h3>
-    <p>เช็คอินผ่าน QR/LINE → ATTENDED + ได้แต้ม CRM · แจ้งลา → auto-extend คาบต่อท้าย (ภายในโควตา 4→1,6→2,10→3) · เกินโควตา → Policy Lock ต้องแอดมินปลด · <b>ตัดโควตาอัตโนมัติสิ้นวัน (18:00) ยังไม่ทำ (ข้ามไว้)</b></p>
-    <div class="chain"><a class="chip uc" href="#UC-009">UC-009</a><a class="chip uc" href="#UC-010">UC-010</a><a class="chip uc" href="#UC-011">UC-011</a><a class="chip uc" href="#UC-012">UC-012</a></div>
+    <p>เช็คอินผ่าน QR/LINE → ATTENDED + ได้แต้ม CRM · แจ้งลา → auto-extend คาบต่อท้าย (ภายในโควตา 4→1,6→2,10→3) · เกินโควตา → Policy Lock ต้องแอดมินปลด · <b>ตัดโควตาอัตโนมัติสิ้นวัน (18:00) ยังไม่ทำ (ข้ามไว้)</b> · <b>ประชุม 2026-07-11:</b> เพิ่มกฎแจ้งลาล่วงหน้าตามประเภทครู (UC-029)</p>
+    <div class="chain"><a class="chip uc" href="#UC-009">UC-009</a><a class="chip uc" href="#UC-010">UC-010</a><a class="chip uc" href="#UC-011">UC-011</a><a class="chip uc" href="#UC-012">UC-012</a><a class="chip uc" href="#UC-029">UC-029</a></div>
   </article>
 
   <article class="wf-card" id="WF-005">
     <h3><span class="id-badge wf">WF-005</span> จัดการครู <span class="status done">Implemented</span></h3>
-    <p>จัดลำดับความสำคัญกลุ่มครู (drag) → มีผลต่อการเรียงในปฏิทิน · เปิด/ปิดรับงานรายคน/รายกลุ่ม · ตั้งวันทำงานครู (work-days) · Freelance ถึงเพดานรายได้ → auto-disable</p>
-    <div class="chain"><a class="chip uc" href="#UC-013">UC-013</a><a class="chip uc" href="#UC-014">UC-014</a><a class="chip uc" href="#UC-015">UC-015</a><a class="chip uc" href="#UC-016">UC-016</a></div>
+    <p>จัดลำดับความสำคัญกลุ่มครู (drag) → มีผลต่อการเรียงในปฏิทิน · เปิด/ปิดรับงานรายคน/รายกลุ่ม · ตั้งวันทำงานครู (work-days) · Freelance ถึงเพดานรายได้ → auto-disable · <b>ประชุม 2026-07-11:</b> เปลี่ยนเป็นแถบสีบนปฏิทินแทนการซ่อน (UC-016), เพิ่มเวลาทำงานครูระดับช่วงเวลา (UC-030)</p>
+    <div class="chain"><a class="chip uc" href="#UC-013">UC-013</a><a class="chip uc" href="#UC-014">UC-014</a><a class="chip uc" href="#UC-015">UC-015</a><a class="chip uc" href="#UC-016">UC-016</a><a class="chip uc" href="#UC-030">UC-030</a></div>
   </article>
 
   <article class="wf-card" id="WF-006">
     <h3><span class="id-badge wf">WF-006</span> LINE OA ยืนยันตัวตน & แจ้งเตือน <span class="status done">Implemented</span></h3>
-    <p>ทักเข้า LINE OA → บอทถามบทบาท (ลูกค้า/ครู/แอดมิน) + รหัสยืนยัน → ผูก userId ↔ role · การแจ้งลาจากลูกค้าเด้งเข้า LINE แอดมิน · <b>ตั้ง Webhook URL ใน LINE Console แล้ว บอทตอบกลับได้จริง</b></p>
-    <div class="chain"><a class="chip uc" href="#UC-017">UC-017</a><a class="chip uc" href="#UC-018">UC-018</a></div>
+    <p>ทักเข้า LINE OA → บอทถามบทบาท (ลูกค้า/ครู/แอดมิน) + รหัสยืนยัน → ผูก userId ↔ role · การแจ้งลาจากลูกค้าเด้งเข้า LINE แอดมิน · <b>ตั้ง Webhook URL ใน LINE Console แล้ว บอทตอบกลับได้จริง</b> · <b>ประชุม 2026-07-11:</b> ทำบอทรองรับไทย+อังกฤษเต็มรูปแบบ (UC-032)</p>
+    <div class="chain"><a class="chip uc" href="#UC-017">UC-017</a><a class="chip uc" href="#UC-018">UC-018</a><a class="chip uc" href="#UC-032">UC-032</a></div>
   </article>
 
   <article class="wf-card" id="WF-007">
@@ -302,6 +302,12 @@ table.matrix td:last-child{border-right:0;}
     <p>Staff login (NextAuth credentials ฝั่ง FE ↔ JWT ฝั่ง BE) → ทุก <code>/api/*</code> ต้องมี Bearer token · 401 → เด้งกลับหน้า login</p>
     <div class="chain"><a class="chip uc" href="#UC-026">UC-026</a></div>
   </article>
+
+  <article class="wf-card" id="WF-011">
+    <h3><span class="id-badge wf">WF-011</span> แพลตฟอร์ม/อนาคต (Multi-branch & Sync) <span class="status planned">Planned</span></h3>
+    <p><b>ประชุม 2026-07-11 (การบ้าน):</b> งานออกแบบเพื่อรองรับการขยาย — โครงสร้างหลายสาขา (ครูสอนข้ามสาขา, แอดมินดูภาพรวมระบบเดียว) และ sync ตารางสอนเข้า Google Calendar/ปฏิทินมือถือครู · ยังเป็นงานออกแบบ ไม่เริ่ม build</p>
+    <div class="chain"><a class="chip uc" href="#UC-034">UC-034</a><a class="chip uc" href="#UC-035">UC-035</a></div>
+  </article>
 </section>
 
 <!-- ============ USE CASES ============ -->
@@ -311,7 +317,7 @@ table.matrix td:last-child{border-right:0;}
 
   <article class="uc-card" id="UC-001">
     <h3><span class="id-badge uc">UC-001</span> จองคาบเรียน (4 ประเภท) <span class="status done">Implemented</span></h3>
-    <p>Staff คลิกสล็อตว่างในปฏิทิน → เลือกประเภท: ทดลองเรียน / จองรายครั้ง / คอร์สรายสัปดาห์ / Voucher → เลือกนักเรียน+วิชา → บันทึกเป็น PENDING</p>
+    <p>Staff คลิกสล็อตว่างในปฏิทิน → เลือกประเภท: ทดลองเรียน / จองรายครั้ง / คอร์สรายสัปดาห์ / Voucher → เลือกนักเรียน+วิชา → บันทึกเป็น PENDING · <b>ประชุม 2026-07-11 (ค้นหา — ทำแล้ว ✓):</b> <code>searchStudents</code> ใช้ ilike substring กับ ชื่อ/ชื่อเล่น/เบอร์ผู้ปกครอง — พิมพ์ "เอิร์ธ" เจอ "น้องเอิร์ธ", ค้นด้วยเบอร์ได้ ไม่ต้องพิมพ์ "น้อง" นำหน้า</p>
     <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><span class="arrow">→</span><span class="chip uc active">UC-001</span><span class="arrow">→</span><a class="chip scr" href="#SCR-003">SCR-003</a><span class="arrow">→</span><a class="chip api" href="#API-003">API-003</a><a class="chip api" href="#API-010">API-010</a><span class="arrow">→</span><a class="chip tc" href="#TC-012">TC-012</a></div>
   </article>
 
@@ -323,7 +329,7 @@ table.matrix td:last-child{border-right:0;}
 
   <article class="uc-card" id="UC-003">
     <h3><span class="id-badge uc">UC-003</span> ย้าย/เพิ่มคาบด้วยมือ (Manual Move/Add) <span class="status done">Implemented</span></h3>
-    <p>กรณีพิเศษ (เรียนเพิ่มช่วงปิดเทอม ฯลฯ) — staff ย้ายครู/วัน/เวลาได้ · <b>2026-07-11:</b> เพิ่มปุ่ม "ย้ายคาบ" ในโมดอลดูคาบ (SCR-004) ต่อกับ API-005 แล้ว (เดิม FE ยังไม่มี) · ชนสล็อต → 409</p>
+    <p>กรณีพิเศษ (เรียนเพิ่มช่วงปิดเทอม ฯลฯ) — staff ย้ายครู/วัน/เวลาได้ · <b>2026-07-11:</b> เพิ่มปุ่ม "ย้ายคาบ" ในโมดอลดูคาบ (SCR-004) ต่อกับ API-005 แล้ว (เดิม FE ยังไม่มี) · ชนสล็อต → 409 · <b>⚠️ ประชุม 2026-07-11 (ต้อง clarify):</b> สรุปประชุมข้อ Auto-Move อยากให้ "ย้ายวัน → ตัดคาบเก่า + ต่อท้ายคอร์ส นับครบ" — ปัจจุบัน auto-append ทำผ่าน<b>แจ้งลา (UC-010)</b> เท่านั้น; การย้ายด้วยมือแค่ย้ายในที่เดิม (นับครบเพราะเป็นคาบเดิม) — ต้องยืนยันว่าต้องการ "เลือกวันใหม่เอง+นับครบ" (ยังไม่มี) หรือใช้ flow ลา (มีแล้ว)</p>
     <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><span class="arrow">→</span><span class="chip uc active">UC-003</span><span class="arrow">→</span><a class="chip scr" href="#SCR-004">SCR-004</a><span class="arrow">→</span><a class="chip api" href="#API-005">API-005</a><span class="arrow">→</span><span class="chip none">manual QA</span></div>
   </article>
 
@@ -359,13 +365,13 @@ table.matrix td:last-child{border-right:0;}
 
   <article class="uc-card" id="UC-009">
     <h3><span class="id-badge uc">UC-009</span> เช็คอินผ่าน QR / LINE <span class="status done">Implemented</span></h3>
-    <p>คาบที่ยืนยันแล้วมี check-in token → ผู้ปกครอง/นักเรียนสแกน QR หรือกดใน LINE → POST /checkin (public, token) → ATTENDED + ให้แต้ม CRM</p>
+    <p>คาบที่ยืนยันแล้วมี check-in token → ผู้ปกครอง/นักเรียนสแกน QR หรือกดใน LINE → POST /checkin (public, token) → ATTENDED + ให้แต้ม CRM · <b>ประชุม 2026-07-11 (QR แทนพิกัด — ทำแล้ว ✓):</b> ระบบใช้ QR/token อยู่แล้ว <b>ไม่มีโค้ด GPS/location</b> เลย — ความกังวลเรื่องพิกัดไม่ตรง (ฝากพี่เลี้ยง) ตกไปเอง</p>
     <div class="chain"><a class="chip wf" href="#WF-004">WF-004</a><span class="arrow">→</span><span class="chip uc active">UC-009</span><span class="arrow">→</span><a class="chip scr" href="#SCR-008">SCR-008</a><span class="arrow">→</span><a class="chip api" href="#API-015">API-015</a><span class="arrow">→</span><a class="chip tc" href="#TC-006">TC-006</a></div>
   </article>
 
   <article class="uc-card" id="UC-010">
     <h3><span class="id-badge uc">UC-010</span> แจ้งลา + ขยายคาบอัตโนมัติ <span class="status done">Implemented</span></h3>
-    <p>แจ้งลา (staff หรือ LINE) → SICK_LEAVE · ถ้าอยู่ในโควตา → สร้างคาบชดเชยต่อท้ายอัตโนมัติ (EXTENDED) + นับ leaveUsed</p>
+    <p>แจ้งลา (staff หรือ LINE) → SICK_LEAVE · ถ้าอยู่ในโควตา → สร้างคาบชดเชยต่อท้ายอัตโนมัติ (EXTENDED) + นับ leaveUsed · <b>ประชุม 2026-07-11:</b> กลไกนี้คือ "Auto-Move นับครบ" ที่ประชุมพูดถึง (ดู UC-003 ประกอบ) — auto-append ต่อท้าย เลือกสัปดาห์ว่างถัดไปให้เอง</p>
     <div class="chain"><a class="chip wf" href="#WF-004">WF-004</a><span class="arrow">→</span><span class="chip uc active">UC-010</span><span class="arrow">→</span><a class="chip scr" href="#SCR-004">SCR-004</a><span class="arrow">→</span><a class="chip api" href="#API-004">API-004</a><span class="arrow">→</span><a class="chip tc" href="#TC-001">TC-001</a></div>
   </article>
 
@@ -400,8 +406,8 @@ table.matrix td:last-child{border-right:0;}
   </article>
 
   <article class="uc-card" id="UC-016">
-    <h3><span class="id-badge uc">UC-016</span> คุมงบ Freelance (Auto-Disable) <span class="status partial">Partial</span></h3>
-    <p>ตั้งเพดานรายได้/เดือนครู Freelance → เรท× ชม.รับงาน ≥ เพดาน → auto-disable ซ่อนจากตาราง (มี override) · <b>เรท/เพดานจริงต้องดึงจาก backoffice (ตอนนี้ mock)</b></p>
+    <h3><span class="id-badge uc">UC-016</span> คุมงบ Freelance (แถบสีบนปฏิทิน) <span class="status partial">Partial</span></h3>
+    <p>ตั้งเพดานรายได้/เดือนครู Freelance → เรท× ชม.รับงาน ≥ เพดาน · <b>ประชุม 2026-07-11 (เปลี่ยนพฤติกรรม):</b> แทนที่จะ<b>ซ่อน</b>ครูเมื่อถึงเพดาน → ให้<b>แสดงแถบสี % บนปฏิทิน (เขียว→เหลือง→แดง)</b> ให้แอดมินเห็นว่าใกล้เต็มโควตา แต่<b>ยังจองได้</b>หากจำเป็น · ตอนนี้แถบสีมีแล้วใน<b>หน้าจัดการครู</b> แต่<b>ปฏิทินยังซ่อนครูที่เกินเพดาน</b> (<code>bookable = active && !overLimit</code>) — ต้องแก้ให้ปฏิทินโชว์ + แถบสถานะ · <b>เรท/เพดานจริงต้องดึงจาก backoffice (ตอนนี้ mock)</b></p>
     <div class="chain"><a class="chip wf" href="#WF-005">WF-005</a><span class="arrow">→</span><span class="chip uc active">UC-016</span><span class="arrow">→</span><a class="chip scr" href="#SCR-006">SCR-006</a><span class="arrow">→</span><a class="chip api" href="#API-023">API-023</a><span class="arrow">→</span><a class="chip tc" href="#TC-015">TC-015</a></div>
   </article>
 
@@ -463,6 +469,62 @@ table.matrix td:last-child{border-right:0;}
     <h3><span class="id-badge uc">UC-026</span> เข้าสู่ระบบ staff <span class="status done">Implemented</span></h3>
     <p>กรอก user/pass → NextAuth (FE) เรียก POST /api/auth/login (BE) → รับ JWT เก็บใน session → axios แนบ Bearer ทุก request · 401 → กลับหน้า login</p>
     <div class="chain"><a class="chip wf" href="#WF-010">WF-010</a><span class="arrow">→</span><span class="chip uc active">UC-026</span><span class="arrow">→</span><a class="chip scr" href="#SCR-001">SCR-001</a><span class="arrow">→</span><a class="chip api" href="#API-001">API-001</a><span class="arrow">→</span><a class="chip tc" href="#TC-009">TC-009</a></div>
+  </article>
+
+  <!-- ===== Meeting backlog (ประชุม 2026-07-11 กับคุณฟีน) ===== -->
+
+  <article class="uc-card" id="UC-027">
+    <h3><span class="id-badge uc">UC-027</span> ยืนยันคาบแบบกลุ่ม (Bulk Confirm) <span class="status planned">Planned</span></h3>
+    <p><b>ประชุม 2026-07-11:</b> แอดมินเลือกหลายคาบ (เช่นทั้งคอร์สระยะยาว) แล้วกด "ยืนยัน" ครั้งเดียว — ไม่ต้องกดทีละคาบ · ตอนนี้ยืนยันได้ทีละคาบ (API-004). ต้องเพิ่ม multi-select ใน UI + endpoint/loop ยืนยันหลายรายการ (idempotent + push LINE ครูทีละคาบ)</p>
+    <div class="chain"><a class="chip wf" href="#WF-001">WF-001</a><span class="arrow">→</span><span class="chip uc active">UC-027</span><span class="arrow">→</span><a class="chip scr" href="#SCR-004">SCR-004</a><span class="arrow">→</span><a class="chip api" href="#API-004">API-004</a><span class="arrow">→</span><span class="chip none">API-TBD</span></div>
+  </article>
+
+  <article class="uc-card" id="UC-028">
+    <h3><span class="id-badge uc">UC-028</span> LINE แจ้งผู้ปกครองเมื่อสมัครคอร์สสำเร็จ <span class="status planned">Planned</span></h3>
+    <p><b>ประชุม 2026-07-11:</b> สมัครคอร์สเสร็จ → push LINE หาผู้ปกครอง ระบุ ครู / วันเริ่มเรียน / จำนวนชั่วโมง · ตอนนี้ <code>createCoursePackage</code> (API-008) <b>ไม่มี</b> enqueue LINE หาผู้ปกครองเลย — ต้องเพิ่ม outbox push (ต้องมี LINE userId ของผู้ปกครองก่อน)</p>
+    <div class="chain"><a class="chip wf" href="#WF-003">WF-003</a><span class="arrow">→</span><span class="chip uc active">UC-028</span><span class="arrow">→</span><a class="chip api" href="#API-008">API-008</a><a class="chip api" href="#API-016">API-016</a><span class="arrow">→</span><span class="chip none">no TC yet</span></div>
+  </article>
+
+  <article class="uc-card" id="UC-029">
+    <h3><span class="id-badge uc">UC-029</span> กฎแจ้งลาล่วงหน้าตามประเภทครู <span class="status planned">Planned</span></h3>
+    <p><b>ประชุม 2026-07-11:</b> ต้องแจ้งลาล่วงหน้าขั้นต่ำต่างกันตามประเภทครู — <b>Full-time/Part-time ≥ 1 ชม.</b>, <b>Freelance ≥ 2 ชม.</b> ก่อนเวลาคาบ · ตอนนี้ [lib/leave.ts] มีแค่โควตา ไม่มีเช็คเวลาแจ้งล่วงหน้า — ต้องเพิ่มกฎ + บังคับตอนแจ้งลา (ทั้ง staff และ LINE bot)</p>
+    <div class="chain"><a class="chip wf" href="#WF-004">WF-004</a><span class="arrow">→</span><span class="chip uc active">UC-029</span><span class="arrow">→</span><a class="chip scr" href="#SCR-004">SCR-004</a><span class="arrow">→</span><a class="chip api" href="#API-004">API-004</a><span class="arrow">→</span><span class="chip none">no TC yet</span></div>
+  </article>
+
+  <article class="uc-card" id="UC-030">
+    <h3><span class="id-badge uc">UC-030</span> เวลาทำงานครูระดับช่วงเวลา (ไม่ใช่แค่รายวัน) <span class="status planned">Planned</span></h3>
+    <p><b>ประชุม 2026-07-11:</b> ครูบางคนรับงานเฉพาะช่วง (เช่น เช้าครึ่งวัน / บ่าย) — ต้องละเอียดกว่าระดับ "วัน" · ตอนนี้ <code>teachers.work_days</code> เป็นราย<b>วัน</b>เท่านั้น (API-013) — ต้องเพิ่ม schema ช่วงเวลา/สล็อตที่รับได้ + UI + ปฏิทินกรองตามช่วงเวลา</p>
+    <div class="chain"><a class="chip wf" href="#WF-005">WF-005</a><span class="arrow">→</span><span class="chip uc active">UC-030</span><span class="arrow">→</span><a class="chip scr" href="#SCR-006">SCR-006</a><span class="arrow">→</span><a class="chip api" href="#API-013">API-013</a><span class="arrow">→</span><span class="chip none">no TC yet</span></div>
+  </article>
+
+  <article class="uc-card" id="UC-031">
+    <h3><span class="id-badge uc">UC-031</span> แก้ไข/ขยายคอร์สด้วยมือ (Manual Override) <span class="status planned">Planned</span></h3>
+    <p><b>ประชุม 2026-07-11:</b> เมนูแก้คาบรายสัปดาห์ด้วยมือ — รองรับผู้ปกครองแจ้งลาล่วงหน้าตั้งแต่วันสมัคร และ<b>ขยายวันหมดอายุคอร์ส</b>เป็นกรณีพิเศษ · ตอนนี้ <code>updateCourse</code> (API-017) มีแค่ <code>adminUnlocked</code> — ต้องเพิ่มแก้ expiry + จัดการคาบในคอร์สด้วยมือ</p>
+    <div class="chain"><a class="chip wf" href="#WF-003">WF-003</a><span class="arrow">→</span><span class="chip uc active">UC-031</span><span class="arrow">→</span><a class="chip scr" href="#SCR-005">SCR-005</a><span class="arrow">→</span><a class="chip api" href="#API-017">API-017</a><span class="arrow">→</span><span class="chip none">no TC yet</span></div>
+  </article>
+
+  <article class="uc-card" id="UC-032">
+    <h3><span class="id-badge uc">UC-032</span> LINE Bot รองรับไทย + อังกฤษเต็มรูปแบบ <span class="status partial">Partial</span></h3>
+    <p><b>ประชุม 2026-07-11:</b> บอทต้องรับคำสั่งทั้งไทย/อังกฤษ (เช่น "ลา" หรือ "Sick Leave") · <b>ทำแล้วบางส่วน:</b> คำสั่งฐาน <code>sick/leave/checkin/check-in</code> รับ EN แล้ว. <b>ยังขาด:</b> รูปแบบมีเลข (<code>ลา 1</code>/<code>เช็คอิน 1</code> = regex ไทยล้วน), คำสั่ง <code>qr</code>/<code>เพิ่มนักเรียน</code>, และ<b>ข้อความตอบกลับทั้งหมดยังเป็นไทยล้วน</b> ([line-webhook.service.ts])</p>
+    <div class="chain"><a class="chip wf" href="#WF-006">WF-006</a><span class="arrow">→</span><span class="chip uc active">UC-032</span><span class="arrow">→</span><a class="chip api" href="#API-016">API-016</a><span class="arrow">→</span><a class="chip tc" href="#TC-008">TC-008</a></div>
+  </article>
+
+  <article class="uc-card" id="UC-033">
+    <h3><span class="id-badge uc">UC-033</span> อัปเดตรายชื่อวิชาให้ตรงจริง (Bike/Scooter แยก) <span class="status planned">Planned</span></h3>
+    <p><b>ประชุม 2026-07-11:</b> แก้รายชื่อวิชาในฐานข้อมูลให้ตรงการใช้งานจริง เช่น<b>แยก Bike / Scooter</b> ออกจากกัน · ตอนนี้รวมเป็น <code>"Bike / Scooter / Balance Cruiser"</code> ใน seed ([seed-data.ts]) — งานแก้ข้อมูล + ตรวจ mapping teacher_subjects</p>
+    <div class="chain"><a class="chip wf" href="#WF-003">WF-003</a><span class="arrow">→</span><span class="chip uc active">UC-033</span><span class="arrow">→</span><span class="chip none">data/seed</span></div>
+  </article>
+
+  <article class="uc-card" id="UC-034">
+    <h3><span class="id-badge uc">UC-034</span> รองรับหลายสาขา (Multi-branch) <span class="status planned">Planned</span></h3>
+    <p><b>ประชุม 2026-07-11 (การบ้าน/อนาคต):</b> ออกแบบ DB รองรับหลายสาขา — ครูคนเดียวสอนสลับได้ทั้ง 2 สาขา, แอดมินดูภาพรวมจากระบบเดียว · ตอนนี้ schema <b>ไม่มี</b> concept สาขาเลย — งานออกแบบ (branch table + FK บน bookings/teachers + filter)</p>
+    <div class="chain"><a class="chip wf" href="#WF-011">WF-011</a><span class="arrow">→</span><span class="chip uc active">UC-034</span><span class="arrow">→</span><span class="chip none">design</span></div>
+  </article>
+
+  <article class="uc-card" id="UC-035">
+    <h3><span class="id-badge uc">UC-035</span> Sync ตารางสอนเข้า Google Calendar <span class="status planned">Planned</span></h3>
+    <p><b>ประชุม 2026-07-11 (การบ้าน/อนาคต):</b> ศึกษาความเป็นไปได้ในการ sync ตารางสอนเข้า Google Calendar / ปฏิทินมือถือของครู เพื่อให้ครูเห็นงานล่วงหน้านอกจาก LINE · ยังไม่มี — งานศึกษา (OAuth + Calendar API หรือ .ics feed)</p>
+    <div class="chain"><a class="chip wf" href="#WF-011">WF-011</a><span class="arrow">→</span><span class="chip uc active">UC-035</span><span class="arrow">→</span><span class="chip none">research</span></div>
   </article>
 </section>
 
@@ -676,7 +738,7 @@ table.matrix td:last-child{border-right:0;}
       </tr>
     </tbody>
   </table>
-  <p class="meta" style="margin-top:14px">รวม: 10 WF · 26 UC · 10 SCR · 23 API · 14 TC · 8 DIA — <b>Implemented</b> ส่วนใหญ่ของ frontoffice/scheduling · LINE OA (ตั้ง Webhook แล้ว) + CRM level/perks เสร็จ · <b>Partial</b> = backoffice API · <b>Planned</b> = ตัดโควตาสิ้นวัน (UC-012), wallet integration (UC-025), backoffice UI · ดูภาพรวมเชิงสถาปัตยกรรมที่ <a href="#diagrams">⑧ Diagrams (PlantUML)</a></p>
+  <p class="meta" style="margin-top:14px">รวม: 11 WF · 35 UC · 10 SCR · 23 API · 14 TC · 8 DIA — <b>Implemented</b> ส่วนใหญ่ของ frontoffice/scheduling · LINE OA (ตั้ง Webhook แล้ว) + CRM level/perks เสร็จ · <b>Partial</b> = backoffice API, LINE bot 2 ภาษา (UC-032), แถบสีปฏิทิน (UC-016) · <b>Planned</b> = ตัดโควตาสิ้นวัน (UC-012), wallet integration (UC-025), backoffice UI, <b>backlog ประชุม 2026-07-11</b> (UC-027…UC-035: bulk confirm, LINE สมัครคอร์ส, กฎลาตามประเภทครู, เวลาครูช่วงเวลา, ขยายคอร์สด้วยมือ, แยกวิชา, multi-branch, calendar sync) · ดูภาพรวมเชิงสถาปัตยกรรมที่ <a href="#diagrams">⑧ Diagrams (PlantUML)</a></p>
 </section>
 
 <!-- ============ DIAGRAMS (PlantUML) ============ -->
