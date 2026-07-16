@@ -37,8 +37,8 @@ source-pdf/               ← PDF ต้นฉบับ — DOC-004
 
 ## รวม ณ ปัจจุบัน
 
-10 Workflows · 26 Use Cases · 10 Screens · 23 APIs · 14 Test Cases · 8 Diagrams
-Frontoffice (ตารางเรียน) + scheduling API เสร็จเป็นส่วนใหญ่ · LINE OA ตั้ง Webhook URL แล้ว (บอทตอบกลับได้จริง) + CRM level/perks เสร็จ · Backoffice API มีบางส่วน, UI ยังไม่เริ่ม
+12 Workflows · 36 Use Cases · 11 Screens · 24 APIs · 15 Test Cases · 8 Diagrams (อัปเดต 2026-07-16)
+Frontoffice (ตารางเรียน) + scheduling API เสร็จเป็นส่วนใหญ่ · แจ้งลาล่วงหน้าตามประเภทครู (UC-029) + QR check-in + **ระบบ Badge แทน Multi-branch (WF-012/UC-036)** เสร็จ · LINE bot ตอบกลับได้จริง (ยังไทยล้วน + UX ดิบ) + CRM level/perks เสร็จ · Backoffice **BE** (catalog/wallet/commercial/parties/sales) เสร็จ, **payroll/settlement + FE + integration ATTENDED→debit ยังไม่ทำ** · Auto-cut สิ้นวัน (UC-012) ยังไม่ทำ
 
 ## คอมเมนต์บน mockup (ข้อจำกัดที่ต้องรู้)
 

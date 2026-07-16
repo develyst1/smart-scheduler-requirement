@@ -16,6 +16,31 @@
 
 ---
 
+## 2026-07-16 — Reconcile requirement.html กับโค้ดจริง (as-built) + ดีไซน์ Auto-cut / Income-ceiling / LINE  ⭐
+> ที่มา: คุณฟีนสั่ง "อัปเดต requirement ให้เป็นภาพปัจจุบัน แล้วเคลียร์ทีละเรื่อง" · verify โค้ดทั้ง 4 repo ด้วย sub-agent
+
+### แก้ status ใน requirement.html ให้ตรงโค้ด
+- **UC-029** แจ้งลาล่วงหน้าตามประเภทครู → **Implemented** (`lib/leave-notice.ts` FT/PT 60min, FL 120min, wired staff+LINE bot + test) — เดิม badge เขียน Planned ผิด
+- **SCR-008** QR check-in → **Implemented** (token + Bangkok time-window `[start−30min, end]`, **ไม่มี GPS**)
+- **API-018/019/020/021/022** (backoffice BE: catalog/sales/parties/accounts/commercial) → **Implemented**
+- **API-023** pricing → Partial (มีแค่ GET/POST/GET:id **ไม่มี update/delete**; seed เรทเฉพาะ FREELANCE, FT/PT ยังไม่มี)
+- **UC-031** ขยายคอร์สด้วยมือ → Partial (move คาบได้ แต่ extend/recompute remaining ยังไม่มี)
+- **UC-033** ชื่อวิชา → Partial (seed โปรแกรมกีฬาจริงแล้ว แต่ **Bike/Scooter ยังรวม subject เดียว** — confirm ลูกค้าว่าจะแยกไหม)
+
+### เพิ่ม/ปรับ card
+- เพิ่ม **ระบบ Badge** ที่ build เสร็จ end-to-end แต่ hub ไม่เคยมี → **WF-012 / UC-036 / SCR-011 / API-024 / TC-016** (Implemented)
+- **UC-034 Multi-branch → Descoped** (ลูกค้ายืนยัน 2026-07-15 ไม่เอาแยกสาขา แทนด้วย Badge) · WF-011 เหลือแค่ Google Calendar sync
+- counts ใหม่: 12 WF · 36 UC · 11 SCR · 24 API · 15 TC · 8 DIA
+
+### ดีไซน์ที่ตกลง (ยังไม่ build — ทำต่อรอบหน้า)
+- **Auto-cut สิ้นวัน (UC-012):** `bun build --compile` exe เป็น trigger ยิง `POST /internal/jobs/end-of-day` ใน back (logic ตัด+รายงานอยู่ที่เดียว), **idempotent + `job_runs` log**, timezone Asia/Bangkok, Windows Task Scheduler ~18:05 · แยก 2 งาน (ตัดจริง/รายงาน) · **ทำได้เลย ไม่ต้องรอ backoffice**
+- **Income ceiling (UC-016):** cross-system — mock ล้วน (back `teachers` ไม่มี column rate/limit → `overLimit` false เสมอ) · **รอ backoffice-*back*** (pricing เรทจริง + endpoint ดึงเรท/cap + D.1 wire) **ไม่รอ front** · foundation เดียวกับ wallet debit (UC-025) + payroll (UC-024) → ทำ backoffice-back finance ก่อน
+- **LINE:** bot inbound ตอบได้จริง แต่ **reply ไทยล้วน (UC-032 Partial)** + **push แจ้งผู้ปกครองตอนสมัครคอร์สยังไม่ทำ (UC-028 Planned)** + UX ดิบ → **รอลูกค้าบรีฟก่อน**
+
+📄 รายละเอียดเต็ม + as-built ทุก ID พร้อม path/line: [HANDOFF-2026-07-16.md](HANDOFF-2026-07-16.md)
+
+---
+
 ## 2026-07-11 — สรุปประชุมกับคุณฟีน (ประชุม20260711.mp4) → backlog UC-027…UC-035  ⭐
 > ที่มา: บันทึกประชุม `ประชุม20260711.txt` (ในฐานะ PM/DEV) · ทวนกับโค้ดจริงทั้ง 3 repo แล้ว
 

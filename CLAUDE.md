@@ -3,6 +3,10 @@
 Guides Claude Code (and any AI session) working in — or **directed from** — this repo. For the
 cross-repo product map, see the workspace root `../CLAUDE.md`.
 
+> 📌 **เริ่ม session ใหม่แบบไม่มี context?** อ่าน **[HANDOFF-2026-07-16.md](HANDOFF-2026-07-16.md)** ก่อน —
+> สรุปงานปัจจุบัน (อัปเดต requirement.html ให้ตรงโค้ด + เคลียร์ Auto-cut/Income-ceiling/LINE),
+> as-built status ที่ verify แล้ว, และดีไซน์ที่ตกลงไว้แล้ว.
+
 ## Why this repo matters most
 
 This is the **single source of truth for scope, status, and "what to do next"** across the whole

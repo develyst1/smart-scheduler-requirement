@@ -304,9 +304,15 @@ table.matrix td:last-child{border-right:0;}
   </article>
 
   <article class="wf-card" id="WF-011">
-    <h3><span class="id-badge wf">WF-011</span> แพลตฟอร์ม/อนาคต (Multi-branch & Sync) <span class="status planned">Planned</span></h3>
-    <p><b>ประชุม 2026-07-11 (การบ้าน):</b> งานออกแบบเพื่อรองรับการขยาย — โครงสร้างหลายสาขา (ครูสอนข้ามสาขา, แอดมินดูภาพรวมระบบเดียว) และ sync ตารางสอนเข้า Google Calendar/ปฏิทินมือถือครู · ยังเป็นงานออกแบบ ไม่เริ่ม build</p>
+    <h3><span class="id-badge wf">WF-011</span> แพลตฟอร์ม/อนาคต (Sync) <span class="status planned">Planned</span></h3>
+    <p><b>ประชุม 2026-07-11 (การบ้าน):</b> sync ตารางสอนเข้า Google Calendar/ปฏิทินมือถือครู · ยังเป็นงานศึกษา · <b>หมายเหตุ:</b> Multi-branch (UC-034) <b>ถูกยกเลิก</b> — ลูกค้ายืนยัน 2026-07-15 ไม่เอาแยกสาขา แทนด้วย <b>ระบบ Badge (WF-012)</b> ที่ build เสร็จแล้ว</p>
     <div class="chain"><a class="chip uc" href="#UC-034">UC-034</a><a class="chip uc" href="#UC-035">UC-035</a></div>
+  </article>
+
+  <article class="wf-card" id="WF-012">
+    <h3><span class="id-badge wf">WF-012</span> ระบบ Badge (แท็กยืดหยุ่น) — แทน Multi-branch <span class="status done">Implemented</span></h3>
+    <p><b>คุยลูกค้า 2026-07-15:</b> แทนแยกสาขา ลูกค้าอยากได้ปฏิทินเดียว + ระบบ <b>badge ยืดหยุ่น</b> ที่แอดมินออกแบบเอง ("สาขา" = badge type หนึ่ง) · <b>build เสร็จ end-to-end + verify บน SID</b> — ดู <code>../docs/badge-system-design.md</code></p>
+    <div class="chain"><a class="chip uc" href="#UC-036">UC-036</a></div>
   </article>
 </section>
 
@@ -383,7 +389,7 @@ table.matrix td:last-child{border-right:0;}
 
   <article class="uc-card" id="UC-012">
     <h3><span class="id-badge uc">UC-012</span> ตัดโควตาคอร์สอัตโนมัติสิ้นวัน <span class="status planned">Planned</span></h3>
-    <p>สิ้นเวลาทำการ (18:00) — คาบที่ไม่มีเช็คอิน & ไม่แจ้งลา → ตัดโควตา/เปลี่ยนสถานะอัตโนมัติ · <b>ยังไม่ทำ (ตกลงข้ามไว้ก่อน)</b> — ออกแบบให้ใช้ in-process cron เหมือน LINE worker</p>
+    <p>สิ้นเวลาทำการ (18:00) — คาบที่ไม่มีเช็คอิน & ไม่แจ้งลา → ตัดโควตา/เปลี่ยนสถานะ + สรุปรายงานรายวัน · <b>ยังไม่ทำ (ยังไม่มี cron/sweep)</b> logic ตัดต่อคาบมี (<code>usedSessions++</code>) แต่ attendance-driven ไม่ใช่ scheduled · <b>ดีไซน์ที่ตกลง 2026-07-16:</b> ทำ <code>bun build --compile</code> exe บางๆ เป็น trigger ยิง endpoint ภายใน <code>POST /internal/jobs/end-of-day</code> (logic ตัด+รายงานอยู่ใน back ที่เดียว), <b>idempotent</b> + <code>job_runs</code> log, timezone Asia/Bangkok, ตั้ง Windows Task Scheduler รัน ~18:05 · แยก 2 งาน: (1) ตัดจริง (mutate) (2) รายงาน (read)</p>
     <div class="chain"><a class="chip wf" href="#WF-004">WF-004</a><span class="arrow">→</span><span class="chip uc active">UC-012</span><span class="arrow">→</span><span class="chip none">no SCR (job)</span><span class="arrow">→</span><span class="chip none">API-TBD</span><span class="arrow">→</span><span class="chip none">no TC yet</span></div>
   </article>
 
@@ -407,7 +413,7 @@ table.matrix td:last-child{border-right:0;}
 
   <article class="uc-card" id="UC-016">
     <h3><span class="id-badge uc">UC-016</span> คุมงบ Freelance (แถบสีบนปฏิทิน) <span class="status partial">Partial</span></h3>
-    <p>ตั้งเพดานรายได้/เดือนครู Freelance → เรท× ชม.รับงาน ≥ เพดาน · <b>ประชุม 2026-07-11 (เปลี่ยนพฤติกรรม):</b> แทนที่จะ<b>ซ่อน</b>ครูเมื่อถึงเพดาน → ให้<b>แสดงแถบสี % บนปฏิทิน (เขียว→เหลือง→แดง)</b> ให้แอดมินเห็นว่าใกล้เต็มโควตา แต่<b>ยังจองได้</b>หากจำเป็น · ตอนนี้แถบสีมีแล้วใน<b>หน้าจัดการครู</b> แต่<b>ปฏิทินยังซ่อนครูที่เกินเพดาน</b> (<code>bookable = active && !overLimit</code>) — ต้องแก้ให้ปฏิทินโชว์ + แถบสถานะ · <b>เรท/เพดานจริงต้องดึงจาก backoffice (ตอนนี้ mock)</b></p>
+    <p>ตั้งเพดานรายได้/เดือนครู Freelance → เรท× ชม.รับงาน ≥ เพดาน · <b>ประชุม 2026-07-11 (เปลี่ยนพฤติกรรม):</b> แทนที่จะ<b>ซ่อน</b>ครูเมื่อถึงเพดาน → ให้<b>แสดงแถบสี % บนปฏิทิน (เขียว→เหลือง→แดง)</b> ให้แอดมินเห็นว่าใกล้เต็มโควตา แต่<b>ยังจองได้</b>หากจำเป็น · ตอนนี้แถบสีมีแล้วใน<b>หน้าจัดการครู (ไม่ใช่ปฏิทิน)</b> · <b>ยัง mock ทั้งหมด:</b> cap math อยู่ frontend (teacher.ts) ป้อนด้วย mock — mapper จริง <code>dtoToTeacher</code> ไม่ populate <code>hourlyRate</code>/<code>incomeLimit</code> และ back <code>teachers</code> ไม่มี column เหล่านี้ → กับ backend จริง <code>overLimit</code> เป็น false เสมอ · <b>dependency:</b> ต้องมี backoffice-back pricing (เรทจริง/cap) + D.1 wire ก่อน (ดู UC-024/UC-025) แล้วค่อยย้าย bar มาปฏิทิน</p>
     <div class="chain"><a class="chip wf" href="#WF-005">WF-005</a><span class="arrow">→</span><span class="chip uc active">UC-016</span><span class="arrow">→</span><a class="chip scr" href="#SCR-006">SCR-006</a><span class="arrow">→</span><a class="chip api" href="#API-023">API-023</a><span class="arrow">→</span><a class="chip tc" href="#TC-015">TC-015</a></div>
   </article>
 
@@ -486,8 +492,8 @@ table.matrix td:last-child{border-right:0;}
   </article>
 
   <article class="uc-card" id="UC-029">
-    <h3><span class="id-badge uc">UC-029</span> กฎแจ้งลาล่วงหน้าตามประเภทครู <span class="status planned">Planned</span></h3>
-    <p><b>ประชุม 2026-07-11:</b> ต้องแจ้งลาล่วงหน้าขั้นต่ำต่างกันตามประเภทครู — <b>Full-time/Part-time ≥ 1 ชม.</b>, <b>Freelance ≥ 2 ชม.</b> ก่อนเวลาคาบ · ตอนนี้ [lib/leave.ts] มีแค่โควตา ไม่มีเช็คเวลาแจ้งล่วงหน้า — ต้องเพิ่มกฎ + บังคับตอนแจ้งลา (ทั้ง staff และ LINE bot)</p>
+    <h3><span class="id-badge uc">UC-029</span> กฎแจ้งลาล่วงหน้าตามประเภทครู <span class="status done">Implemented</span></h3>
+    <p><b>ประชุม 2026-07-11:</b> แจ้งลาล่วงหน้าขั้นต่ำต่างกันตามประเภทครู — <b>Full-time/Part-time ≥ 60 นาที</b>, <b>Freelance ≥ 120 นาที</b> ก่อนเวลาคาบ · <b>ทำแล้ว</b> ([lib/leave-notice.ts] + unit test) บังคับใน <code>updateBookingStatus</code> สาขา sick-leave → throw <code>LEAVE_NOTICE_TOO_LATE</code> (409) เว้นแต่ <code>override:true</code> (admin) · ครอบทั้ง staff และ LINE bot (line-webhook.service.ts)</p>
     <div class="chain"><a class="chip wf" href="#WF-004">WF-004</a><span class="arrow">→</span><span class="chip uc active">UC-029</span><span class="arrow">→</span><a class="chip scr" href="#SCR-004">SCR-004</a><span class="arrow">→</span><a class="chip api" href="#API-004">API-004</a><span class="arrow">→</span><span class="chip none">no TC yet</span></div>
   </article>
 
@@ -498,8 +504,8 @@ table.matrix td:last-child{border-right:0;}
   </article>
 
   <article class="uc-card" id="UC-031">
-    <h3><span class="id-badge uc">UC-031</span> แก้ไข/ขยายคอร์สด้วยมือ (Manual Override) <span class="status planned">Planned</span></h3>
-    <p><b>ประชุม 2026-07-11:</b> เมนูแก้คาบรายสัปดาห์ด้วยมือ — รองรับผู้ปกครองแจ้งลาล่วงหน้าตั้งแต่วันสมัคร และ<b>ขยายวันหมดอายุคอร์ส</b>เป็นกรณีพิเศษ · ตอนนี้ <code>updateCourse</code> (API-017) มีแค่ <code>adminUnlocked</code> — ต้องเพิ่มแก้ expiry + จัดการคาบในคอร์สด้วยมือ</p>
+    <h3><span class="id-badge uc">UC-031</span> แก้ไข/ขยายคอร์สด้วยมือ (Manual Override) <span class="status partial">Partial</span></h3>
+    <p><b>ประชุม 2026-07-11:</b> เมนูแก้คาบรายสัปดาห์ด้วยมือ + <b>ขยายวันหมดอายุคอร์ส</b> · <b>ทำแล้ว:</b> ย้ายคาบเดี่ยว (<code>moveBooking</code> — เปลี่ยนครู/วัน/เวลา) + hand-add คาบ · <b>ยังขาด:</b> ขยายคอร์ส/recompute จำนวนครั้งคงเหลือด้วยมือ (<code>updateCourse</code> มีแค่ <code>adminUnlocked</code>; append คาบเกิด auto ตอน sick-leave เท่านั้น)</p>
     <div class="chain"><a class="chip wf" href="#WF-003">WF-003</a><span class="arrow">→</span><span class="chip uc active">UC-031</span><span class="arrow">→</span><a class="chip scr" href="#SCR-005">SCR-005</a><span class="arrow">→</span><a class="chip api" href="#API-017">API-017</a><span class="arrow">→</span><span class="chip none">no TC yet</span></div>
   </article>
 
@@ -510,21 +516,27 @@ table.matrix td:last-child{border-right:0;}
   </article>
 
   <article class="uc-card" id="UC-033">
-    <h3><span class="id-badge uc">UC-033</span> อัปเดตรายชื่อวิชาให้ตรงจริง (Bike/Scooter แยก) <span class="status planned">Planned</span></h3>
-    <p><b>ประชุม 2026-07-11:</b> แก้รายชื่อวิชาในฐานข้อมูลให้ตรงการใช้งานจริง เช่น<b>แยก Bike / Scooter</b> ออกจากกัน · ตอนนี้รวมเป็น <code>"Bike / Scooter / Balance Cruiser"</code> ใน seed ([seed-data.ts]) — งานแก้ข้อมูล + ตรวจ mapping teacher_subjects</p>
+    <h3><span class="id-badge uc">UC-033</span> อัปเดตรายชื่อวิชาให้ตรงจริง (Bike/Scooter แยก) <span class="status partial">Partial</span></h3>
+    <p><b>ประชุม 2026-07-11:</b> แก้รายชื่อวิชาให้ตรงจริง เช่น<b>แยก Bike / Scooter</b> · <b>ทำแล้ว:</b> seed โปรแกรมกีฬาจริง (1st Trial, Surfskate, Freeskate, Skateboard, Inline, Onewheel, Balance Play ฯลฯ ใน [seed-data.ts]) · <b>ยังค้าง:</b> Bike กับ Scooter <b>ยังรวมเป็น subject เดียว</b> (<code>"Bike / Scooter / Balance Cruiser"</code>) — ต้อง confirm ลูกค้าว่าจะแยกไหม แล้วแก้ seed + mapping teacher_subjects</p>
     <div class="chain"><a class="chip wf" href="#WF-003">WF-003</a><span class="arrow">→</span><span class="chip uc active">UC-033</span><span class="arrow">→</span><span class="chip none">data/seed</span></div>
   </article>
 
   <article class="uc-card" id="UC-034">
-    <h3><span class="id-badge uc">UC-034</span> รองรับหลายสาขา (Multi-branch) <span class="status planned">Planned</span></h3>
-    <p><b>ประชุม 2026-07-11 (การบ้าน/อนาคต):</b> ออกแบบ DB รองรับหลายสาขา — ครูคนเดียวสอนสลับได้ทั้ง 2 สาขา, แอดมินดูภาพรวมจากระบบเดียว · ตอนนี้ schema <b>ไม่มี</b> concept สาขาเลย — งานออกแบบ (branch table + FK บน bookings/teachers + filter)</p>
-    <div class="chain"><a class="chip wf" href="#WF-011">WF-011</a><span class="arrow">→</span><span class="chip uc active">UC-034</span><span class="arrow">→</span><span class="chip none">design</span></div>
+    <h3><span class="id-badge uc">UC-034</span> รองรับหลายสาขา (Multi-branch) <span class="status removed">Descoped</span></h3>
+    <p><b>❌ ยกเลิก (ลูกค้ายืนยัน 2026-07-15):</b> ไม่เอาแยกสาขา — ต่อให้มีหลายสาขาก็อยากดูปฏิทิน/web เดียว · <b>แทนด้วยระบบ Badge</b> (<a class="chip uc" href="#UC-036">UC-036</a> / WF-012) ที่ทำ "สาขา" เป็น badge type หนึ่ง · build เสร็จแล้ว ไม่ต้องทำ multi-branch schema อีก</p>
+    <div class="chain"><a class="chip wf" href="#WF-011">WF-011</a><span class="arrow">→</span><span class="chip uc active">UC-034</span><span class="arrow">→</span><a class="chip uc" href="#UC-036">แทนด้วย UC-036</a></div>
   </article>
 
   <article class="uc-card" id="UC-035">
     <h3><span class="id-badge uc">UC-035</span> Sync ตารางสอนเข้า Google Calendar <span class="status planned">Planned</span></h3>
     <p><b>ประชุม 2026-07-11 (การบ้าน/อนาคต):</b> ศึกษาความเป็นไปได้ในการ sync ตารางสอนเข้า Google Calendar / ปฏิทินมือถือของครู เพื่อให้ครูเห็นงานล่วงหน้านอกจาก LINE · ยังไม่มี — งานศึกษา (OAuth + Calendar API หรือ .ics feed)</p>
     <div class="chain"><a class="chip wf" href="#WF-011">WF-011</a><span class="arrow">→</span><span class="chip uc active">UC-035</span><span class="arrow">→</span><span class="chip none">research</span></div>
+  </article>
+
+  <article class="uc-card" id="UC-036">
+    <h3><span class="id-badge uc">UC-036</span> ระบบ Badge (แท็กยืดหยุ่นบนการจอง) — แทน Multi-branch <span class="status done">Implemented</span></h3>
+    <p><b>คุยลูกค้า 2026-07-15:</b> แอดมินสร้าง badge type → values (แต่ละค่ามีสีจาก palette 12 สี) เอง · การจอง 1 ครั้งติดได้หลาย type แต่ <b>type ละ 1 ค่า</b> (<code>UNIQUE(booking_id, badge_type_id)</code>) · ติด badge ตอนจอง / แก้ badge ของ booking เดิม (<code>PATCH /bookings/:id/badges</code>) · กรองปฏิทินตาม badge (OR) · dashboard per-badge + ครู×badge · ลบค่าที่ใช้แล้ว = soft-delete · <b>build เสร็จ end-to-end</b> (migration <code>0008_badges</code>, badge.service.ts, หน้า <code>/scheduler/badges</code>) — verify บน SID. Badge สร้างผ่าน UI (ไม่ seed)</p>
+    <div class="chain"><a class="chip wf" href="#WF-012">WF-012</a><span class="arrow">→</span><span class="chip uc active">UC-036</span><span class="arrow">→</span><a class="chip scr" href="#SCR-011">SCR-011</a><span class="arrow">→</span><a class="chip api" href="#API-024">API-024</a><span class="arrow">→</span><a class="chip tc" href="#TC-016">TC-016</a></div>
   </article>
 </section>
 
@@ -590,8 +602,8 @@ table.matrix td:last-child{border-right:0;}
   </article>
 
   <article class="scr-card" id="SCR-008">
-    <h3><span class="id-badge scr">SCR-008</span> LINE OA + QR เช็คอิน (ผู้ปกครอง) <span class="status partial">Partial</span></h3>
-    <p>flow LINE OA: ยืนยันบทบาท+รหัส · เมนูเช็คอิน/แจ้งลา/ขอ QR · หน้าจอ QR เช็คอินต่อคาบ · <b>ตั้ง Webhook URL แล้ว บอทตอบกลับได้จริง</b></p>
+    <h3><span class="id-badge scr">SCR-008</span> LINE OA + QR เช็คอิน (ผู้ปกครอง) <span class="status done">Implemented</span></h3>
+    <p>flow LINE OA: ยืนยันบทบาท+รหัส · เมนูเช็คอิน/แจ้งลา/ขอ QR · หน้า public <code>/checkin?token=</code> · <b>ทำแล้ว</b>: token ออกตอน confirm, validate Bangkok window <code>[start−30min, end]</code> → ATTENDED · <b>ไม่มี GPS/LBS</b> (เป็น token+time-window) · เหลือ UX บอทดิบ + reply ไทยล้วน (ดู UC-032)</p>
     <div class="chain"><a class="chip wf" href="#WF-004">WF-004</a><a class="chip wf" href="#WF-006">WF-006</a><a class="chip uc" href="#UC-009">UC-009</a><a class="chip uc" href="#UC-017">UC-017</a><span class="chip scr active">SCR-008</span><a class="chip api" href="#API-015">API-015</a><a class="chip api" href="#API-016">API-016</a></div>
     <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-008">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-008.html" target="_blank">↗ Open Full Page</a></div>
     <div class="ui-frame-wrap" id="frame-SCR-008" hidden><iframe data-src="make-front/SCR-008.html" loading="lazy"></iframe></div>
@@ -611,6 +623,12 @@ table.matrix td:last-child{border-right:0;}
     <div class="chain"><a class="chip wf" href="#WF-009">WF-009</a><a class="chip uc" href="#UC-023">UC-023</a><a class="chip uc" href="#UC-024">UC-024</a><span class="chip scr active">SCR-010</span><a class="chip api" href="#API-021">API-021</a><a class="chip api" href="#API-022">API-022</a><a class="chip api" href="#API-023">API-023</a></div>
     <div class="ui-toggle-row"><button class="ui-btn view-ui-btn" data-target="frame-SCR-010">🖼 View UI Mockup ▾</button><a class="ui-btn" href="make-front/SCR-010.html" target="_blank">↗ Open Full Page</a></div>
     <div class="ui-frame-wrap" id="frame-SCR-010" hidden><iframe data-src="make-front/SCR-010.html" loading="lazy"></iframe></div>
+  </article>
+
+  <article class="scr-card" id="SCR-011">
+    <h3><span class="id-badge scr">SCR-011</span> จัดการ Badge + chips บนปฏิทิน + Dashboard <span class="status done">Implemented</span></h3>
+    <p>หน้า <code>/scheduler/badges</code> (จัดการ type/value + สี) · chip badge บนการ์ดปฏิทิน + filter badge (OR) · ตัวเลือก badge ในฟอร์มจอง + แก้ผ่าน view modal · <code>/scheduler/dashboard</code> per-badge count + ครู×badge · <b>build จริงในแอป (as-built)</b> · หมายเหตุ: ยังไม่มีไฟล์ mockup ใน <code>make-front/</code> (as-built ยังไม่ถ่ายทำ)</p>
+    <div class="chain"><a class="chip wf" href="#WF-012">WF-012</a><a class="chip uc" href="#UC-036">UC-036</a><span class="chip scr active">SCR-011</span><a class="chip api" href="#API-024">API-024</a></div>
   </article>
 </section>
 
@@ -636,12 +654,13 @@ table.matrix td:last-child{border-right:0;}
   <article class="api-card" id="API-015"><h3><span class="id-badge api">API-015</span> GET /api/bookings/:id/checkin · POST /api/checkin <span class="status done">Implemented</span></h3><p>ออก QR token + เช็คอิน (public) → ATTENDED + CRM. <a class="chip uc" href="#UC-009">UC-009</a></p></article>
   <article class="api-card" id="API-016"><h3><span class="id-badge api">API-016</span> POST /api/webhooks/line <span class="status done">Implemented</span></h3><p>LINE OA webhook — verify signature, bot flow ยืนยันบทบาท, ผูก userId↔role, แจ้ง admin. <a class="chip uc" href="#UC-017">UC-017</a> <a class="chip uc" href="#UC-018">UC-018</a></p></article>
   <article class="api-card" id="API-017"><h3><span class="id-badge api">API-017</span> GET /api/courses · PATCH /api/courses/:id <span class="status done">Implemented</span></h3><p>รายการคอร์ส + โควตาการลา + admin unlock (Policy Lock). <a class="chip uc" href="#UC-011">UC-011</a></p></article>
-  <article class="api-card" id="API-018"><h3><span class="id-badge api">API-018</span> /api/v1/catalog/items (+ /movements) <span class="status partial">Partial</span></h3><p>Backoffice: สินค้า + stock IN/OUT. <a class="chip uc" href="#UC-022">UC-022</a></p></article>
-  <article class="api-card" id="API-019"><h3><span class="id-badge api">API-019</span> POST /api/v1/commerce/sales <span class="status partial">Partial</span></h3><p>Backoffice: ขาย → ตัดสต๊อก. <a class="chip uc" href="#UC-022">UC-022</a></p></article>
-  <article class="api-card" id="API-020"><h3><span class="id-badge api">API-020</span> /api/v1/parties <span class="status partial">Partial</span></h3><p>Backoffice: map นักเรียน/ครู → parties (external_ref). <a class="chip uc" href="#UC-023">UC-023</a></p></article>
-  <article class="api-card" id="API-021"><h3><span class="id-badge api">API-021</span> /api/v1/accounts (+ ledger, credits/debits) <span class="status partial">Partial</span></h3><p>Backoffice: wallet + ledger. <a class="chip uc" href="#UC-023">UC-023</a> <a class="chip uc" href="#UC-025">UC-025</a></p></article>
-  <article class="api-card" id="API-022"><h3><span class="id-badge api">API-022</span> /api/v1/commercial/requests (+ approve/reject) <span class="status partial">Partial</span></h3><p>Backoffice: คำขอซื้อคอร์ส (TOP_UP → credit). <a class="chip uc" href="#UC-023">UC-023</a></p></article>
-  <article class="api-card" id="API-023"><h3><span class="id-badge api">API-023</span> /api/v1/pricing/rules <span class="status partial">Partial</span></h3><p>Backoffice: เรทครู/ราคา → income cap + payroll. <a class="chip uc" href="#UC-016">UC-016</a> <a class="chip uc" href="#UC-024">UC-024</a></p></article>
+  <article class="api-card" id="API-018"><h3><span class="id-badge api">API-018</span> /api/v1/catalog/items (+ /movements) <span class="status done">Implemented</span></h3><p>Backoffice: สินค้า + stock IN/OUT · <b>BE พร้อม</b> (catalog.ts, inventory.service.ts — idempotency + INSUFFICIENT_STOCK guard). <a class="chip uc" href="#UC-022">UC-022</a></p></article>
+  <article class="api-card" id="API-019"><h3><span class="id-badge api">API-019</span> POST /api/v1/commerce/sales <span class="status done">Implemented</span></h3><p>Backoffice: ขาย → ตัดสต๊อก · <b>BE พร้อม</b> (createSale ตัด stock ต่อ line + idempotency, serviceAuth). <a class="chip uc" href="#UC-022">UC-022</a></p></article>
+  <article class="api-card" id="API-020"><h3><span class="id-badge api">API-020</span> /api/v1/parties <span class="status done">Implemented</span></h3><p>Backoffice: map นักเรียน/ครู → parties (external_source/external_ref) · <b>BE พร้อม</b> (parties.service.ts). <a class="chip uc" href="#UC-023">UC-023</a></p></article>
+  <article class="api-card" id="API-021"><h3><span class="id-badge api">API-021</span> /api/v1/accounts (+ ledger, credits/debits) <span class="status done">Implemented</span></h3><p>Backoffice: wallet + ledger · <b>BE พร้อม</b> (accounts.service.ts — transactional + idempotent). ⚠️ debit endpoint มีแล้วแต่ scheduling ยังไม่เรียก (ดู UC-025). <a class="chip uc" href="#UC-023">UC-023</a> <a class="chip uc" href="#UC-025">UC-025</a></p></article>
+  <article class="api-card" id="API-022"><h3><span class="id-badge api">API-022</span> /api/v1/commercial/requests (+ approve/reject) <span class="status done">Implemented</span></h3><p>Backoffice: คำขอ (<code>PATCH /:id {action:approve|reject}</code>) · TOP_UP approve → credit อัตโนมัติ · <b>BE พร้อม</b>. ⚠️ approve <code>PURCHASE</code> แค่ flip status ยังไม่ debit/provision คอร์ส. <a class="chip uc" href="#UC-023">UC-023</a></p></article>
+  <article class="api-card" id="API-023"><h3><span class="id-badge api">API-023</span> /api/v1/pricing/rules <span class="status partial">Partial</span></h3><p>Backoffice: เรทครู/ราคา → income cap + payroll · <b>มีแค่ GET + POST + GET/:id (ไม่มี update/delete)</b> · seed เรทเฉพาะ FREELANCE (FT/PT ยังไม่มี rule). <a class="chip uc" href="#UC-016">UC-016</a> <a class="chip uc" href="#UC-024">UC-024</a></p></article>
+  <article class="api-card" id="API-024"><h3><span class="id-badge api">API-024</span> /api/badges* (+ PATCH /bookings/:id/badges) <span class="status done">Implemented</span></h3><p>Scheduling: CRUD badge type/value + attach/แก้ badge ต่อ booking + report · <b>BE พร้อม</b> (badge.service.ts, 6 routes) + <code>badgeValueIds</code> ตอน createBooking. <a class="chip uc" href="#UC-036">UC-036</a></p></article>
 </section>
 
 <!-- ============ TEST CASES ============ -->
@@ -663,6 +682,7 @@ table.matrix td:last-child{border-right:0;}
   <article class="tc-card" id="TC-012"><h3><span class="id-badge tc">TC-012</span> daily report / booking create <span class="status partial">Manual</span></h3><p>นับยอดถูกต้อง + สร้างคาบ. <a class="chip uc" href="#UC-001">UC-001</a> <a class="chip uc" href="#UC-021">UC-021</a></p></article>
   <article class="tc-card" id="TC-013"><h3><span class="id-badge tc">TC-013</span> teacher order persist (smoke) <span class="status done">Pass</span></h3><p>set order → getTeachers เรียงตามจริง. <a class="chip uc" href="#UC-013">UC-013</a></p></article>
   <article class="tc-card" id="TC-015"><h3><span class="id-badge tc">TC-015</span> income cap auto-disable <span class="status partial">Manual</span></h3><p>รายได้ ≥ เพดาน → bookable=false. <a class="chip uc" href="#UC-016">UC-016</a></p></article>
+  <article class="tc-card" id="TC-016"><h3><span class="id-badge tc">TC-016</span> badge rules + colors <span class="status done">Implemented</span></h3><p>unit test: one-value-per-type + palette 12 สี (badge-rules.test.ts, badge-colors.test.ts) · <code>bun test</code> ผ่าน. <a class="chip uc" href="#UC-036">UC-036</a></p></article>
 </section>
 
 <!-- ============ MATRIX ============ -->
