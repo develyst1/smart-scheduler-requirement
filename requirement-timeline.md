@@ -37,6 +37,11 @@
 - **Income ceiling (UC-016):** cross-system — mock ล้วน (back `teachers` ไม่มี column rate/limit → `overLimit` false เสมอ) · **รอ backoffice-*back*** (pricing เรทจริง + endpoint ดึงเรท/cap + D.1 wire) **ไม่รอ front** · foundation เดียวกับ wallet debit (UC-025) + payroll (UC-024) → ทำ backoffice-back finance ก่อน
 - **LINE:** bot inbound ตอบได้จริง แต่ **reply ไทยล้วน (UC-032 Partial)** + **push แจ้งผู้ปกครองตอนสมัครคอร์สยังไม่ทำ (UC-028 Planned)** + UX ดิบ → **รอลูกค้าบรีฟก่อน**
 
+### ✅ Build ที่ทำจริงรอบนี้ (verify จริงบน DB)
+- **Auto-cut สิ้นวัน (UC-012):** migration `0009` (`NO_SHOW` + `job_runs`), `jobs.service.ts`, endpoint `POST /internal/jobs/end-of-day` (secret), exe `scripts/end-of-day.ts` · integration: CONFIRMED คาบผ่าน→NO_SHOW+ตัดโควตา, idempotent
+- **Income ceiling เรท/เพดานจริง (UC-016):** backoffice `GET /pricing/teacher-rates` (API-026) → scheduling `lib/ops-client.ts` เติม TeacherDTO → front map จริง · verify cross-system: freelance ได้ 500/20000 จริง (เดิม mock) · **เหลือ:** ย้ายแถบสีมาปฏิทิน
+- 🔴 **infra:** scheduling+backoffice ใช้ `drizzle.__drizzle_migrations` ร่วมกัน → backoffice migrate ถูกข้าม; รอบนี้ apply ops SQL ตรงๆ + seed แล้ว, ต้องแยก migrations table ถาวร
+
 📄 รายละเอียดเต็ม + as-built ทุก ID พร้อม path/line: [HANDOFF-2026-07-16.md](HANDOFF-2026-07-16.md)
 
 ---

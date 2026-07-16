@@ -262,8 +262,8 @@ table.matrix td:last-child{border-right:0;}
   </article>
 
   <article class="wf-card" id="WF-004">
-    <h3><span class="id-badge wf">WF-004</span> เช็คอิน & กฎการลา <span class="status partial">Partial</span></h3>
-    <p>เช็คอินผ่าน QR/LINE → ATTENDED + ได้แต้ม CRM · แจ้งลา → auto-extend คาบต่อท้าย (ภายในโควตา 4→1,6→2,10→3) · เกินโควตา → Policy Lock ต้องแอดมินปลด · <b>ตัดโควตาอัตโนมัติสิ้นวัน (18:00) ยังไม่ทำ (ข้ามไว้)</b> · <b>ประชุม 2026-07-11:</b> เพิ่มกฎแจ้งลาล่วงหน้าตามประเภทครู (UC-029)</p>
+    <h3><span class="id-badge wf">WF-004</span> เช็คอิน & กฎการลา <span class="status done">Implemented</span></h3>
+    <p>เช็คอินผ่าน QR/LINE → ATTENDED + ได้แต้ม CRM · แจ้งลา → auto-extend คาบต่อท้าย (ภายในโควตา 4→1,6→2,10→3) · เกินโควตา → Policy Lock ต้องแอดมินปลด · <b>ตัดโควตาอัตโนมัติสิ้นวัน → NO_SHOW (UC-012) ทำแล้ว 2026-07-16</b> · <b>ประชุม 2026-07-11:</b> กฎแจ้งลาล่วงหน้าตามประเภทครู (UC-029) ทำแล้ว</p>
     <div class="chain"><a class="chip uc" href="#UC-009">UC-009</a><a class="chip uc" href="#UC-010">UC-010</a><a class="chip uc" href="#UC-011">UC-011</a><a class="chip uc" href="#UC-012">UC-012</a><a class="chip uc" href="#UC-029">UC-029</a></div>
   </article>
 
@@ -388,9 +388,9 @@ table.matrix td:last-child{border-right:0;}
   </article>
 
   <article class="uc-card" id="UC-012">
-    <h3><span class="id-badge uc">UC-012</span> ตัดโควตาคอร์สอัตโนมัติสิ้นวัน <span class="status planned">Planned</span></h3>
-    <p>สิ้นเวลาทำการ (18:00) — คาบที่ไม่มีเช็คอิน & ไม่แจ้งลา → ตัดโควตา/เปลี่ยนสถานะ + สรุปรายงานรายวัน · <b>ยังไม่ทำ (ยังไม่มี cron/sweep)</b> logic ตัดต่อคาบมี (<code>usedSessions++</code>) แต่ attendance-driven ไม่ใช่ scheduled · <b>ดีไซน์ที่ตกลง 2026-07-16:</b> ทำ <code>bun build --compile</code> exe บางๆ เป็น trigger ยิง endpoint ภายใน <code>POST /internal/jobs/end-of-day</code> (logic ตัด+รายงานอยู่ใน back ที่เดียว), <b>idempotent</b> + <code>job_runs</code> log, timezone Asia/Bangkok, ตั้ง Windows Task Scheduler รัน ~18:05 · แยก 2 งาน: (1) ตัดจริง (mutate) (2) รายงาน (read)</p>
-    <div class="chain"><a class="chip wf" href="#WF-004">WF-004</a><span class="arrow">→</span><span class="chip uc active">UC-012</span><span class="arrow">→</span><span class="chip none">no SCR (job)</span><span class="arrow">→</span><span class="chip none">API-TBD</span><span class="arrow">→</span><span class="chip none">no TC yet</span></div>
+    <h3><span class="id-badge uc">UC-012</span> ตัดโควตาคอร์สอัตโนมัติสิ้นวัน <span class="status done">Implemented</span></h3>
+    <p>สิ้นวัน — คาบ <code>CONFIRMED</code> ที่คาบผ่านแล้ว ไม่เช็คอิน & ไม่แจ้งลา → สถานะ <code>NO_SHOW</code> + ตัดโควตา (course <code>usedSessions++</code> / voucher <code>usedHours++</code>) + สรุปรายงานรายวัน · <b>ทำแล้ว 2026-07-16 (verify จริงบน DB):</b> migration <code>0009</code> (enum <code>NO_SHOW</code> + ตาราง <code>job_runs</code>), <code>jobs.service.ts</code> + pure <code>lib/auto-cut.ts</code> (7 unit tests), endpoint <b>secret-guarded</b> <code>POST /internal/jobs/end-of-day</code> (นอก JWT), exe <code>scripts/end-of-day.ts</code> (<code>bun build --compile</code>) สำหรับ Windows Task Scheduler ~18:05, timezone Asia/Bangkok · <b>idempotent</b> (แตะเฉพาะ CONFIRMED → rerun ตัดซ้ำ 0) · ⚠️ "กี่บาท" (revenue) รอ backoffice pricing</p>
+    <div class="chain"><a class="chip wf" href="#WF-004">WF-004</a><span class="arrow">→</span><span class="chip uc active">UC-012</span><span class="arrow">→</span><span class="chip none">no SCR (job)</span><span class="arrow">→</span><a class="chip api" href="#API-025">API-025</a><span class="arrow">→</span><a class="chip tc" href="#TC-017">TC-017</a></div>
   </article>
 
   <article class="uc-card" id="UC-013">
@@ -413,8 +413,8 @@ table.matrix td:last-child{border-right:0;}
 
   <article class="uc-card" id="UC-016">
     <h3><span class="id-badge uc">UC-016</span> คุมงบ Freelance (แถบสีบนปฏิทิน) <span class="status partial">Partial</span></h3>
-    <p>ตั้งเพดานรายได้/เดือนครู Freelance → เรท× ชม.รับงาน ≥ เพดาน · <b>ประชุม 2026-07-11 (เปลี่ยนพฤติกรรม):</b> แทนที่จะ<b>ซ่อน</b>ครูเมื่อถึงเพดาน → ให้<b>แสดงแถบสี % บนปฏิทิน (เขียว→เหลือง→แดง)</b> ให้แอดมินเห็นว่าใกล้เต็มโควตา แต่<b>ยังจองได้</b>หากจำเป็น · ตอนนี้แถบสีมีแล้วใน<b>หน้าจัดการครู (ไม่ใช่ปฏิทิน)</b> · <b>ยัง mock ทั้งหมด:</b> cap math อยู่ frontend (teacher.ts) ป้อนด้วย mock — mapper จริง <code>dtoToTeacher</code> ไม่ populate <code>hourlyRate</code>/<code>incomeLimit</code> และ back <code>teachers</code> ไม่มี column เหล่านี้ → กับ backend จริง <code>overLimit</code> เป็น false เสมอ · <b>dependency:</b> ต้องมี backoffice-back pricing (เรทจริง/cap) + D.1 wire ก่อน (ดู UC-024/UC-025) แล้วค่อยย้าย bar มาปฏิทิน</p>
-    <div class="chain"><a class="chip wf" href="#WF-005">WF-005</a><span class="arrow">→</span><span class="chip uc active">UC-016</span><span class="arrow">→</span><a class="chip scr" href="#SCR-006">SCR-006</a><span class="arrow">→</span><a class="chip api" href="#API-023">API-023</a><span class="arrow">→</span><a class="chip tc" href="#TC-015">TC-015</a></div>
+    <p>ตั้งเพดานรายได้/เดือนครู Freelance → เรท× ชม.รับงาน ≥ เพดาน · <b>ประชุม 2026-07-11 (เปลี่ยนพฤติกรรม):</b> แทนที่จะ<b>ซ่อน</b>ครูเมื่อถึงเพดาน → ให้<b>แสดงแถบสี % บนปฏิทิน (เขียว→เหลือง→แดง)</b> ให้แอดมินเห็นว่าใกล้เต็มโควตา แต่<b>ยังจองได้</b>หากจำเป็น · แถบสีมีแล้วใน<b>หน้าจัดการครู</b> · <b>เรท/เพดานจริงจาก backoffice — ทำแล้ว 2026-07-16 (verify จริง):</b> backoffice <code>GET /api/v1/pricing/teacher-rates</code> (API-026) → scheduling <code>lib/ops-client.ts</code> (cache 5 นาที, graceful ถ้า backoffice ล่ม) เติม <code>hourlyRate</code>/<code>incomeLimit</code> ลง TeacherDTO → front <code>dtoToTeacher</code> map ของจริง → แถบสี/overLimit ใช้เลขจริง (freelance 9 คน = 500/ชม., cap 20,000; non-freelance = null) · <b>เหลือ:</b> ย้ายแถบสีมา<b>ปฏิทิน</b> (ตอนนี้ overLimit แค่ซ่อนครูจากปฏิทิน) · monthlyHours ยังนับฝั่ง front จาก booking ที่โหลด</p>
+    <div class="chain"><a class="chip wf" href="#WF-005">WF-005</a><span class="arrow">→</span><span class="chip uc active">UC-016</span><span class="arrow">→</span><a class="chip scr" href="#SCR-006">SCR-006</a><span class="arrow">→</span><a class="chip api" href="#API-023">API-023</a><a class="chip api" href="#API-026">API-026</a><span class="arrow">→</span><a class="chip tc" href="#TC-015">TC-015</a></div>
   </article>
 
   <article class="uc-card" id="UC-017">
@@ -661,6 +661,8 @@ table.matrix td:last-child{border-right:0;}
   <article class="api-card" id="API-022"><h3><span class="id-badge api">API-022</span> /api/v1/commercial/requests (+ approve/reject) <span class="status done">Implemented</span></h3><p>Backoffice: คำขอ (<code>PATCH /:id {action:approve|reject}</code>) · TOP_UP approve → credit อัตโนมัติ · <b>BE พร้อม</b>. ⚠️ approve <code>PURCHASE</code> แค่ flip status ยังไม่ debit/provision คอร์ส. <a class="chip uc" href="#UC-023">UC-023</a></p></article>
   <article class="api-card" id="API-023"><h3><span class="id-badge api">API-023</span> /api/v1/pricing/rules <span class="status partial">Partial</span></h3><p>Backoffice: เรทครู/ราคา → income cap + payroll · <b>มีแค่ GET + POST + GET/:id (ไม่มี update/delete)</b> · seed เรทเฉพาะ FREELANCE (FT/PT ยังไม่มี rule). <a class="chip uc" href="#UC-016">UC-016</a> <a class="chip uc" href="#UC-024">UC-024</a></p></article>
   <article class="api-card" id="API-024"><h3><span class="id-badge api">API-024</span> /api/badges* (+ PATCH /bookings/:id/badges) <span class="status done">Implemented</span></h3><p>Scheduling: CRUD badge type/value + attach/แก้ badge ต่อ booking + report · <b>BE พร้อม</b> (badge.service.ts, 6 routes) + <code>badgeValueIds</code> ตอน createBooking. <a class="chip uc" href="#UC-036">UC-036</a></p></article>
+  <article class="api-card" id="API-025"><h3><span class="id-badge api">API-025</span> POST /internal/jobs/end-of-day <span class="status done">Implemented</span></h3><p>Scheduling: trigger auto-cut สิ้นวัน · <b>อยู่นอก <code>/api</code> ไม่ผ่าน JWT</b> — ป้องกันด้วย <code>x-internal-secret</code> (env <code>INTERNAL_JOB_SECRET</code>; unset → 503) · body <code>{date?}</code> · คืน summary + report. <a class="chip uc" href="#UC-012">UC-012</a></p></article>
+  <article class="api-card" id="API-026"><h3><span class="id-badge api">API-026</span> GET /api/v1/pricing/teacher-rates (ops) <span class="status done">Implemented</span></h3><p>Backoffice: เรท+เพดานต่อครู scheduling ใน 1 call (resolve party→rules + metadata ฝั่ง server, คืนเป็นบาท) · scheduling ดึงผ่าน <code>lib/ops-client.ts</code> → เติม TeacherDTO (UC-016). <a class="chip uc" href="#UC-016">UC-016</a></p></article>
 </section>
 
 <!-- ============ TEST CASES ============ -->
@@ -683,6 +685,7 @@ table.matrix td:last-child{border-right:0;}
   <article class="tc-card" id="TC-013"><h3><span class="id-badge tc">TC-013</span> teacher order persist (smoke) <span class="status done">Pass</span></h3><p>set order → getTeachers เรียงตามจริง. <a class="chip uc" href="#UC-013">UC-013</a></p></article>
   <article class="tc-card" id="TC-015"><h3><span class="id-badge tc">TC-015</span> income cap auto-disable <span class="status partial">Manual</span></h3><p>รายได้ ≥ เพดาน → bookable=false. <a class="chip uc" href="#UC-016">UC-016</a></p></article>
   <article class="tc-card" id="TC-016"><h3><span class="id-badge tc">TC-016</span> badge rules + colors <span class="status done">Implemented</span></h3><p>unit test: one-value-per-type + palette 12 สี (badge-rules.test.ts, badge-colors.test.ts) · <code>bun test</code> ผ่าน. <a class="chip uc" href="#UC-036">UC-036</a></p></article>
+  <article class="tc-card" id="TC-017"><h3><span class="id-badge tc">TC-017</span> auto-cut no-show + idempotent <span class="status done">Implemented</span></h3><p>7 unit tests (auto-cut.test.ts: past/future/exact-end/wrong-status) + integration จริงบน DB: CONFIRMED คาบผ่าน → NO_SHOW + usedSessions++ , rerun ตัดซ้ำ 0. <a class="chip uc" href="#UC-012">UC-012</a></p></article>
 </section>
 
 <!-- ============ MATRIX ============ -->
